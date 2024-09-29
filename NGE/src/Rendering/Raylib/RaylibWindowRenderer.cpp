@@ -11,10 +11,11 @@
 #include <NGE/Rendering/Raylib/RaylibWindowRenderer.hpp>
 #include <NGE/Rendering/RenderingContext.hpp>
 
-using namespace NGE::Math;
-using namespace NGE::Rendering::Raylib;
 using namespace std;
 using namespace std::chrono;
+
+using namespace NGE::Math;
+using namespace NGE::Rendering::Raylib;
 
 RaylibWindowRenderer::RaylibWindowRenderer(const string& title, unsigned int width, unsigned int height) : title(title), width(width), height(height) {
 	if (IsWindowReady()) {

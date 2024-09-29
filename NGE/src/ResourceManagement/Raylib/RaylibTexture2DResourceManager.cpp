@@ -7,9 +7,10 @@
 #include <NGE/ResourceManagement/Raylib/RaylibTexture2DResourceManager.hpp>
 #include <NGE/ResourceManagement/ResourceID.hpp>
 
-using namespace NGE::ResourceManagement::Raylib;
 using namespace std;
 using namespace std::filesystem;
+
+using namespace NGE::ResourceManagement::Raylib;
 
 RaylibTexture2DResourceManager::RaylibTexture2DResourceManager() : AResourceManager<Texture2D>(), invalidTexture2D({0}) {
 	// ...

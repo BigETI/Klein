@@ -13,6 +13,9 @@
 #include <NGE/Scripting/Rendering/SpriteRendererScript.hpp>
 #include <NGE/Scripting/Script.hpp>
 
+using namespace std;
+using namespace std::chrono;
+
 using namespace NGE;
 using namespace NGE::Math;
 using namespace NGE::Rendering;
@@ -20,8 +23,6 @@ using namespace NGE::ResourceManagement;
 using namespace NGE::SceneManagement;
 using namespace NGE::Scripting;
 using namespace NGE::Scripting::Rendering;
-using namespace std;
-using namespace std::chrono;
 
 SpriteRendererScript::SpriteRendererScript(Node* node) :
 	Script(node),

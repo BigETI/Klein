@@ -13,15 +13,16 @@
 #include <NGE/Rendering/RenderingContext.hpp>
 #include <NGE/SceneManagement/Node.hpp>
 
+using namespace std;
+using namespace std::chrono;
+using namespace std::filesystem;
+using namespace std::this_thread;
+
 using namespace NGE;
 using namespace NGE::InputSystem;
 using namespace NGE::Math;
 using namespace NGE::Rendering;
 using namespace NGE::SceneManagement;
-using namespace std;
-using namespace std::chrono;
-using namespace std::filesystem;
-using namespace std::this_thread;
 
 const Ratio<unsigned int> defaultTargetGameTickRate(1000U);
 const Ratio<unsigned int> defaultTargetFrameRate(1000U);

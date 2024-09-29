@@ -73,6 +73,7 @@ namespace NGE::Math {
 		/// <summary>
 		/// Gets the length squared of this 2D vector
 		/// </summary>
+		/// <typeparam name="TReturn">Return type</typeparam>
 		/// <returns>The length squared of this vector</returns>
 		template <typename TReturn = double>
 		constexpr inline TReturn GetLengthSquared() const noexcept {
@@ -82,6 +83,7 @@ namespace NGE::Math {
 		/// <summary>
 		/// Gets the length of this 2D vector
 		/// </summary>
+		/// <typeparam name="TReturn">Return type</typeparam>
 		/// <returns>The length of this vector</returns>
 		template <typename TReturn = double>
 		constexpr inline TReturn GetLength() const noexcept {
@@ -89,17 +91,29 @@ namespace NGE::Math {
 		}
 		
 		/// <summary>
+		/// Gets the normalized vector of this 2D vector
+		/// </summary>
+		/// <typeparam name="TReturn">Return type</typeparam>
+		/// <returns></returns>
+		template <typename TReturn = double>
+		constexpr inline Vector2<TReturn> GetNormalized() const noexcept {
+			return GetConverted<TReturn>() / GetLength<TReturn>();
+		}
+
+		/// <summary>
 		/// Gets this 2D vector with the components converted to the specified type
 		/// </summary>
+		/// <typeparam name="TReturn">Return type</typeparam>
 		/// <returns>This 2D vector with the components converted to the specified type</returns>
 		template <typename TReturn>
 		constexpr inline Vector2<TReturn> GetConverted() const noexcept {
 			return Vector2<TReturn>(static_cast<TReturn>(x), static_cast<TReturn>(y));
 		}
-		
+
 		/// <summary>
 		/// Gets this 2D vector with the components converted to the specified type
 		/// </summary>
+		/// <typeparam name="TReturn">Return type</typeparam>
 		/// <param name="result">This 2D vector with the components converted to the specified type</param>
 		/// <returns>This 2D vector with the components converted to the specified type</returns>
 		template <typename TReturn>

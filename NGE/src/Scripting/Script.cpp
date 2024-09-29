@@ -5,11 +5,12 @@
 #include <NGE/SceneManagement/Node.hpp>
 #include <NGE/Scripting/Script.hpp>
 
+using namespace std;
+using namespace std::chrono;
+
 using namespace NGE;
 using namespace NGE::SceneManagement;
 using namespace NGE::Scripting;
-using namespace std;
-using namespace std::chrono;
 
 Script::Script(Node* node) : isInitialized(false), isEnabled(true), node(node) {
 	if (!node) {

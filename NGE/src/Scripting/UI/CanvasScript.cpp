@@ -14,6 +14,9 @@
 #include <NGE/Scripting/UI/UIElementNodeTraversalData.hpp>
 #include <NGE/Scripting/UI/UIElementScript.hpp>
 
+using namespace std;
+using namespace std::chrono;
+
 using namespace NGE;
 using namespace NGE::Hashing;
 using namespace NGE::InputSystem;
@@ -21,8 +24,6 @@ using namespace NGE::Math;
 using namespace NGE::SceneManagement;
 using namespace NGE::Scripting;
 using namespace NGE::Scripting::UI;
-using namespace std;
-using namespace std::chrono;
 
 const StringHash CanvasScript::mousePositionNameHash("Mouse.Position");
 const InputEvent CanvasScript::uiCursorPositionInputEvent("UI.Cursor.Position");

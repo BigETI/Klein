@@ -7,13 +7,14 @@
 #include <NGE/Scripting/Rendering/CameraScript.hpp>
 #include <NGE/Scripting/Script.hpp>
 
+using namespace std;
+using namespace std::chrono;
+
 using namespace NGE;
 using namespace NGE::Rendering;
 using namespace NGE::SceneManagement;
 using namespace NGE::Scripting;
 using namespace NGE::Scripting::Rendering;
-using namespace std;
-using namespace std::chrono;
 
 CameraScript::CameraScript(Node* node) : Script(node), cameraIndex(static_cast<size_t>(0U)), cameraZoom(1.0f) {
 	// ...

@@ -17,3 +17,20 @@ project (NGE
 )
 
 add_subdirectory ("NGE")
+
+if (NOT ICHOR_DISABLE_TESTS)
+
+	#########################
+	#                       #
+	#  Neo Game Unit Tests  #
+	#                       #
+	#########################
+
+	project (NGETest
+		VERSION 1.0.0
+		DESCRIPTION "Unit tests for Neo Game Engine"
+	)
+
+	add_subdirectory ("NGETest")
+
+endif ()
