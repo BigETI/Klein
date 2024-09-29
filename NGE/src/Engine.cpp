@@ -33,7 +33,7 @@ Engine::Engine(const span<const string> commandLineArguments) :
 	isGameRunning(false),
 	gameStartTimePoint(high_resolution_clock::time_point::min()),
 	exitCode(-1) {
-	// ...
+	renderingContexts.emplace_back();
 }
 
 Engine::Engine(const span<const string> commandLineArguments, const path& configurationFilePath) : Engine(commandLineArguments) {
