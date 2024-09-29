@@ -28,23 +28,23 @@ namespace NGE::Math {
 		Vector2<TComponent> position;
 		Vector2<TComponent> size;
 
-		Rectangle() noexcept {
+		constexpr inline Rectangle() noexcept {
 			// ...
 		}
 
-		Rectangle(const Rectangle& rectangle) : position(rectangle.position), size(rectangle.size) {
+		constexpr inline Rectangle(const Rectangle& rectangle) : position(rectangle.position), size(rectangle.size) {
 			// ...
 		}
 
-		Rectangle(Rectangle&& rectangle) noexcept : position(std::move(rectangle.position)), size(std::move(rectangle.size)) {
+		constexpr inline Rectangle(Rectangle&& rectangle) noexcept : position(std::move(rectangle.position)), size(std::move(rectangle.size)) {
 			// ...
 		}
 
-		Rectangle(const Vector2<TComponent>& position, const Vector2<TComponent>& size) : position(position), size(size) {
+		constexpr inline Rectangle(const Vector2<TComponent>& position, const Vector2<TComponent>& size) : position(position), size(size) {
 			// ...
 		}
 
-		Rectangle(Vector2<TComponent>&& position, Vector2<TComponent>&& size) noexcept : position(position), size(size) {
+		constexpr inline Rectangle(Vector2<TComponent>&& position, Vector2<TComponent>&& size) noexcept : position(position), size(size) {
 			// ...
 		}
 

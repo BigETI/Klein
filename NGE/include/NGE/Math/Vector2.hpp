@@ -41,7 +41,7 @@ namespace NGE::Math {
 		/// <summary>
 		/// Constructs a new 2D vector
 		/// </summary>
-		Vector2() : x(0), y(0) {
+		constexpr inline Vector2() : x(0), y(0) {
 			// ...
 		}
 
@@ -49,7 +49,7 @@ namespace NGE::Math {
 		/// Constructs a new vector and copies the specified 2D vector into this 2D vector
 		/// </summary>
 		/// <param name="vector">Vector to be copied from</param>
-		Vector2(const Vector2<TComponent>& vector) : x(vector.x), y(vector.y) {
+		constexpr inline Vector2(const Vector2<TComponent>& vector) : x(vector.x), y(vector.y) {
 			// ...
 		}
 
@@ -57,7 +57,7 @@ namespace NGE::Math {
 		/// Constructs a new vector and moves the contents of the specified 2D vector to this 2D vector
 		/// </summary>
 		/// <param name="vector">2D vector to move</param>
-		Vector2(Vector2<TComponent>&& vector) noexcept : x(std::move(vector.x)), y(std::move(vector.y)) {
+		constexpr inline Vector2(Vector2<TComponent>&& vector) noexcept : x(std::move(vector.x)), y(std::move(vector.y)) {
 			// ...
 		}
 
@@ -66,7 +66,7 @@ namespace NGE::Math {
 		/// </summary>
 		/// <param name="x">The X component</param>
 		/// <param name="y">The Y component</param>
-		Vector2(TComponent x, TComponent y) : x(x), y(y) {
+		constexpr inline Vector2(TComponent x, TComponent y) : x(x), y(y) {
 			// ...
 		}
 

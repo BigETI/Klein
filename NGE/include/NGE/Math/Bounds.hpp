@@ -30,15 +30,15 @@ namespace NGE::Math {
 		TComponent left;
 		TComponent right;
 
-		Bounds() : top(0), bottom(0), left(0), right(0) {
+		constexpr inline Bounds() : top(0), bottom(0), left(0), right(0) {
 			// ...
 		}
 
-		Bounds(const Bounds<TComponent>& bounds) : top(bounds.top), bottom(bounds.bottom), left(bounds.left), right(bounds.right) {
+		constexpr inline Bounds(const Bounds<TComponent>& bounds) : top(bounds.top), bottom(bounds.bottom), left(bounds.left), right(bounds.right) {
 			// ...
 		}
 
-		Bounds(Bounds<TComponent>&& bounds) noexcept :
+		constexpr inline Bounds(Bounds<TComponent>&& bounds) noexcept :
 			top(std::move(bounds.top)),
 			bottom(std::move(bounds.bottom)),
 			left(std::move(bounds.left)),
@@ -46,7 +46,7 @@ namespace NGE::Math {
 			// ...
 		}
 
-		Bounds(TComponent top, TComponent bottom, TComponent left, TComponent right) : top(top), bottom(bottom), left(left), right(right) {
+		constexpr inline Bounds(TComponent top, TComponent bottom, TComponent left, TComponent right) : top(top), bottom(bottom), left(left), right(right) {
 			// ...
 		}
 

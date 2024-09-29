@@ -9,7 +9,7 @@
 add_executable (NGETest
 	"src/main.cpp"
 	"src/Tests/Math/Vector2Tests.cpp"
-)
+ "src/Tests/Collections/GridTests.cpp")
 
 target_compile_features (NGETest
 	PRIVATE cxx_std_20

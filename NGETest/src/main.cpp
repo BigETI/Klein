@@ -4,6 +4,7 @@
 
 #include <lest/lest.hpp>
 
+#include <NGETest/Tests/Collections/GridTests.hpp>
 #include <NGETest/Tests/ITests.hpp>
 #include <NGETest/Tests/Math/Vector2Tests.hpp>
 
@@ -12,9 +13,11 @@ using namespace std;
 using namespace lest;
 
 using namespace NGETest::Tests;
+using namespace NGETest::Tests::Collections;
 using namespace NGETest::Tests::Math;
 
 const vector<shared_ptr<ITests>> specifications = {
+	make_shared<GridTests>(),
 	make_shared<Vector2Tests>()
 };
 

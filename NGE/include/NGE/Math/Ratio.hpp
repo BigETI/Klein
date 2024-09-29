@@ -25,28 +25,28 @@ namespace NGE::Math {
 		TComponent numerator;
 		TComponent denominator;
 
-		Ratio() : numerator(static_cast<TComponent>(0)), denominator(static_cast<TComponent>(0)) {
+		constexpr inline Ratio() : numerator(static_cast<TComponent>(0)), denominator(static_cast<TComponent>(0)) {
 			// ...
 		}
 		
-		Ratio(TComponent value) : numerator(value), denominator(static_cast<TComponent>(1)) {
+		constexpr inline Ratio(TComponent value) : numerator(value), denominator(static_cast<TComponent>(1)) {
 			// ...
 		}
 		
-		Ratio(TComponent numerator, TComponent denominator) : numerator(numerator), denominator(denominator) {
+		constexpr inline Ratio(TComponent numerator, TComponent denominator) : numerator(numerator), denominator(denominator) {
 			// ...
 		}
 
-		Ratio(const Ratio<TComponent>& ratio) : numerator(ratio.numerator), denominator(ratio.denominator) {
+		constexpr inline Ratio(const Ratio<TComponent>& ratio) : numerator(ratio.numerator), denominator(ratio.denominator) {
 			// ...
 		}
 		
-		Ratio(Ratio<TComponent>&& ratio) : numerator(std::move(ratio.numerator)), denominator(std::move(ratio.denominator)) {
+		constexpr inline Ratio(Ratio<TComponent>&& ratio) : numerator(std::move(ratio.numerator)), denominator(std::move(ratio.denominator)) {
 			// ...
 		}
 
 		template <typename TResult>
-		inline TResult GetRatio() {
+		constexpr inline TResult GetRatio() {
 			static_assert(
 				std::is_same<float, TResult>::value ||
 				std::is_same<double, TResult>::value ||
@@ -56,19 +56,19 @@ namespace NGE::Math {
 			return (denominator > 0U) ? (static_cast<TResult>(numerator) / static_cast<TResult>(denominator)) : static_cast<TResult>(0);
 		}
 
-		Ratio<TComponent>& operator =(TComponent value) {
+		constexpr inline Ratio<TComponent>& operator =(TComponent value) {
 			numerator = value;
 			denominator = static_cast<TComponent>(1);
 			return *this;
 		}
 		
-		Ratio<TComponent>& operator =(const Ratio<TComponent>& ratio) {
+		constexpr inline Ratio<TComponent>& operator =(const Ratio<TComponent>& ratio) {
 			numerator = ratio.numerator;
 			denominator = ratio.denominator;
 			return *this;
 		}
 
-		Ratio<TComponent>& operator =(Ratio<TComponent>&& ratio) {
+		constexpr inline Ratio<TComponent>& operator =(Ratio<TComponent>&& ratio) {
 			numerator = std::move(ratio.numerator);
 			denominator = std::move(ratio.denominator);
 			return *this;
