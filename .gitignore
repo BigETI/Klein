@@ -1,0 +1,10 @@
+# Visual Studio
+.vs/
+
+# Builds
+bin/
+build/
+out/
+
+# macOS
+**/.DS_Store
