@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <array>
 #include <cstddef>
 #include <stdexcept>
@@ -36,7 +37,11 @@ namespace NGE::Collections {
 		constexpr inline Grid(const std::array<TCell, CellCount>& cells) : cells(cells) {
 			// ...
 		}
-		
+
+		constexpr inline Grid(const TCell& defaultCell) {
+			std::fill(cells.begin(), cells.end(), defaultCell);
+		}
+
 		constexpr inline Grid(std::array<TCell, CellCount>&& cells) noexcept : cells(cells) {
 			// ...
 		}
