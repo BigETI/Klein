@@ -18,7 +18,7 @@ project (NGE
 
 add_subdirectory ("NGE")
 
-if (NOT ICHOR_DISABLE_TESTS)
+if (NOT NGE_DISABLE_TESTS)
 
 	#########################
 	#                       #
