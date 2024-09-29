@@ -40,9 +40,9 @@ namespace NGE::Scripting {
 		NGE_API void SetEnabledState(bool enabledState) noexcept;
 		NGE_API const NGE::SceneManagement::Node& GetNode() const noexcept;
 		NGE_API NGE::SceneManagement::Node& GetNode() noexcept;
-		NGE_API void InitializeOrGameTick(NGE::Engine& game, std::chrono::high_resolution_clock::duration deltaTime);
-		NGE_API void InitializeOrBeforeFrameRender(NGE::Engine& game, std::chrono::high_resolution_clock::duration deltaTime);
-		NGE_API void InitializeOrFrameRender(NGE::Engine& game, std::chrono::high_resolution_clock::duration deltaTime);
+		NGE_API void InitializeOrGameTick(NGE::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
+		NGE_API void InitializeOrBeforeFrameRender(NGE::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
+		NGE_API void InitializeOrFrameRender(NGE::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
 		NGE_API void Deinitialize();
 		NGE_API void Enable();
 		NGE_API void Disable();
@@ -52,19 +52,19 @@ namespace NGE::Scripting {
 
 	protected:
 
-		NGE_API virtual void OnInitialize(NGE::Engine& game);
-		NGE_API virtual void OnDeinitialize(NGE::Engine& game);
-		NGE_API virtual void OnEnable(NGE::Engine& game);
-		NGE_API virtual void OnDisable(NGE::Engine& game);
-		NGE_API virtual void OnGameTick(NGE::Engine& game, std::chrono::high_resolution_clock::duration deltaTime);
-		NGE_API virtual void OnBeforeFrameRender(NGE::Engine& game, std::chrono::high_resolution_clock::duration deltaTime);
-		NGE_API virtual void OnFrameRender(NGE::Engine& game, std::chrono::high_resolution_clock::duration deltaTime);
+		NGE_API virtual void OnInitialize(NGE::Engine& engine);
+		NGE_API virtual void OnDeinitialize(NGE::Engine& engine);
+		NGE_API virtual void OnEnable(NGE::Engine& engine);
+		NGE_API virtual void OnDisable(NGE::Engine& engine);
+		NGE_API virtual void OnGameTick(NGE::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
+		NGE_API virtual void OnBeforeFrameRender(NGE::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
+		NGE_API virtual void OnFrameRender(NGE::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
 
 	private:
 
 		bool isInitialized;
 		bool isEnabled;
 		NGE::SceneManagement::Node* node;
-		NGE::Engine* game;
+		NGE::Engine* engine;
 	};
 }

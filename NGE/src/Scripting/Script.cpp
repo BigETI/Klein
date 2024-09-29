@@ -41,54 +41,54 @@ Node& Script::GetNode() noexcept {
 	return *node;
 }
 
-void Script::InitializeOrGameTick(Engine& game, high_resolution_clock::duration deltaTime) {
+void Script::InitializeOrGameTick(Engine& engine, high_resolution_clock::duration deltaTime) {
 	if (!isInitialized) {
-		this->game = &game;
+		this->engine = &engine;
 		isInitialized = true;
-		OnInitialize(game);
-		OnInitialized(game);
+		OnInitialize(engine);
+		OnInitialized(engine);
 		if (isEnabled) {
-			OnEnable(game);
-			OnEnabled(game);
+			OnEnable(engine);
+			OnEnabled(engine);
 		}
 	}
-	if (isEnabled && (this->game == &game)) {
-		OnGameTick(game, deltaTime);
-		OnGameTicked(game, deltaTime);
+	if (isEnabled && (this->engine == &engine)) {
+		OnGameTick(engine, deltaTime);
+		OnGameTicked(engine, deltaTime);
 	}
 }
 
-void Script::InitializeOrBeforeFrameRender(Engine& game, high_resolution_clock::duration deltaTime) {
+void Script::InitializeOrBeforeFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
 	if (!isInitialized) {
-		this->game = &game;
+		this->engine = &engine;
 		isInitialized = true;
-		OnInitialize(game);
-		OnInitialized(game);
+		OnInitialize(engine);
+		OnInitialized(engine);
 		if (isEnabled) {
-			OnEnable(game);
-			OnEnabled(game);
+			OnEnable(engine);
+			OnEnabled(engine);
 		}
 	}
-	if (isEnabled && (this->game == &game)) {
-		OnBeforeFrameRender(game, deltaTime);
-		OnBeforeFrameRendered(game, deltaTime);
+	if (isEnabled && (this->engine == &engine)) {
+		OnBeforeFrameRender(engine, deltaTime);
+		OnBeforeFrameRendered(engine, deltaTime);
 	}
 }
 
-void Script::InitializeOrFrameRender(Engine& game, high_resolution_clock::duration deltaTime) {
+void Script::InitializeOrFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
 	if (!isInitialized) {
-		this->game = &game;
+		this->engine = &engine;
 		isInitialized = true;
-		OnInitialize(game);
-		OnInitialized(game);
+		OnInitialize(engine);
+		OnInitialized(engine);
 		if (isEnabled) {
-			OnEnable(game);
-			OnEnabled(game);
+			OnEnable(engine);
+			OnEnabled(engine);
 		}
 	}
-	if (isEnabled && (this->game == &game)) {
-		OnFrameRender(game, deltaTime);
-		OnFrameRendered(game, deltaTime);
+	if (isEnabled && (this->engine == &engine)) {
+		OnFrameRender(engine, deltaTime);
+		OnFrameRendered(engine, deltaTime);
 	}
 }
 
@@ -96,12 +96,12 @@ void Script::Deinitialize() {
 	if (isInitialized) {
 		if (isEnabled) {
 			isEnabled = false;
-			OnDisable(*game);
-			OnDisabled(*game);
+			OnDisable(*engine);
+			OnDisabled(*engine);
 		}
 		isInitialized = false;
-		OnDeinitialize(*game);
-		OnDeinitialized(*game);
+		OnDeinitialize(*engine);
+		OnDeinitialized(*engine);
 	}
 }
 
@@ -109,8 +109,8 @@ void Script::Enable() {
 	if (!isEnabled) {
 		isEnabled = true;
 		if (isInitialized) {
-			OnEnable(*game);
-			OnEnabled(*game);
+			OnEnable(*engine);
+			OnEnabled(*engine);
 		}
 	}
 }
@@ -119,36 +119,36 @@ void Script::Disable() {
 	if (isEnabled) {
 		isEnabled = false;
 		if (isInitialized) {
-			OnDisable(*game);
-			OnDisabled(*game);
+			OnDisable(*engine);
+			OnDisabled(*engine);
 		}
 	}
 }
 
-void Script::OnInitialize(Engine& game) {
+void Script::OnInitialize(Engine& engine) {
 	// ...
 }
 
-void Script::OnDeinitialize(Engine& game) {
+void Script::OnDeinitialize(Engine& engine) {
 	// ...
 }
 
-void Script::OnEnable(Engine& game) {
+void Script::OnEnable(Engine& engine) {
 	// ...
 }
 
-void Script::OnDisable(Engine& game) {
+void Script::OnDisable(Engine& engine) {
 	// ...
 }
 
-void Script::OnGameTick(Engine& game, high_resolution_clock::duration deltaTime) {
+void Script::OnGameTick(Engine& engine, high_resolution_clock::duration deltaTime) {
 	// ...
 }
 
-void Script::OnBeforeFrameRender(Engine& game, high_resolution_clock::duration deltaTime) {
+void Script::OnBeforeFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
 	// ...
 }
 
-void Script::OnFrameRender(Engine& game, high_resolution_clock::duration deltaTime) {
+void Script::OnFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
 	// ...
 }

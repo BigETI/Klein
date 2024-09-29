@@ -20,7 +20,7 @@ namespace NGE::Scripting::UI {
 		NGE_API CanvasScript(NGE::SceneManagement::Node* node);
 		NGE_API ~CanvasScript();
 
-		NGE_API virtual void OnFrameRender(NGE::Engine& game, std::chrono::high_resolution_clock::duration deltaTime) override;
+		NGE_API virtual void OnFrameRender(NGE::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime) override;
 
 	private:
 

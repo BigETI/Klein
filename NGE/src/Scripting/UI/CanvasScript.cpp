@@ -45,7 +45,7 @@ CanvasScript::~CanvasScript() {
 	node.OnScriptRemoved -= scriptRemovedObserverID;
 }
 
-void CanvasScript::OnFrameRender(Engine& game, high_resolution_clock::duration deltaTime) {
+void CanvasScript::OnFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
 	if (isRebuildingChildNodeCache) {
 		isRebuildingChildNodeCache = false;
 		stack<UIElementNodeTraversalData> node_stack;
@@ -66,7 +66,7 @@ void CanvasScript::OnFrameRender(Engine& game, high_resolution_clock::duration d
 			}
 		}
 	}
-	for (const auto& input_event : game.GetCurrentInputEvents()) {
+	for (const auto& input_event : engine.GetCurrentInputEvents()) {
 		if (input_event.GetNameHash() == mousePositionNameHash) {
 			Vector2<float> mouse_position(input_event.GetPressValue2D());
 			for (const auto& ui_element : cachedUIElements) {

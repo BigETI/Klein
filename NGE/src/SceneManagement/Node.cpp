@@ -292,7 +292,7 @@ void Node::RemoveAllScripts() {
 	scripts.clear();
 }
 
-void Node::GameTickScripts(Engine& game, high_resolution_clock::duration deltaTime) {
+void Node::GameTickScripts(Engine& engine, high_resolution_clock::duration deltaTime) {
 	if (isMarkedForDeletion) {
 		for (auto child : children) {
 			child->Destroy();
@@ -300,7 +300,7 @@ void Node::GameTickScripts(Engine& game, high_resolution_clock::duration deltaTi
 	}
 	if (isLocallyEnabled) {
 		for (auto child : children) {
-			child->GameTickScripts(game, deltaTime);
+			child->GameTickScripts(engine, deltaTime);
 		}
 	}
 	if (isMarkedForDeletion) {
@@ -314,13 +314,13 @@ void Node::GameTickScripts(Engine& game, high_resolution_clock::duration deltaTi
 	else if (isLocallyEnabled) {
 		temporaryScripts = scripts;
 		for (auto script : temporaryScripts) {
-			script->InitializeOrGameTick(game, deltaTime);
+			script->InitializeOrGameTick(engine, deltaTime);
 		}
 		temporaryScripts.clear();
 	}
 }
 
-void Node::BeforeFrameRenderScripts(Engine& game, high_resolution_clock::duration deltaTime) {
+void Node::BeforeFrameRenderScripts(Engine& engine, high_resolution_clock::duration deltaTime) {
 	if (isMarkedForDeletion) {
 		for (auto child : children) {
 			child->Destroy();
@@ -328,7 +328,7 @@ void Node::BeforeFrameRenderScripts(Engine& game, high_resolution_clock::duratio
 	}
 	if (isLocallyEnabled) {
 		for (auto child : children) {
-			child->BeforeFrameRenderScripts(game, deltaTime);
+			child->BeforeFrameRenderScripts(engine, deltaTime);
 		}
 	}
 	if (isMarkedForDeletion) {
@@ -342,13 +342,13 @@ void Node::BeforeFrameRenderScripts(Engine& game, high_resolution_clock::duratio
 	else if (isLocallyEnabled) {
 		temporaryScripts = scripts;
 		for (auto script : temporaryScripts) {
-			script->InitializeOrBeforeFrameRender(game, deltaTime);
+			script->InitializeOrBeforeFrameRender(engine, deltaTime);
 		}
 		temporaryScripts.clear();
 	}
 }
 
-void Node::FrameRenderScripts(Engine& game, high_resolution_clock::duration deltaTime) {
+void Node::FrameRenderScripts(Engine& engine, high_resolution_clock::duration deltaTime) {
 	if (isMarkedForDeletion) {
 		for (auto child : children) {
 			child->Destroy();
@@ -356,7 +356,7 @@ void Node::FrameRenderScripts(Engine& game, high_resolution_clock::duration delt
 	}
 	if (isLocallyEnabled) {
 		for (auto child : children) {
-			child->FrameRenderScripts(game, deltaTime);
+			child->FrameRenderScripts(engine, deltaTime);
 		}
 	}
 	if (isMarkedForDeletion) {
@@ -370,7 +370,7 @@ void Node::FrameRenderScripts(Engine& game, high_resolution_clock::duration delt
 	else if (isLocallyEnabled) {
 		temporaryScripts = scripts;
 		for (auto script : temporaryScripts) {
-			script->InitializeOrFrameRender(game, deltaTime);
+			script->InitializeOrFrameRender(engine, deltaTime);
 		}
 		temporaryScripts.clear();
 	}

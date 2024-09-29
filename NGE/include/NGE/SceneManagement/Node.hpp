@@ -190,9 +190,9 @@ namespace NGE::SceneManagement {
 			return ret;
 		}
 		NGE_API void RemoveAllScripts();
-		NGE_API void GameTickScripts(Engine& game, std::chrono::high_resolution_clock::duration deltaTime);
-		NGE_API void BeforeFrameRenderScripts(Engine& game, std::chrono::high_resolution_clock::duration deltaTime);
-		NGE_API void FrameRenderScripts(Engine& game, std::chrono::high_resolution_clock::duration deltaTime);
+		NGE_API void GameTickScripts(Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
+		NGE_API void BeforeFrameRenderScripts(Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
+		NGE_API void FrameRenderScripts(Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
 		NGE_API void Destroy();
 
 		Node& operator =(const Node&) = delete;
