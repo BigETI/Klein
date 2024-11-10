@@ -5,32 +5,32 @@ if (POLICY CMP0141)
 	set (CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif ()
 
-#####################
-#                   #
-#  Neo Game Engine  #
-#                   #
-#####################
+###########
+#         #
+#  Klein  #
+#         #
+###########
 
-project (NGE
+project (Klein
 	VERSION "0.0.0"
-	DESCRIPTION "Neo Game Engine"
+	DESCRIPTION "Klein"
 )
 
-add_subdirectory ("NGE")
+add_subdirectory ("Klein")
 
-if (NOT NGE_DISABLE_TESTS)
+if (NOT KLEIN_DISABLE_TESTS)
 
-	#########################
-	#                       #
-	#  Neo Game Unit Tests  #
-	#                       #
-	#########################
+	################
+	#              #
+	#  Klein Test  #
+	#              #
+	################
 
-	project (NGETest
+	project (KleinTest
 		VERSION 1.0.0
-		DESCRIPTION "Unit tests for Neo Game Engine"
+		DESCRIPTION "Tests for Klein"
 	)
 
-	add_subdirectory ("NGETest")
+	add_subdirectory ("KleinTest")
 
 endif ()
