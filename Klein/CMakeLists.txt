@@ -15,7 +15,7 @@ add_subdirectory ("deps")
 add_library (KleinStatic STATIC
 	"src/Engine.cpp"
 	"src/EventSystem/ObserverID.cpp"
-	"src/InputSystem/InputEvent.cpp"	
+	"src/InputSystem/InputEvent.cpp"
 	"src/InputSystem/Raylib/RaylibGamepadInputEvents.cpp"
 	"src/InputSystem/Raylib/RaylibInputHandler.cpp"
 	"src/Rendering/Raylib/RaylibWindowRenderer.cpp"
@@ -58,7 +58,7 @@ target_link_libraries (KleinStatic
 add_library (Klein SHARED
 	"src/Engine.cpp"
 	"src/EventSystem/ObserverID.cpp"
-	"src/InputSystem/InputEvent.cpp"	
+	"src/InputSystem/InputEvent.cpp"
 	"src/InputSystem/Raylib/RaylibGamepadInputEvents.cpp"
 	"src/InputSystem/Raylib/RaylibInputHandler.cpp"
 	"src/Rendering/Raylib/RaylibWindowRenderer.cpp"

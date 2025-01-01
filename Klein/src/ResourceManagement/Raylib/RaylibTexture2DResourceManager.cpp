@@ -21,7 +21,7 @@ RaylibTexture2DResourceManager::~RaylibTexture2DResourceManager() {
 }
 
 void RaylibTexture2DResourceManager::Initialize() {
-	if (IsWindowReady() && !IsTextureReady(invalidTexture2D)) {
+	if (IsWindowReady() && !IsTextureValid(invalidTexture2D)) {
 		Image empty_image(GenImageChecked(4, 4, 1, 1, { 0xFF, 0x00, 0xFF, 0xFF }, { 0x00, 0xFF, 0x00, 0xFF }));
 		invalidTexture2D = LoadTextureFromImage(empty_image);
 		UnloadImage(empty_image);
@@ -29,7 +29,7 @@ void RaylibTexture2DResourceManager::Initialize() {
 }
 
 void RaylibTexture2DResourceManager::Deinitialize() {
-	if (IsWindowReady() && IsTextureReady(invalidTexture2D)) {
+	if (IsWindowReady() && IsTextureValid(invalidTexture2D)) {
 		UnloadTexture(invalidTexture2D);
 	}
 	Clear();
@@ -41,18 +41,20 @@ bool RaylibTexture2DResourceManager::TryLoadingResource(const ResourceID& resour
 	if (!resourceID.GetString().empty() && exists(FileSystem::GetFilePathFromResourceID(resourceID, resource_file_path))) {
 		string resource_file_path_string(resource_file_path.generic_string());
 		result = LoadTexture(resource_file_path_string.c_str());
-		ret = IsTextureReady(result);
+		ret = IsTextureValid(result);
 	}
-	if (!ret && IsTextureReady(invalidTexture2D)) {
-		result = invalidTexture2D;
-		ret = true;
+	if (!ret && IsTextureValid(invalidTexture2D)) {
+		if (IsTextureValid(invalidTexture2D)) {
+			result = invalidTexture2D;
+			ret = true;
+		}
 		cerr << "Failed to load texture \"" << resourceID.GetString() << "\" with hash " << resourceID.GetHash() << endl;
 	}
 	return ret;
 }
 
-void RaylibTexture2DResourceManager::UnloadResource(const Texture2D& resource) {
-	if (IsWindowReady() && IsTextureReady(resource)) {
+void RaylibTexture2DResourceManager::UnloadResource(Texture2D& resource) {
+	if (IsWindowReady() && IsTextureValid(resource)) {
 		UnloadTexture(resource);
 	}
 }

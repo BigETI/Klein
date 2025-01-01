@@ -21,7 +21,7 @@ namespace Klein::ResourceManagement::Raylib {
 	protected:
 
 		KLEIN_API virtual bool TryLoadingResource(const ResourceID& resourceID, Texture2D& result) override;
-		KLEIN_API virtual void UnloadResource(const Texture2D& resource) override;
+		KLEIN_API virtual void UnloadResource(Texture2D& resource) override;
 
 	private:
 

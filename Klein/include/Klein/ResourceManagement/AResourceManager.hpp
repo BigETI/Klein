@@ -55,7 +55,7 @@ namespace Klein::ResourceManagement {
 		}
 
 		void Clear() {
-			for (const auto& loaded_resource : loadedResources) {
+			for (auto& loaded_resource : loadedResources) {
 				UnloadResource(loaded_resource.second);
 			}
 			loadedResources.clear();
@@ -67,7 +67,7 @@ namespace Klein::ResourceManagement {
 	protected:
 
 		virtual bool TryLoadingResource(const ResourceID& resourceID, TResource& result) = 0;
-		virtual void UnloadResource(const TResource& resource) = 0;
+		virtual void UnloadResource(TResource& resource) = 0;
 
 	private:
 
