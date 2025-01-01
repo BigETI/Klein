@@ -16,12 +16,12 @@ namespace Klein::EventSystem {
 		/// <summary>
 		/// Invalid observer ID value
 		/// </summary>
-		static constexpr unsigned int InvalidValue = ~0U;
+		constexpr static const unsigned int InvalidValue = ~0U;
 
 		/// <summary>
 		/// Invalid observer ID
 		/// </summary>
-		KLEIN_API static const ObserverID Invalid;
+		static const ObserverID Invalid;
 
 		/// <summary>
 		/// Constructs a new observer ID
