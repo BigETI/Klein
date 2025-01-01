@@ -1,8 +1,8 @@
-################################
-#                              #
-#  Neo Game Engine Unit Tests  #
-#                              #
-################################
+#################
+#               #
+#  Klein Tests  #
+#               #
+#################
 
 # TODO: Add tests properly
 
@@ -12,12 +12,12 @@ add_executable (KleinTest
 	"src/Tests/Math/Vector2Tests.cpp"
 )
 
-target_compile_features (KleinTest
-	PRIVATE cxx_std_23
-)
-
 set_property (TARGET KleinTest
 	PROPERTY COMPILE_WARNING_AS_ERROR ON
+)
+
+target_compile_features (KleinTest
+	PRIVATE cxx_std_23
 )
 
 target_include_directories (KleinTest

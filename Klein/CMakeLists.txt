@@ -74,24 +74,24 @@ add_library (Klein SHARED
 	"src/Scripting/Script.cpp"
 )
 
-target_compile_features (Klein
-	PRIVATE cxx_std_23
-)
-
 set_property (TARGET Klein
 	PROPERTY COMPILE_WARNING_AS_ERROR ON
 )
 
-target_link_libraries (Klein
-	PUBLIC raylib
+target_compile_features (Klein
+	PRIVATE cxx_std_23
 )
 
 target_compile_definitions (Klein
 	PUBLIC IS_KLEIN_EXPORTING
 )
 
-include_directories (Klein
+target_include_directories (Klein
 	PUBLIC "include"
+)
+
+target_link_libraries (Klein
+	PUBLIC raylib
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
