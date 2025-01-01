@@ -25,7 +25,7 @@ namespace Klein::Collections {
 			// ...
 		}
 
-		ResizableGrid(std::size_t width, std::size_t height, const TCell& defaultValue) : size(width * height), cells(width * height, defaultValue) {
+		ResizableGrid(std::size_t width, std::size_t height, const TCell& defaultValue) : size(width, height), cells(width * height, defaultValue) {
 			// ...
 		}
 		
