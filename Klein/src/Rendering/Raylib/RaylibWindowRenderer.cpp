@@ -1,4 +1,5 @@
 #include <chrono>
+#include <cstddef>
 #include <cmath>
 #include <iostream>
 #include <string>
@@ -17,7 +18,7 @@ using namespace std::chrono;
 using namespace Klein::Math;
 using namespace Klein::Rendering::Raylib;
 
-RaylibWindowRenderer::RaylibWindowRenderer(const string& title, unsigned int width, unsigned int height) : title(title), width(width), height(height) {
+RaylibWindowRenderer::RaylibWindowRenderer(const string& title, size_t width, size_t height) : title(title), width(width), height(height) {
 	if (IsWindowReady()) {
 		throw exception("raylib window has been already initialized.");
 	}
@@ -38,11 +39,11 @@ string& RaylibWindowRenderer::GetTitle(string& result) const {
 	return result = title;
 }
 
-const unsigned int RaylibWindowRenderer::GetWidth() const noexcept {
+const size_t RaylibWindowRenderer::GetWidth() const noexcept {
 	return width;
 }
 
-const unsigned int RaylibWindowRenderer::GetHeight() const noexcept {
+const size_t RaylibWindowRenderer::GetHeight() const noexcept {
 	return height;
 }
 

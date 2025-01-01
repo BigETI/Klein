@@ -2,6 +2,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <filesystem>
 #include <memory>
 #include <span>
 #include <string>
@@ -33,7 +34,7 @@ namespace Klein {
 		Engine(const Engine&) = delete;
 		Engine(Engine&&) = delete;
 
-		KLEIN_API ~Engine();
+		KLEIN_API virtual ~Engine();
 
 		KLEIN_API bool IsGameRunning() const noexcept;
 		KLEIN_API std::chrono::high_resolution_clock::time_point GetGameStartTimePoint() const noexcept;

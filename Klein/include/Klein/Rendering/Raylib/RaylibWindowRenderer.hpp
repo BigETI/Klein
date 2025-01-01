@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <cstddef>
 #include <string>
 
 #include <raylib.h>
@@ -14,7 +15,7 @@ namespace Klein::Rendering::Raylib {
 	class RaylibWindowRenderer : public Klein::Rendering::IRenderer {
 	public:
 
-		KLEIN_API RaylibWindowRenderer(const std::string& title, unsigned int width, unsigned int height);
+		KLEIN_API RaylibWindowRenderer(const std::string& title, std::size_t width, std::size_t height);
 
 		RaylibWindowRenderer(const RaylibWindowRenderer&) = delete;
 		RaylibWindowRenderer(RaylibWindowRenderer&&) = delete;
@@ -23,8 +24,8 @@ namespace Klein::Rendering::Raylib {
 
 		KLEIN_API const std::string& GetTitle() const noexcept;
 		KLEIN_API std::string& GetTitle(std::string& result) const;
-		KLEIN_API const unsigned int GetWidth() const noexcept;
-		KLEIN_API const unsigned int GetHeight() const noexcept;
+		KLEIN_API const std::size_t GetWidth() const noexcept;
+		KLEIN_API const std::size_t GetHeight() const noexcept;
 		KLEIN_API void Render(const RenderingContext& renderingContext, std::chrono::high_resolution_clock::duration deltaTime) override;
 
 		RaylibWindowRenderer& operator =(const RaylibWindowRenderer&) = delete;
@@ -33,8 +34,8 @@ namespace Klein::Rendering::Raylib {
 	private:
 
 		const std::string& title;
-		unsigned int width;
-		unsigned int height;
+		std::size_t width;
+		std::size_t height;
 		Camera2D camera;
 		Klein::ResourceManagement::Raylib::RaylibTexture2DResourceManager raylibTexture2DResourceManager;
 	};
