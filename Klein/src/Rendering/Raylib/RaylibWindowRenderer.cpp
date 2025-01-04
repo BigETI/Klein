@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <cmath>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 #include <raylib.h>
@@ -20,7 +21,7 @@ using namespace Klein::Rendering::Raylib;
 
 RaylibWindowRenderer::RaylibWindowRenderer(const string& title, size_t width, size_t height) : title(title), width(width), height(height) {
 	if (IsWindowReady()) {
-		throw exception("raylib window has been already initialized.");
+		throw runtime_error("raylib window has been already initialized.");
 	}
 	InitWindow(static_cast<int>(width), static_cast<int>(height), title.c_str());
 	raylibTexture2DResourceManager.Initialize();
