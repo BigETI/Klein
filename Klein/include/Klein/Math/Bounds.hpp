@@ -1,9 +1,10 @@
 #pragma once
 
-#include <cmath>
+#include <algorithm>
 #include <type_traits>
 #include <utility>
 
+#include "EAlignment.hpp"
 #include "Rectangle.hpp"
 #include "Vector2.hpp"
 
@@ -54,17 +55,25 @@ namespace Klein::Math {
 			return (position.y <= top) && (position.y >= bottom) && (position.x >= left) && (position.x <= right);
 		}
 
+		constexpr inline bool IsIntersecting(const Bounds<TComponent>& bounds) const noexcept {
+			return
+				((left >= bounds.left) || (right >= bounds.left)) &&
+				((left <= bounds.right) || (right <= bounds.right)) &&
+				((top >= bounds.top) || (bottom >= bounds.top)) &&
+				((top <= bounds.bottom) || (bottom <= bounds.bottom));
+		}
+
 		constexpr inline Bounds<TComponent> GetCorrected() const noexcept {
-			return Rectangle<TComponent>(
+			return Bounds<TComponent>(
 				std::min(top, bottom),
 				std::max(top, bottom),
 				std::min(left, right),
 				std::max(left, right)
 			);
 		}
-		
+
 		constexpr inline Bounds<TComponent>& GetCorrected(Bounds<TComponent>& result) const noexcept {
-			return result = Rectangle<TComponent>(std::min(top, bottom), std::max(top, bottom), std::min(left, right), std::max(left, right));
+			return result = Bounds<TComponent>(std::min(top, bottom), std::max(top, bottom), std::min(left, right), std::max(left, right));
 		}
 
 		template <typename TReturn>
@@ -77,15 +86,44 @@ namespace Klein::Math {
 			return result = GetConverted<TReturn>();
 		}
 
-		constexpr inline Rectangle<TComponent> GetRectangle() const noexcept {
-			return Rectangle<TComponent>(
-				Vector2<TComponent>(left, top),
-				Vector2<TComponent>(right - left, bottom - top)
-			);
+		constexpr inline Rectangle<TComponent> GetRectangle(EAlignment alignment) const noexcept {
+			switch (alignment) {
+			case EAlignment::TopLeft:
+				return Rectangle<TComponent>(
+					Vector2<TComponent>(left, top),
+					Vector2<TComponent>(right - left, bottom - top)
+				);
+				break;
+			case EAlignment::TopRight:
+				return Rectangle<TComponent>(
+					Vector2<TComponent>(right, top),
+					Vector2<TComponent>(right - left, bottom - top)
+				);
+				break;
+			case EAlignment::BottomLeft:
+				return Rectangle<TComponent>(
+					Vector2<TComponent>(left, bottom),
+					Vector2<TComponent>(right - left, bottom - top)
+				);
+				break;
+			case EAlignment::BottomRight:
+				return Rectangle<TComponent>(
+					Vector2<TComponent>(right, bottom),
+					Vector2<TComponent>(right - left, bottom - top)
+				);
+				break;
+			case EAlignment::Center:
+				return Rectangle<TComponent>(
+					Vector2<TComponent>((left + right) / staic_cast<TComponent>(2), (top + bottom) / staic_cast<TComponent>(2)),
+					Vector2<TComponent>(right - left, bottom - top)
+				);
+				break;
+			}
+			return Rectangle<TComponent>();
 		}
 
-		constexpr inline Rectangle<TComponent>& GetRectangle(Rectangle<TComponent>& result) const noexcept {
-			return result = GetRectangle();
+		constexpr inline Rectangle<TComponent>& GetRectangle(EAlignment alignment, Rectangle<TComponent>& result) const noexcept {
+			return result = GetRectangle(alignment);
 		}
 
 		constexpr inline Bounds<TComponent>& operator =(const Bounds<TComponent>& bounds) {
@@ -124,7 +162,7 @@ namespace Klein::Math {
 			Bounds<TComponent> ret(*this);
 			return ret += offset;
 		}
-	
+
 		constexpr inline Bounds<TComponent>& operator -=(const Vector2<TComponent>& offset) noexcept {
 			top -= offset.y;
 			bottom -= offset.y;
