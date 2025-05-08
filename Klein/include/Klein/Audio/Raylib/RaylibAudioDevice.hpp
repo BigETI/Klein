@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "../../Exportables/Exportable.hxx"
+#include "../../ResourceManagement/Raylib/RaylibSoundResourceManager.hpp"
 #include "../../ResourceManagement/ResourceID.hpp"
 #include "../IAudioClip.hpp"
 #include "../IAudioDevice.hpp"
@@ -23,5 +24,9 @@ namespace Klein::Audio::Raylib {
 
 		RaylibAudioDevice& operator=(const RaylibAudioDevice&) = delete;
 		RaylibAudioDevice& operator=(RaylibAudioDevice&&) = delete;
+
+	private:
+
+		static Klein::ResourceManagement::Raylib::RaylibSoundResourceManager raylibSoundResourceManager;
 	};
 }

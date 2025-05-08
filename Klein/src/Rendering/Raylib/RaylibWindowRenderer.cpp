@@ -58,26 +58,21 @@ void RaylibWindowRenderer::Render(const RenderingContext& renderingContext, high
 		BeginDrawing();
 		ClearBackground({ 0x00, 0x00, 0x00, 0x00 });
 		BeginMode2D(camera);
-		Texture2D texture_2d({ 0 });
 		for (const auto& rendering_context_element : renderingContext) {
-			if (
-				raylibTexture2DResourceManager.TryGettingResource(
-					rendering_context_element->GetResourceID(),
-					texture_2d
-				)
-			) {
+			shared_ptr<Texture2D> texture_2d;
+			if (raylibTexture2DResourceManager.TryGettingResource(rendering_context_element->GetResourceID(), texture_2d)) {
 				Klein::Math::Rectangle<float> sourceRectangle(rendering_context_element->GetSourceRectangle());
 				Klein::Math::Vector2<float> position(rendering_context_element->GetPosition());
 				Klein::Math::Vector2<float> size(rendering_context_element->GetSize());
 				Klein::Math::Vector2<float> origin(rendering_context_element->GetPivot() * size);
 				Klein::Rendering::Color<uint8_t> color(rendering_context_element->GetColor());
 				DrawTexturePro(
-					texture_2d,
+					*texture_2d,
 					{
-						sourceRectangle.position.x * static_cast<float>(texture_2d.width),
-						sourceRectangle.position.y * static_cast<float>(texture_2d.height),
-						sourceRectangle.size.x * static_cast<float>(texture_2d.width),
-						sourceRectangle.size.y * static_cast<float>(texture_2d.height)
+						sourceRectangle.position.x * static_cast<float>(texture_2d->width),
+						sourceRectangle.position.y * static_cast<float>(texture_2d->height),
+						sourceRectangle.size.x * static_cast<float>(texture_2d->width),
+						sourceRectangle.size.y * static_cast<float>(texture_2d->height)
 					},
 					{ position.x, -position.y, size.x, size.y },
 					{ origin.x, origin.y },

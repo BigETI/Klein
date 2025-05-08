@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include <raylib.h>
@@ -13,18 +14,18 @@ namespace Klein::ResourceManagement::Raylib {
 	public:
 
 		KLEIN_API RaylibTexture2DResourceManager();
-		KLEIN_API virtual ~RaylibTexture2DResourceManager();
+		KLEIN_API virtual ~RaylibTexture2DResourceManager() noexcept override;
 
-		KLEIN_API void Initialize();
-		KLEIN_API void Deinitialize();
+		KLEIN_API void Initialize() noexcept;
+		KLEIN_API void Deinitialize() noexcept;
 
 	protected:
 
-		KLEIN_API virtual bool TryLoadingResource(const ResourceID& resourceID, Texture2D& result) override;
-		KLEIN_API virtual void UnloadResource(Texture2D& resource) override;
+		KLEIN_API virtual bool TryLoadingResource(const Klein::ResourceManagement::ResourceID& resourceID, std::shared_ptr<Texture2D>& result) noexcept override;
+		KLEIN_API virtual void UnloadResource(const std::shared_ptr<Texture2D>& resource) noexcept override;
 
 	private:
 
-		Texture2D invalidTexture2D;
+		std::shared_ptr<Texture2D> invalidTexture2D;
 	};
 }

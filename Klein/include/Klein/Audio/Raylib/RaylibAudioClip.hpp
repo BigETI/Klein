@@ -17,12 +17,10 @@ namespace Klein::Audio::Raylib {
 
 		RaylibAudioClip() = delete;
 
-		KLEIN_API RaylibAudioClip(const Sound& sound);
-		KLEIN_API RaylibAudioClip(const Music& music);
+		KLEIN_API RaylibAudioClip(const std::shared_ptr<Sound>& sound);
+		KLEIN_API RaylibAudioClip(const std::shared_ptr<Music>& music);
 
 		KLEIN_API virtual ~RaylibAudioClip() noexcept override;
-
-		KLEIN_API static std::shared_ptr<RaylibAudioClip> Load(const Klein::ResourceManagement::ResourceID& resourceID, bool isMusic) noexcept;
 
 		KLEIN_API virtual bool Play() noexcept override;
 		KLEIN_API virtual bool Stop() noexcept override;
@@ -32,6 +30,6 @@ namespace Klein::Audio::Raylib {
 
 	private:
 
-		std::variant<Sound, Music> soundOrMusic;
+		std::variant<std::shared_ptr<Sound>, std::shared_ptr<Music>> soundOrMusic;
 	};
 }
