@@ -1,10 +1,12 @@
 #include <algorithm>
 #include <chrono>
+#include <cstddef>
 #include <filesystem>
 #include <span>
 #include <string>
 #include <thread>
 
+#include <Klein/Audio/IAudioDevice.hpp>
 #include <Klein/Engine.hpp>
 #include <Klein/InputSystem/IInputHandler.hpp>
 #include <Klein/InputSystem/InputEvent.hpp>
@@ -19,6 +21,7 @@ using namespace std::filesystem;
 using namespace std::this_thread;
 
 using namespace Klein;
+using namespace Klein::Audio;
 using namespace Klein::InputSystem;
 using namespace Klein::Math;
 using namespace Klein::Rendering;
@@ -32,6 +35,7 @@ Engine::Engine(const span<const string> commandLineArguments) :
 	targetFrameRate(defaultTargetFrameRate),
 	isGameRunning(false),
 	gameStartTimePoint(high_resolution_clock::time_point::min()),
+	defaultAudioDeviceIndex(static_cast<size_t>(0)),
 	exitCode(-1) {
 	renderingContexts.emplace_back();
 }
@@ -191,6 +195,55 @@ bool Engine::RemoveRenderer(const shared_ptr<IRenderer>& renderer) {
 
 void Engine::ClearRenderers() noexcept {
 	renderers.clear();
+}
+
+bool Engine::AddAudioDevice(const shared_ptr<IAudioDevice>& audioDevice) {
+	bool ret(audioDevice && (find(audioDevices.begin(), audioDevices.end(), audioDevice) == audioDevices.end()));
+	if (ret) {
+		audioDevices.push_back(audioDevice);
+	}
+	return ret;
+}
+
+bool Engine::RemoveAudioDevice(const shared_ptr<IAudioDevice>& audioDevice) {
+	size_t old_size(audioDevices.size());
+	if (defaultAudioDeviceIndex > static_cast<size_t>(0)) {
+		if (static_cast<ptrdiff_t>(defaultAudioDeviceIndex) >= (find(audioDevices.begin(), audioDevices.end(), audioDevice) - audioDevices.begin())) {
+			--defaultAudioDeviceIndex;
+		}
+	}
+	audioDevices.erase(remove(audioDevices.begin(), audioDevices.end(), audioDevice), audioDevices.end());
+	return old_size != audioDevices.size();
+}
+
+void Engine::ClearAudioDevices() noexcept {
+	audioDevices.clear();
+	defaultAudioDeviceIndex = static_cast<size_t>(0);
+}
+
+size_t Engine::GetDefaultAudioDeviceIndex() const noexcept {
+	return defaultAudioDeviceIndex;
+}
+
+bool Engine::SetDefaultAudioDeviceIndex(size_t defaultAudioDeviceIndex) noexcept {
+	bool ret(defaultAudioDeviceIndex < audioDevices.size());
+	if (ret) {
+		this->defaultAudioDeviceIndex = defaultAudioDeviceIndex;
+	}
+	return ret;
+}
+
+shared_ptr<IAudioDevice> Engine::GetDefaultAudioDevice() const noexcept {
+	return (defaultAudioDeviceIndex < audioDevices.size()) ? audioDevices.at(defaultAudioDeviceIndex) : nullptr;
+}
+
+bool Engine::SetDefaultAudioDevice(const std::shared_ptr<Klein::Audio::IAudioDevice>& audioDevice) noexcept {
+	const auto& it(find(audioDevices.begin(), audioDevices.end(), audioDevice));
+	bool ret(it != audioDevices.end());
+	if (ret) {
+		defaultAudioDeviceIndex = static_cast<size_t>(it - audioDevices.begin());
+	}
+	return ret;
 }
 
 bool Engine::AddInputHandler(const shared_ptr<IInputHandler>& inputHandler) {

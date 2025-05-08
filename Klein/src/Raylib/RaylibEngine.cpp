@@ -3,6 +3,7 @@
 #include <span>
 #include <string>
 
+#include <Klein/Audio/Raylib/RaylibAudioDevice.hpp>
 #include <Klein/Engine.hpp>
 #include <Klein/InputSystem/Raylib/RaylibInputHandler.hpp>
 #include <Klein/Raylib/RaylibEngine.hpp>
@@ -12,6 +13,7 @@ using namespace std;
 using namespace std::filesystem;
 
 using namespace Klein;
+using namespace Klein::Audio::Raylib;
 using namespace Klein::InputSystem::Raylib;
 using namespace Klein::Raylib;
 using namespace Klein::Rendering::Raylib;
@@ -26,5 +28,6 @@ RaylibEngine::RaylibEngine(const string& title, size_t width, size_t height, con
 
 void RaylibEngine::Initialize(const string& title, size_t width, size_t height) {
 	AddRenderer(make_shared<RaylibWindowRenderer>(title, width, height));
+	AddAudioDevice(make_shared<RaylibAudioDevice>());
 	AddInputHandler(make_shared<RaylibInputHandler>());
 }

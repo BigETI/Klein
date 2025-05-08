@@ -2,11 +2,13 @@
 
 #include <atomic>
 #include <chrono>
+#include <cstddef>
 #include <filesystem>
 #include <memory>
 #include <span>
 #include <string>
 
+#include "Audio/IAudioDevice.hpp"
 #include "EventSystem/Event.hpp"
 #include "Exportables/Exportable.hxx"
 #include "InputSystem/IInputHandler.hpp"
@@ -66,6 +68,14 @@ namespace Klein {
 		KLEIN_API bool AddRenderer(const std::shared_ptr<Klein::Rendering::IRenderer>& renderer);
 		KLEIN_API bool RemoveRenderer(const std::shared_ptr<Klein::Rendering::IRenderer>& renderer);
 		KLEIN_API void ClearRenderers() noexcept;
+		
+		KLEIN_API bool AddAudioDevice(const std::shared_ptr<Klein::Audio::IAudioDevice>& audioDevice);
+		KLEIN_API bool RemoveAudioDevice(const std::shared_ptr<Klein::Audio::IAudioDevice>& audioDevice);
+		KLEIN_API void ClearAudioDevices() noexcept;
+		KLEIN_API std::size_t GetDefaultAudioDeviceIndex() const noexcept;
+		KLEIN_API bool SetDefaultAudioDeviceIndex(std::size_t defaultAudioDeviceIndex) noexcept;
+		KLEIN_API std::shared_ptr<Klein::Audio::IAudioDevice> GetDefaultAudioDevice() const noexcept;
+		KLEIN_API bool SetDefaultAudioDevice(const std::shared_ptr<Klein::Audio::IAudioDevice>& audioDevice) noexcept;
 
 		KLEIN_API bool AddInputHandler(const std::shared_ptr<Klein::InputSystem::IInputHandler>& inputHandler);
 		KLEIN_API bool RemoveInputHandler(const std::shared_ptr<Klein::InputSystem::IInputHandler>& inputHandler);
@@ -84,6 +94,8 @@ namespace Klein {
 		std::vector<std::shared_ptr<Klein::SceneManagement::Node>> scenes;
 		std::vector<Klein::Rendering::RenderingContext> renderingContexts;
 		std::vector<std::shared_ptr<Klein::Rendering::IRenderer>> renderers;
+		std::vector<std::shared_ptr<Klein::Audio::IAudioDevice>> audioDevices;
+		std::size_t defaultAudioDeviceIndex;
 		std::vector<std::shared_ptr<Klein::InputSystem::IInputHandler>> inputHandlers;
 		std::atomic_int exitCode;
 	};

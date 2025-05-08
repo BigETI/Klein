@@ -13,6 +13,8 @@ add_subdirectory ("deps")
 #################################
 
 add_library (KleinStatic STATIC
+	"src/Audio/Raylib/RaylibAudioClip.cpp"
+	"src/Audio/Raylib/RaylibAudioDevice.cpp"
 	"src/Engine.cpp"
 	"src/EventSystem/ObserverID.cpp"
 	"src/InputSystem/InputEvent.cpp"
@@ -26,6 +28,7 @@ add_library (KleinStatic STATIC
 	"src/ResourceManagement/FileSystem.cpp"
 	"src/ResourceManagement/Raylib/RaylibTexture2DResourceManager.cpp"
 	"src/SceneManagement/Node.cpp"
+	"src/Scripting/Audio/AudioPlayerScript.cpp"
 	"src/Scripting/Physics/AABBColliderScript.cpp"
 	"src/Scripting/Physics/ColliderScript.cpp"
 	"src/Scripting/Rendering/CameraScript.cpp"
@@ -60,6 +63,8 @@ target_link_libraries (KleinStatic
 ##################################
 
 add_library (Klein SHARED
+	"src/Audio/Raylib/RaylibAudioClip.cpp"
+	"src/Audio/Raylib/RaylibAudioDevice.cpp"
 	"src/Engine.cpp"
 	"src/EventSystem/ObserverID.cpp"
 	"src/InputSystem/InputEvent.cpp"
@@ -73,6 +78,7 @@ add_library (Klein SHARED
 	"src/ResourceManagement/FileSystem.cpp"
 	"src/ResourceManagement/Raylib/RaylibTexture2DResourceManager.cpp"
 	"src/SceneManagement/Node.cpp"
+	"src/Scripting/Audio/AudioPlayerScript.cpp"
 	"src/Scripting/Physics/AABBColliderScript.cpp"
 	"src/Scripting/Physics/ColliderScript.cpp"
 	"src/Scripting/Rendering/CameraScript.cpp"
