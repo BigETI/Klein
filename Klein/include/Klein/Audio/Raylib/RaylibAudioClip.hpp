@@ -22,14 +22,17 @@ namespace Klein::Audio::Raylib {
 
 		KLEIN_API virtual ~RaylibAudioClip() noexcept override;
 
-		KLEIN_API virtual bool Play() noexcept override;
+		KLEIN_API virtual bool Play(float volume = 1.0f) noexcept override;
 		KLEIN_API virtual bool Stop() noexcept override;
 		KLEIN_API virtual bool IsPlaying() const noexcept override;
 		KLEIN_API virtual bool IsMusic() const noexcept override;
+		KLEIN_API virtual float GetVolume() const noexcept override;
+		KLEIN_API virtual bool SetVolume(float volume) noexcept override;
 		KLEIN_API virtual void Update() noexcept override;
 
 	private:
 
 		std::variant<std::shared_ptr<Sound>, std::shared_ptr<Music>> soundOrMusic;
+		float volume;
 	};
 }

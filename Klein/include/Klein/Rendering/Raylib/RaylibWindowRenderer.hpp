@@ -26,7 +26,7 @@ namespace Klein::Rendering::Raylib {
 		KLEIN_API std::string& GetTitle(std::string& result) const;
 		KLEIN_API const std::size_t GetWidth() const noexcept;
 		KLEIN_API const std::size_t GetHeight() const noexcept;
-		KLEIN_API void Render(const RenderingContext& renderingContext, std::chrono::high_resolution_clock::duration deltaTime) override;
+		KLEIN_API void Render(const RenderingContext& renderingContext, const std::chrono::high_resolution_clock::duration& deltaTime) override;
 
 		RaylibWindowRenderer& operator =(const RaylibWindowRenderer&) = delete;
 		RaylibWindowRenderer& operator =(RaylibWindowRenderer&&) = delete;

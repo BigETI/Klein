@@ -48,7 +48,7 @@ const size_t RaylibWindowRenderer::GetHeight() const noexcept {
 	return height;
 }
 
-void RaylibWindowRenderer::Render(const RenderingContext& renderingContext, high_resolution_clock::duration deltaTime) {
+void RaylibWindowRenderer::Render(const RenderingContext& renderingContext, const high_resolution_clock::duration& deltaTime) {
 	if (IsWindowReady()) {
 		Klein::Math::Vector2<float> camera_position(renderingContext.GetCameraPosition());
 		camera.target = { camera_position.x, -camera_position.y };

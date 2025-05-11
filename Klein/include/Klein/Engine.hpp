@@ -25,9 +25,9 @@ namespace Klein {
 	class Engine {
 	public:
 
-		Klein::EventSystem::Event<std::chrono::high_resolution_clock::time_point> OnGameStarted;
-		Klein::EventSystem::Event<std::chrono::high_resolution_clock::duration> OnFrameRendered;
-		Klein::EventSystem::Event<std::chrono::high_resolution_clock::duration> OnGameTicked;
+		Klein::EventSystem::Event<const std::chrono::high_resolution_clock::time_point&> OnGameStarted;
+		Klein::EventSystem::Event<const std::chrono::high_resolution_clock::duration&> OnFrameRendered;
+		Klein::EventSystem::Event<const std::chrono::high_resolution_clock::duration&> OnGameTicked;
 		Klein::EventSystem::Event<int> OnGameStopped;
 
 		KLEIN_API Engine(const std::span<const std::string> commandLineArguments);

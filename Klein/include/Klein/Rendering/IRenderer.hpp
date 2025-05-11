@@ -12,6 +12,6 @@ namespace Klein::Rendering {
 			// ...
 		}
 
-		virtual void Render(const RenderingContext& renderingContext, std::chrono::high_resolution_clock::duration deltaTime) = 0;
+		virtual void Render(const RenderingContext& renderingContext, const std::chrono::high_resolution_clock::duration& deltaTime) = 0;
 	};
 }

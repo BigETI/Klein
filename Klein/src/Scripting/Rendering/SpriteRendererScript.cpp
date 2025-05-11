@@ -97,7 +97,7 @@ void SpriteRendererScript::SetLayerIndex(unsigned int layerIndex) noexcept {
 	renderingContextElement->SetLayerIndex(layerIndex);
 }
 
-void SpriteRendererScript::OnFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
+void SpriteRendererScript::OnFrameRender(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	Node& node(GetNode());
 
 	// TODO: Interpolate between transformations

@@ -20,7 +20,7 @@ namespace Klein::Scripting::UI {
 		KLEIN_API CanvasScript(Klein::SceneManagement::Node* node);
 		KLEIN_API ~CanvasScript();
 
-		KLEIN_API virtual void OnFrameRender(Klein::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime) override;
+		KLEIN_API virtual void OnFrameRender(Klein::Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime) override;
 
 	private:
 

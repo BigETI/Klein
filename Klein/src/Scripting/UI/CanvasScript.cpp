@@ -46,7 +46,7 @@ CanvasScript::~CanvasScript() {
 	node.OnScriptRemoved -= scriptRemovedObserverID;
 }
 
-void CanvasScript::OnFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
+void CanvasScript::OnFrameRender(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	if (isRebuildingChildNodeCache) {
 		isRebuildingChildNodeCache = false;
 		stack<UIElementNodeTraversalData> node_stack;

@@ -9,11 +9,11 @@ using namespace std;
 
 using namespace Klein::Audio::Raylib;
 
-RaylibAudioClip::RaylibAudioClip(const shared_ptr<Sound>& sound) : soundOrMusic(sound) {
+RaylibAudioClip::RaylibAudioClip(const shared_ptr<Sound>& sound) : soundOrMusic(sound), volume(1.0f) {
 	// ...
 }
 
-RaylibAudioClip::RaylibAudioClip(const shared_ptr<Music>& music) : soundOrMusic(music) {
+RaylibAudioClip::RaylibAudioClip(const shared_ptr<Music>& music) : soundOrMusic(music), volume(1.0f) {
 	// ...
 }
 
@@ -24,14 +24,20 @@ RaylibAudioClip::~RaylibAudioClip() noexcept {
 	}
 }
 
-bool RaylibAudioClip::Play() noexcept {
+bool RaylibAudioClip::Play(float volume) noexcept {
 	bool ret(false);
 	if (holds_alternative<shared_ptr<Sound>>(soundOrMusic)) {
-		PlaySound(*get<shared_ptr<Sound>>(soundOrMusic));
+		Sound& sound(*get<shared_ptr<Sound>>(soundOrMusic));
+		PlaySound(sound);
+		SetSoundVolume(sound, volume);
+		this->volume = volume;
 		ret = true;
 	}
 	else if (holds_alternative<shared_ptr<Music>>(soundOrMusic)) {
-		PlayMusicStream(*get<shared_ptr<Music>>(soundOrMusic));
+		Music& music(*get<shared_ptr<Music>>(soundOrMusic));
+		PlayMusicStream(music);
+		SetMusicVolume(music, volume);
+		this->volume = volume;
 		ret = true;
 	}
 	return ret;
@@ -63,6 +69,25 @@ bool RaylibAudioClip::IsPlaying() const noexcept {
 
 bool RaylibAudioClip::IsMusic() const noexcept {
 	return holds_alternative<shared_ptr<Music>>(soundOrMusic);
+}
+
+float RaylibAudioClip::GetVolume() const noexcept {
+	return volume;
+}
+
+bool RaylibAudioClip::SetVolume(float volume) noexcept {
+	bool ret(false);
+	if (holds_alternative<shared_ptr<Sound>>(soundOrMusic)) {
+		SetSoundVolume(*get<shared_ptr<Sound>>(soundOrMusic), volume);
+		this->volume = volume;
+		ret = true;
+	}
+	else if (holds_alternative<shared_ptr<Music>>(soundOrMusic)) {
+		SetMusicVolume(*get<shared_ptr<Music>>(soundOrMusic), volume);
+		this->volume = volume;
+		ret = true;
+	}
+	return ret;
 }
 
 void RaylibAudioClip::Update() noexcept {

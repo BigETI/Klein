@@ -292,7 +292,7 @@ void Node::RemoveAllScripts() {
 	scripts.clear();
 }
 
-void Node::GameTickScripts(Engine& engine, high_resolution_clock::duration deltaTime) {
+void Node::GameTickScripts(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	if (isMarkedForDeletion) {
 		for (auto child : children) {
 			child->Destroy();
@@ -320,7 +320,7 @@ void Node::GameTickScripts(Engine& engine, high_resolution_clock::duration delta
 	}
 }
 
-void Node::BeforeFrameRenderScripts(Engine& engine, high_resolution_clock::duration deltaTime) {
+void Node::BeforeFrameRenderScripts(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	if (isMarkedForDeletion) {
 		for (auto child : children) {
 			child->Destroy();
@@ -348,7 +348,7 @@ void Node::BeforeFrameRenderScripts(Engine& engine, high_resolution_clock::durat
 	}
 }
 
-void Node::FrameRenderScripts(Engine& engine, high_resolution_clock::duration deltaTime) {
+void Node::FrameRenderScripts(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	if (isMarkedForDeletion) {
 		for (auto child : children) {
 			child->Destroy();

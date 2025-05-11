@@ -21,7 +21,13 @@ using namespace Klein::SceneManagement;
 using namespace Klein::Scripting;
 using namespace Klein::Scripting::Audio;
 
-AudioPlayerScript::AudioPlayerScript(Node* node) : Script(node), engine(nullptr), isMusic(false), isEnqueuedForPlayback(false) {
+AudioPlayerScript::AudioPlayerScript(Node* node) :
+	Script(node),
+	engine(nullptr),
+	isMusic(false),
+	volume(1.0f),
+	isPreloadingWhenAvailable(false),
+	isEnqueuedForPlayback(false) {
 	// ...
 }
 
@@ -47,29 +53,33 @@ bool AudioPlayerScript::IsMusic() const noexcept {
 	return isMusic;
 }
 
-bool AudioPlayerScript::Play() noexcept {
-	bool ret(false);
+bool AudioPlayerScript::Preload() noexcept {
 	if (engine) {
 		if (shared_ptr<IAudioDevice> default_audio_device = engine->GetDefaultAudioDevice()) {
-			shared_ptr<IAudioClip> audio_clip;
 			if (lastAudioDevice.expired() || !lastAudioClip || (lastAudioClip->IsMusic() != isMusic) || (lastAudioDevice.lock() != default_audio_device)) {
-				audio_clip = default_audio_device->LoadAudioClip(resourceID, isMusic);
+				lastAudioClip = default_audio_device->LoadAudioClip(resourceID, isMusic);
 				lastAudioDevice = default_audio_device;
-				lastAudioClip = audio_clip;
-			}
-			if (lastAudioClip) {
-				ret = lastAudioClip->Play();
 			}
 		}
 	}
-	return ret;
+	return static_cast<bool>(lastAudioClip);
 }
 
-void AudioPlayerScript::PlayWhenAvailable() noexcept {
+void AudioPlayerScript::PreloadWhenAvailable() noexcept {
+	isPreloadingWhenAvailable = true;
+}
+
+bool AudioPlayerScript::Play(float volume) noexcept {
+	this->volume = volume;
+	return Preload() && lastAudioClip->Play(volume);
+}
+
+void AudioPlayerScript::PlayWhenAvailable(float volume) noexcept {
 	if (engine) {
-		Play();
+		Play(volume);
 	}
 	else {
+		this->volume = volume;
 		isEnqueuedForPlayback = true;
 	}
 }
@@ -86,8 +96,13 @@ bool AudioPlayerScript::IsPlaying() const noexcept {
 void AudioPlayerScript::OnEnable(Engine& engine) {
 	this->engine = &engine;
 	if (isEnqueuedForPlayback) {
+		isPreloadingWhenAvailable = false;
 		isEnqueuedForPlayback = false;
-		Play();
+		Play(volume);
+	}
+	else if (isPreloadingWhenAvailable) {
+		isPreloadingWhenAvailable = false;
+		Preload();
 	}
 }
 
@@ -96,7 +111,7 @@ void AudioPlayerScript::OnDisable(Engine& engine) {
 	this->engine = nullptr;
 }
 
-void AudioPlayerScript::OnGameTick(Engine& engine, high_resolution_clock::duration deltaTime) {
+void AudioPlayerScript::OnGameTick(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	if (lastAudioClip) {
 		lastAudioClip->Update();
 	}

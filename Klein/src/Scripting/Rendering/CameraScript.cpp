@@ -36,7 +36,7 @@ void CameraScript::SetCameraZoom(float cameraZoom) noexcept {
 	this->cameraZoom = cameraZoom;
 }
 
-void CameraScript::OnFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
+void CameraScript::OnFrameRender(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	if (cameraIndex >= engine.GetRenderingContexts().size()) {
 		engine.GetRenderingContexts().resize(cameraIndex + static_cast<size_t>(1U));
 	}

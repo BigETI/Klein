@@ -21,7 +21,7 @@ namespace Klein::Scripting::Rendering {
 
 	protected:
 
-		KLEIN_API virtual void OnFrameRender(Klein::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime) override;
+		KLEIN_API virtual void OnFrameRender(Klein::Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime) override;
 
 	private:
 

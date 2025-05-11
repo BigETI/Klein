@@ -23,8 +23,10 @@ namespace Klein::Scripting::Audio {
 		KLEIN_API void SetResourceID(const Klein::ResourceManagement::ResourceID& resourceID, bool isMusic) noexcept;
 		KLEIN_API void SetResourceID(Klein::ResourceManagement::ResourceID&& resourceID, bool isMusic) noexcept;
 		KLEIN_API bool IsMusic() const noexcept;
-		KLEIN_API bool Play() noexcept;
-		KLEIN_API void PlayWhenAvailable() noexcept;
+		KLEIN_API bool Preload() noexcept;
+		KLEIN_API void PreloadWhenAvailable() noexcept;
+		KLEIN_API bool Play(float volume = 1.0f) noexcept;
+		KLEIN_API void PlayWhenAvailable(float volume = 1.0f) noexcept;
 		KLEIN_API bool Stop() noexcept;
 		KLEIN_API bool IsPlaying() const noexcept;
 
@@ -32,13 +34,15 @@ namespace Klein::Scripting::Audio {
 
 		KLEIN_API virtual void OnEnable(Klein::Engine& engine) override;
 		KLEIN_API virtual void OnDisable(Klein::Engine& engine) override;
-		KLEIN_API virtual void OnGameTick(Klein::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime) override;
+		KLEIN_API virtual void OnGameTick(Klein::Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime) override;
 
 	private:
 
 		Klein::Engine* engine;
 		Klein::ResourceManagement::ResourceID resourceID;
 		bool isMusic;
+		float volume;
+		bool isPreloadingWhenAvailable;
 		bool isEnqueuedForPlayback;
 		std::weak_ptr<Klein::Audio::IAudioDevice> lastAudioDevice;
 		std::shared_ptr<Klein::Audio::IAudioClip> lastAudioClip;

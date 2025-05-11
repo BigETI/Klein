@@ -190,9 +190,9 @@ namespace Klein::SceneManagement {
 			return ret;
 		}
 		KLEIN_API void RemoveAllScripts();
-		KLEIN_API void GameTickScripts(Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
-		KLEIN_API void BeforeFrameRenderScripts(Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
-		KLEIN_API void FrameRenderScripts(Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
+		KLEIN_API void GameTickScripts(Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime);
+		KLEIN_API void BeforeFrameRenderScripts(Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime);
+		KLEIN_API void FrameRenderScripts(Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime);
 		KLEIN_API void Destroy();
 
 		Node& operator =(const Node&) = delete;

@@ -42,7 +42,7 @@ Node& Script::GetNode() noexcept {
 	return *node;
 }
 
-void Script::InitializeOrGameTick(Engine& engine, high_resolution_clock::duration deltaTime) {
+void Script::InitializeOrGameTick(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	if (!isInitialized) {
 		this->engine = &engine;
 		isInitialized = true;
@@ -59,7 +59,7 @@ void Script::InitializeOrGameTick(Engine& engine, high_resolution_clock::duratio
 	}
 }
 
-void Script::InitializeOrBeforeFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
+void Script::InitializeOrBeforeFrameRender(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	if (!isInitialized) {
 		this->engine = &engine;
 		isInitialized = true;
@@ -76,7 +76,7 @@ void Script::InitializeOrBeforeFrameRender(Engine& engine, high_resolution_clock
 	}
 }
 
-void Script::InitializeOrFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
+void Script::InitializeOrFrameRender(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	if (!isInitialized) {
 		this->engine = &engine;
 		isInitialized = true;
@@ -142,14 +142,14 @@ void Script::OnDisable(Engine& engine) {
 	// ...
 }
 
-void Script::OnGameTick(Engine& engine, high_resolution_clock::duration deltaTime) {
+void Script::OnGameTick(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	// ...
 }
 
-void Script::OnBeforeFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
+void Script::OnBeforeFrameRender(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	// ...
 }
 
-void Script::OnFrameRender(Engine& engine, high_resolution_clock::duration deltaTime) {
+void Script::OnFrameRender(Engine& engine, const high_resolution_clock::duration& deltaTime) {
 	// ...
 }

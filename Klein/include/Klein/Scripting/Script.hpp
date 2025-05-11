@@ -24,9 +24,9 @@ namespace Klein::Scripting {
 		Klein::EventSystem::Event<Klein::Engine&> OnDeinitialized;
 		Klein::EventSystem::Event<Klein::Engine&> OnEnabled;
 		Klein::EventSystem::Event<Klein::Engine&> OnDisabled;
-		Klein::EventSystem::Event<Klein::Engine&, std::chrono::high_resolution_clock::duration> OnGameTicked;
-		Klein::EventSystem::Event<Klein::Engine&, std::chrono::high_resolution_clock::duration> OnBeforeFrameRendered;
-		Klein::EventSystem::Event<Klein::Engine&, std::chrono::high_resolution_clock::duration> OnFrameRendered;
+		Klein::EventSystem::Event<Klein::Engine&, const std::chrono::high_resolution_clock::duration&> OnGameTicked;
+		Klein::EventSystem::Event<Klein::Engine&, const std::chrono::high_resolution_clock::duration&> OnBeforeFrameRendered;
+		Klein::EventSystem::Event<Klein::Engine&, const std::chrono::high_resolution_clock::duration&> OnFrameRendered;
 
 		KLEIN_API Script(Klein::SceneManagement::Node* node);
 
@@ -40,9 +40,9 @@ namespace Klein::Scripting {
 		KLEIN_API void SetEnabledState(bool enabledState) noexcept;
 		KLEIN_API const Klein::SceneManagement::Node& GetNode() const noexcept;
 		KLEIN_API Klein::SceneManagement::Node& GetNode() noexcept;
-		KLEIN_API void InitializeOrGameTick(Klein::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
-		KLEIN_API void InitializeOrBeforeFrameRender(Klein::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
-		KLEIN_API void InitializeOrFrameRender(Klein::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
+		KLEIN_API void InitializeOrGameTick(Klein::Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime);
+		KLEIN_API void InitializeOrBeforeFrameRender(Klein::Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime);
+		KLEIN_API void InitializeOrFrameRender(Klein::Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime);
 		KLEIN_API void Deinitialize();
 		KLEIN_API void Enable();
 		KLEIN_API void Disable();
@@ -56,9 +56,9 @@ namespace Klein::Scripting {
 		KLEIN_API virtual void OnDeinitialize(Klein::Engine& engine);
 		KLEIN_API virtual void OnEnable(Klein::Engine& engine);
 		KLEIN_API virtual void OnDisable(Klein::Engine& engine);
-		KLEIN_API virtual void OnGameTick(Klein::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
-		KLEIN_API virtual void OnBeforeFrameRender(Klein::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
-		KLEIN_API virtual void OnFrameRender(Klein::Engine& engine, std::chrono::high_resolution_clock::duration deltaTime);
+		KLEIN_API virtual void OnGameTick(Klein::Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime);
+		KLEIN_API virtual void OnBeforeFrameRender(Klein::Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime);
+		KLEIN_API virtual void OnFrameRender(Klein::Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime);
 
 	private:
 
