@@ -20,7 +20,7 @@ namespace Klein::Audio::Raylib {
 
 		KLEIN_API virtual ~RaylibAudioDevice() noexcept override;
 
-		KLEIN_API virtual std::shared_ptr<Klein::Audio::IAudioClip> LoadAudioClip(const Klein::ResourceManagement::ResourceID& resourceID, bool isMusic) noexcept override;
+		KLEIN_API virtual std::shared_ptr<Klein::Audio::IAudioClip> LoadAudioClip(const Klein::ResourceManagement::ResourceID& resourceID, bool isMusic, bool isUsingCache = true) noexcept override;
 
 		RaylibAudioDevice& operator=(const RaylibAudioDevice&) = delete;
 		RaylibAudioDevice& operator=(RaylibAudioDevice&&) = delete;

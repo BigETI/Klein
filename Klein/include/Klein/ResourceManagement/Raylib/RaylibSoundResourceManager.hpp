@@ -15,9 +15,10 @@ namespace Klein::ResourceManagement::Raylib {
 		KLEIN_API RaylibSoundResourceManager();
 		KLEIN_API virtual ~RaylibSoundResourceManager() noexcept override;
 
+		KLEIN_API virtual bool TryLoadingResource(const Klein::ResourceManagement::ResourceID& resourceID, std::shared_ptr<Sound>& result) noexcept override;
+
 	protected:
 
-		KLEIN_API virtual bool TryLoadingResource(const Klein::ResourceManagement::ResourceID& resourceID, std::shared_ptr<Sound>& result) noexcept override;
 		KLEIN_API virtual void UnloadResource(const std::shared_ptr<Sound>& resource) noexcept override;
 	};
 }

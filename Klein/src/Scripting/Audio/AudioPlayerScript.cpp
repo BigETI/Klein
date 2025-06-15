@@ -25,6 +25,7 @@ AudioPlayerScript::AudioPlayerScript(Node* node) :
 	Script(node),
 	engine(nullptr),
 	isMusic(false),
+	isUsingCache(true),
 	volume(1.0f),
 	isPreloadingWhenAvailable(false),
 	isEnqueuedForPlayback(false) {
@@ -39,14 +40,16 @@ const ResourceID& AudioPlayerScript::GetResourceID() const noexcept {
 	return resourceID;
 }
 
-void AudioPlayerScript::SetResourceID(const ResourceID& resourceID, bool isMusic) noexcept {
+void AudioPlayerScript::SetResourceID(const ResourceID& resourceID, bool isMusic, bool isUsingCache) noexcept {
 	this->resourceID = resourceID;
 	this->isMusic = isMusic;
+	this->isUsingCache = isUsingCache;
 }
 
-void AudioPlayerScript::SetResourceID(ResourceID&& resourceID, bool isMusic) noexcept {
+void AudioPlayerScript::SetResourceID(ResourceID&& resourceID, bool isMusic, bool isUsingCache) noexcept {
 	this->resourceID = std::move(resourceID);
 	this->isMusic = isMusic;
+	this->isUsingCache = isUsingCache;
 }
 
 bool AudioPlayerScript::IsMusic() const noexcept {
@@ -57,7 +60,7 @@ bool AudioPlayerScript::Preload() noexcept {
 	if (engine) {
 		if (shared_ptr<IAudioDevice> default_audio_device = engine->GetDefaultAudioDevice()) {
 			if (lastAudioDevice.expired() || !lastAudioClip || (lastAudioClip->IsMusic() != isMusic) || (lastAudioDevice.lock() != default_audio_device)) {
-				lastAudioClip = default_audio_device->LoadAudioClip(resourceID, isMusic);
+				lastAudioClip = default_audio_device->LoadAudioClip(resourceID, isMusic, isUsingCache);
 				lastAudioDevice = default_audio_device;
 			}
 		}

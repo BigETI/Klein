@@ -20,8 +20,8 @@ namespace Klein::Scripting::Audio {
 		KLEIN_API virtual ~AudioPlayerScript() noexcept;
 
 		KLEIN_API const Klein::ResourceManagement::ResourceID& GetResourceID() const noexcept;
-		KLEIN_API void SetResourceID(const Klein::ResourceManagement::ResourceID& resourceID, bool isMusic) noexcept;
-		KLEIN_API void SetResourceID(Klein::ResourceManagement::ResourceID&& resourceID, bool isMusic) noexcept;
+		KLEIN_API void SetResourceID(const Klein::ResourceManagement::ResourceID& resourceID, bool isMusic, bool isUsingCache = true) noexcept;
+		KLEIN_API void SetResourceID(Klein::ResourceManagement::ResourceID&& resourceID, bool isMusic, bool isUsingCache = true) noexcept;
 		KLEIN_API bool IsMusic() const noexcept;
 		KLEIN_API bool Preload() noexcept;
 		KLEIN_API void PreloadWhenAvailable() noexcept;
@@ -41,6 +41,7 @@ namespace Klein::Scripting::Audio {
 		Klein::Engine* engine;
 		Klein::ResourceManagement::ResourceID resourceID;
 		bool isMusic;
+		bool isUsingCache;
 		float volume;
 		bool isPreloadingWhenAvailable;
 		bool isEnqueuedForPlayback;

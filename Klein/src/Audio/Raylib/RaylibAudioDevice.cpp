@@ -30,7 +30,7 @@ RaylibAudioDevice::~RaylibAudioDevice() noexcept {
 	CloseAudioDevice();
 }
 
-shared_ptr<IAudioClip> RaylibAudioDevice::LoadAudioClip(const ResourceID& resourceID, bool isMusic) noexcept {
+shared_ptr<IAudioClip> RaylibAudioDevice::LoadAudioClip(const ResourceID& resourceID, bool isMusic, bool isUsingCache) noexcept {
 	shared_ptr<IAudioClip> ret;
 	if (IsAudioDeviceReady()) {
 		if (isMusic) {
@@ -42,7 +42,7 @@ shared_ptr<IAudioClip> RaylibAudioDevice::LoadAudioClip(const ResourceID& resour
 		}
 		else {
 			shared_ptr<Sound> sound;
-			if (raylibSoundResourceManager.TryGettingResource(resourceID, sound)) {
+			if (isUsingCache ? raylibSoundResourceManager.TryGettingResource(resourceID, sound) : raylibSoundResourceManager.TryLoadingResource(resourceID, sound)) {
 				ret = make_shared<RaylibAudioClip>(sound);
 			}
 		}
