@@ -26,6 +26,7 @@ add_library (KleinStatic STATIC
 	"src/Rendering/RenderingContext.cpp"
 	"src/Rendering/RenderingContextElement.cpp"
 	"src/ResourceManagement/FileSystem.cpp"
+	"src/ResourceManagement/Raylib/RaylibFontResourceManager.cpp"
 	"src/ResourceManagement/Raylib/RaylibSoundResourceManager.cpp"
 	"src/ResourceManagement/Raylib/RaylibTexture2DResourceManager.cpp"
 	"src/SceneManagement/Node.cpp"
@@ -35,6 +36,8 @@ add_library (KleinStatic STATIC
 	"src/Scripting/Rendering/CameraScript.cpp"
 	"src/Scripting/Rendering/SpriteRendererScript.cpp"
 	"src/Scripting/Script.cpp"
+	"src/Scripting/UI/CanvasScript.cpp"
+	"src/Scripting/UI/UIElementScript.cpp"
 )
 
 set_property (TARGET KleinStatic
@@ -77,6 +80,7 @@ add_library (Klein SHARED
 	"src/Rendering/RenderingContext.cpp"
 	"src/Rendering/RenderingContextElement.cpp"
 	"src/ResourceManagement/FileSystem.cpp"
+	"src/ResourceManagement/Raylib/RaylibFontResourceManager.cpp"
 	"src/ResourceManagement/Raylib/RaylibSoundResourceManager.cpp"
 	"src/ResourceManagement/Raylib/RaylibTexture2DResourceManager.cpp"
 	"src/SceneManagement/Node.cpp"
@@ -86,6 +90,8 @@ add_library (Klein SHARED
 	"src/Scripting/Rendering/CameraScript.cpp"
 	"src/Scripting/Rendering/SpriteRendererScript.cpp"
 	"src/Scripting/Script.cpp"
+	"src/Scripting/UI/CanvasScript.cpp"
+	"src/Scripting/UI/UIElementScript.cpp"
 )
 
 set_property (TARGET Klein

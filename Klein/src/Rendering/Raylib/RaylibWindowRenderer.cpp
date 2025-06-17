@@ -51,8 +51,14 @@ const size_t RaylibWindowRenderer::GetHeight() const noexcept {
 void RaylibWindowRenderer::Render(const RenderingContext& renderingContext, const high_resolution_clock::duration& deltaTime) {
 	if (IsWindowReady()) {
 		Klein::Math::Vector2<float> camera_position(renderingContext.GetCameraPosition());
-		camera.target = { camera_position.x, -camera_position.y };
-		camera.offset = { GetRenderWidth() * 0.5f, GetRenderHeight() * 0.5f };
+		camera.target = {
+			camera_position.x,
+			-camera_position.y
+		};
+		camera.offset = {
+			GetRenderWidth() * 0.5f,
+			GetRenderHeight() * 0.5f
+		};
 		camera.rotation = renderingContext.GetCameraRotation();
 		camera.zoom = renderingContext.GetCameraZoom();
 		BeginDrawing();
@@ -60,23 +66,55 @@ void RaylibWindowRenderer::Render(const RenderingContext& renderingContext, cons
 		BeginMode2D(camera);
 		for (const auto& rendering_context_element : renderingContext) {
 			shared_ptr<Texture2D> texture_2d;
-			if (raylibTexture2DResourceManager.TryGettingResource(rendering_context_element->GetResourceID(), texture_2d)) {
-				Klein::Math::Rectangle<float> sourceRectangle(rendering_context_element->GetSourceRectangle());
-				Klein::Math::Vector2<float> position(rendering_context_element->GetPosition());
-				Klein::Math::Vector2<float> size(rendering_context_element->GetSize());
-				Klein::Math::Vector2<float> origin(rendering_context_element->GetPivot() * size);
-				Klein::Rendering::Color<uint8_t> color(rendering_context_element->GetColor());
+			Klein::Math::Vector2<float> position(rendering_context_element->GetPosition());
+			Klein::Math::Vector2<float> size(rendering_context_element->GetSize());
+			Klein::Math::Vector2<float> origin(rendering_context_element->GetPivot() * size);
+			Klein::Rendering::Color<uint8_t> color(rendering_context_element->GetColor());
+			if (rendering_context_element->IsTexture2DVisible() && raylibTexture2DResourceManager.TryGettingResource(rendering_context_element->GetTexture2DResourceID(), texture_2d)) {
+				Klein::Math::Rectangle<float> source_rectangle(rendering_context_element->GetSourceRectangle());
 				DrawTexturePro(
 					*texture_2d,
 					{
-						sourceRectangle.position.x * static_cast<float>(texture_2d->width),
-						sourceRectangle.position.y * static_cast<float>(texture_2d->height),
-						sourceRectangle.size.x * static_cast<float>(texture_2d->width),
-						sourceRectangle.size.y * static_cast<float>(texture_2d->height)
+						source_rectangle.position.x * static_cast<float>(texture_2d->width),
+						source_rectangle.position.y * static_cast<float>(texture_2d->height),
+						source_rectangle.size.x * static_cast<float>(texture_2d->width),
+						source_rectangle.size.y * static_cast<float>(texture_2d->height)
 					},
-					{ position.x, -position.y, size.x, size.y },
-					{ origin.x, origin.y },
+					{
+						position.x,
+						-position.y,
+						size.x,
+						size.y
+					},
+					{
+						origin.x,
+						origin.y
+					},
 					-rendering_context_element->GetRotation(),
+					{
+						static_cast<unsigned char>(color.red),
+						static_cast<unsigned char>(color.green),
+						static_cast<unsigned char>(color.blue),
+						static_cast<unsigned char>(color.alpha)
+					}
+				);
+			}
+			shared_ptr<Font> font;
+			if (rendering_context_element->IsTextVisible() && !rendering_context_element->GetText().empty() && raylibFontResourceManager.TryGettingResource(rendering_context_element->GetFontResourceID(), font)) {
+				DrawTextPro(
+					*font,
+					rendering_context_element->GetText().c_str(),
+					{
+						position.x,
+						-position.y,
+					},
+					{
+						origin.x,
+						origin.y
+					},
+					-rendering_context_element->GetRotation(),
+					rendering_context_element->GetTextFontSize(),
+					rendering_context_element->GetTextSpacing(),
 					{
 						static_cast<unsigned char>(color.red),
 						static_cast<unsigned char>(color.green),

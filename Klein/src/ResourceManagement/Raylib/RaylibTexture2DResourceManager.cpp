@@ -6,12 +6,14 @@
 #include <raylib.h>
 
 #include <Klein/ResourceManagement/FileSystem.hpp>
+#include <Klein/ResourceManagement/AResourceManager.hpp>
 #include <Klein/ResourceManagement/Raylib/RaylibTexture2DResourceManager.hpp>
 #include <Klein/ResourceManagement/ResourceID.hpp>
 
 using namespace std;
 using namespace std::filesystem;
 
+using namespace Klein::ResourceManagement;
 using namespace Klein::ResourceManagement::Raylib;
 
 RaylibTexture2DResourceManager::RaylibTexture2DResourceManager() : AResourceManager<Texture2D>(), invalidTexture2D(make_shared<Texture2D>(Texture2D({ 0 }))) {

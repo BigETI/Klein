@@ -20,85 +20,153 @@ RenderingContextElement::RenderingContextElement() : rotation(0.0f), layerIndex(
 }
 
 RenderingContextElement::RenderingContextElement(
-	const ResourceID& resourceID,
+	bool isTexture2DVisible,
+	bool isTextVisible,
+	const ResourceID& texture2DResourceID,
+	const ResourceID& fontResourceID,
 	const Rectangle<float>& sourceRectangle,
 	const Vector2<float>& position,
 	float rotation,
 	const Vector2<float>& size,
 	const Vector2<float>& pivot,
 	const Color<uint8_t>& color,
+	const string& text,
+	float textFontSize,
+	float textSpacing,
 	unsigned int layerIndex
 ) :
-	resourceID(resourceID),
+	isTexture2DVisible(isTexture2DVisible),
+	isTextVisible(isTextVisible),
+	texture2DResourceID(texture2DResourceID),
+	fontResourceID(fontResourceID),
 	sourceRectangle(sourceRectangle),
 	position(position),
 	rotation(rotation),
 	size(size),
 	pivot(pivot),
 	color(color),
+	text(text),
+	textFontSize(textFontSize),
+	textSpacing(textSpacing),
 	layerIndex(layerIndex) {
 	// ...
 }
 
 RenderingContextElement::RenderingContextElement(
-	ResourceID&& resourceID,
+	bool isTexture2DVisible,
+	bool isTextVisible,
+	ResourceID&& texture2DResourceID,
+	ResourceID&& fontResourceID,
 	Rectangle<float>&& sourceRectangle,
 	Vector2<float>&& position,
 	float rotation,
 	Vector2<float>&& size,
 	Vector2<float>&& pivot,
 	Color<uint8_t>&& color,
+	string&& text,
+	float textFontSize,
+	float textSpacing,
 	unsigned int layerIndex
 ) noexcept :
-	resourceID(resourceID),
+	isTexture2DVisible(isTexture2DVisible),
+	isTextVisible(isTextVisible),
+	texture2DResourceID(texture2DResourceID),
+	fontResourceID(fontResourceID),
 	sourceRectangle(sourceRectangle),
 	position(position),
 	rotation(rotation),
 	size(size),
 	pivot(pivot),
 	color(color),
+	text(text),
+	textFontSize(textFontSize),
+	textSpacing(textSpacing),
 	layerIndex(layerIndex) {
 	// ...
 }
 
 RenderingContextElement::RenderingContextElement(const RenderingContextElement& renderingContextElement) :
-	resourceID(renderingContextElement.resourceID),
+	isTexture2DVisible(renderingContextElement.isTexture2DVisible),
+	isTextVisible(renderingContextElement.isTextVisible),
+	texture2DResourceID(renderingContextElement.texture2DResourceID),
+	fontResourceID(renderingContextElement.fontResourceID),
 	sourceRectangle(renderingContextElement.sourceRectangle),
 	position(renderingContextElement.position),
 	rotation(renderingContextElement.rotation),
 	size(renderingContextElement.size),
 	pivot(renderingContextElement.pivot),
 	color(renderingContextElement.color),
+	text(renderingContextElement.text),
+	textFontSize(renderingContextElement.textFontSize),
+	textSpacing(renderingContextElement.textSpacing),
 	layerIndex(renderingContextElement.layerIndex) {
 	// ...
 }
 
 RenderingContextElement::RenderingContextElement(RenderingContextElement&& renderingContextElement) noexcept :
-	resourceID(std::move(renderingContextElement.resourceID)),
+	isTexture2DVisible(std::move(renderingContextElement.isTexture2DVisible)),
+	isTextVisible(std::move(renderingContextElement.isTextVisible)),
+	texture2DResourceID(std::move(renderingContextElement.texture2DResourceID)),
+	fontResourceID(std::move(renderingContextElement.fontResourceID)),
 	sourceRectangle(std::move(renderingContextElement.sourceRectangle)),
 	position(std::move(renderingContextElement.position)),
 	rotation(std::move(renderingContextElement.rotation)),
 	size(std::move(renderingContextElement.size)),
 	pivot(std::move(renderingContextElement.pivot)),
 	color(std::move(renderingContextElement.color)),
+	text(std::move(renderingContextElement.text)),
+	textFontSize(std::move(renderingContextElement.textFontSize)),
+	textSpacing(std::move(renderingContextElement.textSpacing)),
 	layerIndex(std::move(renderingContextElement.layerIndex)) {
 	// ...
 }
 
-const ResourceID& RenderingContextElement::GetResourceID() const noexcept {
-	return resourceID;
+bool RenderingContextElement::IsTexture2DVisible() const noexcept {
+	return isTexture2DVisible;
 }
 
-ResourceID& RenderingContextElement::GetResourceID(ResourceID& result) const {
-	return result = resourceID;
+void RenderingContextElement::SetTexture2DVisibility(bool isTexture2DVisible) noexcept {
+	this->isTexture2DVisible = isTexture2DVisible;
 }
 
-void RenderingContextElement::SetResourceID(const ResourceID& resourceID) {
-	this->resourceID = resourceID;
+bool RenderingContextElement::IsTextVisible() const noexcept {
+	return isTextVisible;
 }
 
-void RenderingContextElement::SetResourceID(ResourceID&& resourceID) noexcept {
-	this->resourceID = resourceID;
+void RenderingContextElement::SetTextVisibility(bool isTextVisible) noexcept {
+	this->isTextVisible = isTextVisible;
+}
+
+const ResourceID& RenderingContextElement::GetTexture2DResourceID() const noexcept {
+	return texture2DResourceID;
+}
+
+ResourceID& RenderingContextElement::GetTexture2DResourceID(ResourceID& result) const {
+	return result = texture2DResourceID;
+}
+
+void RenderingContextElement::SetTexture2DResourceID(const ResourceID& texture2DResourceID) {
+	this->texture2DResourceID = texture2DResourceID;
+}
+
+void RenderingContextElement::SetTexture2DResourceID(ResourceID&& texture2DResourceID) noexcept {
+	this->texture2DResourceID = texture2DResourceID;
+}
+
+const ResourceID& RenderingContextElement::GetFontResourceID() const noexcept {
+	return fontResourceID;
+}
+
+ResourceID& RenderingContextElement::GetFontResourceID(ResourceID& result) const {
+	return result = fontResourceID;
+}
+
+void RenderingContextElement::SetFontResourceID(const ResourceID& fontResourceID) {
+	this->fontResourceID = fontResourceID;
+}
+
+void RenderingContextElement::SetFontResourceID(ResourceID&& fontResourceID) noexcept {
+	this->fontResourceID = fontResourceID;
 }
 
 const Rectangle<float>& RenderingContextElement::GetSourceRectangle() const noexcept {
@@ -123,6 +191,38 @@ float RenderingContextElement::GetRotation() const noexcept {
 
 void RenderingContextElement::SetRotation(float rotation) noexcept {
 	this->rotation = rotation;
+}
+
+const string& RenderingContextElement::GetText() const noexcept {
+	return text;
+}
+
+string& RenderingContextElement::GetText(std::string& result) const {
+	return result = text;
+}
+
+void RenderingContextElement::SetText(const string& text) {
+	this->text = text;
+}
+
+void RenderingContextElement::SetText(string&& text) noexcept {
+	this->text = text;
+}
+
+float RenderingContextElement::GetTextFontSize() const noexcept {
+	return textFontSize;
+}
+
+void RenderingContextElement::SetTextFontSize(float textFontSize) noexcept {
+	this->textFontSize = textFontSize;
+}
+
+float RenderingContextElement::GetTextSpacing() const noexcept {
+	return textSpacing;
+}
+
+void RenderingContextElement::SetTextSpacing(float textSpacing) noexcept {
+	this->textSpacing = textSpacing;
 }
 
 unsigned int RenderingContextElement::GetLayerIndex() const noexcept {
@@ -158,23 +258,35 @@ void RenderingContextElement::SetLayerIndex(unsigned int layerIndex) noexcept {
 }
 
 RenderingContextElement& RenderingContextElement::operator =(const RenderingContextElement& renderingContextElement) {
-	resourceID = renderingContextElement.resourceID;
+	isTexture2DVisible = renderingContextElement.isTexture2DVisible;
+	isTextVisible = renderingContextElement.isTextVisible;
+	texture2DResourceID = renderingContextElement.texture2DResourceID;
+	fontResourceID = renderingContextElement.fontResourceID;
 	position = renderingContextElement.position;
 	rotation = renderingContextElement.rotation;
 	size = renderingContextElement.size;
 	pivot = renderingContextElement.pivot;
 	color = renderingContextElement.color;
+	text = renderingContextElement.text;
+	textFontSize = renderingContextElement.textFontSize;
+	textSpacing = renderingContextElement.textSpacing;
 	layerIndex = renderingContextElement.layerIndex;
 	return *this;
 }
 
 RenderingContextElement& RenderingContextElement::operator =(RenderingContextElement&& renderingContextElement) noexcept {
-	resourceID = std::move(renderingContextElement.resourceID);
+	isTexture2DVisible = std::move(renderingContextElement.isTexture2DVisible);
+	isTextVisible = std::move(renderingContextElement.isTextVisible);
+	texture2DResourceID = std::move(renderingContextElement.texture2DResourceID);
+	fontResourceID = std::move(renderingContextElement.fontResourceID);
 	position = std::move(renderingContextElement.position);
 	rotation = std::move(renderingContextElement.rotation);
 	size = std::move(renderingContextElement.size);
 	pivot = std::move(renderingContextElement.pivot);
 	color = std::move(renderingContextElement.color);
+	text = std::move(renderingContextElement.text);
+	textFontSize = std::move(renderingContextElement.textFontSize);
+	textSpacing = std::move(renderingContextElement.textSpacing);
 	layerIndex = std::move(renderingContextElement.layerIndex);
 	return *this;
 }

@@ -28,6 +28,9 @@ SpriteRendererScript::SpriteRendererScript(Node* node) :
 	Script(node),
 	renderingContextElement(
 		make_shared<RenderingContextElement>(
+			true,
+			true,
+			string(),
 			string(),
 			Rectangle<float>(Vector2<float>(0.0f, 0.0f), Vector2<float>(1.0f, 1.0f)),
 			Vector2<float>(),
@@ -35,6 +38,9 @@ SpriteRendererScript::SpriteRendererScript(Node* node) :
 			Vector2<float>(1.0f, 1.0f),
 			Vector2<float>(0.5f, 0.5f),
 			Color<uint8_t>(0xFF, 0xFF, 0xFF, 0xFF),
+			string(),
+			1.0f,
+			0.2f,
 			0U
 		)
 	) {
@@ -49,20 +55,52 @@ shared_ptr<RenderingContextElement>& SpriteRendererScript::GetRenderingContextEl
 	return renderingContextElement;
 }
 
-const ResourceID& SpriteRendererScript::GetResourceID() const noexcept {
-	return renderingContextElement->GetResourceID();
+bool SpriteRendererScript::IsTexture2DVisible() const noexcept {
+	return renderingContextElement->IsTexture2DVisible();
 }
 
-ResourceID& SpriteRendererScript::GetResourcePath(ResourceID& result) const {
-	return result = renderingContextElement->GetResourceID();
+void SpriteRendererScript::SetTexture2DVisibility(bool isTexture2DVisible) noexcept {
+	renderingContextElement->SetTexture2DVisibility(isTexture2DVisible);
 }
 
-void SpriteRendererScript::SetResourceID(const ResourceID& resourceID) {
-	renderingContextElement->SetResourceID(resourceID);
+bool SpriteRendererScript::IsTextVisible() const noexcept {
+	return renderingContextElement->IsTextVisible();
 }
 
-void SpriteRendererScript::SetResourceID(ResourceID&& resourceID) noexcept {
-	renderingContextElement->SetResourceID(std::move(resourceID));
+void SpriteRendererScript::SetTextVisibility(bool isTextVisible) noexcept {
+	renderingContextElement->SetTextVisibility(isTextVisible);
+}
+
+const ResourceID& SpriteRendererScript::GetTexture2DResourceID() const noexcept {
+	return renderingContextElement->GetTexture2DResourceID();
+}
+
+ResourceID& SpriteRendererScript::GetTexture2DResourcePath(ResourceID& result) const {
+	return result = renderingContextElement->GetTexture2DResourceID();
+}
+
+void SpriteRendererScript::SetTexture2DResourceID(const ResourceID& texture2DResourceID) {
+	renderingContextElement->SetTexture2DResourceID(texture2DResourceID);
+}
+
+void SpriteRendererScript::SetTexture2DResourceID(ResourceID&& texture2DResourceID) noexcept {
+	renderingContextElement->SetTexture2DResourceID(std::move(texture2DResourceID));
+}
+
+const ResourceID& SpriteRendererScript::GetFontResourceID() const noexcept {
+	return renderingContextElement->GetFontResourceID();
+}
+
+ResourceID& SpriteRendererScript::GetFontResourcePath(Klein::ResourceManagement::ResourceID& result) const {
+	return result = renderingContextElement->GetFontResourceID();
+}
+
+void SpriteRendererScript::SetFontResourceID(const Klein::ResourceManagement::ResourceID& fontResourceID) {
+	renderingContextElement->SetFontResourceID(fontResourceID);
+}
+
+void SpriteRendererScript::SetFontResourceID(Klein::ResourceManagement::ResourceID&& fontResourceID) noexcept {
+	renderingContextElement->SetFontResourceID(fontResourceID);
 }
 
 const Rectangle<float>& SpriteRendererScript::GetSourceRectangle() const noexcept {
@@ -87,6 +125,38 @@ const Color<uint8_t>& SpriteRendererScript::GetColor() const noexcept {
 
 void SpriteRendererScript::SetColor(const Color<uint8_t>& color) noexcept {
 	renderingContextElement->SetColor(color);
+}
+
+const string& SpriteRendererScript::GetText() const noexcept {
+	return renderingContextElement->GetText();
+}
+
+string& SpriteRendererScript::GetText(string& result) const {
+	return renderingContextElement->GetText(result);
+}
+
+void SpriteRendererScript::SetText(const string& text) {
+	renderingContextElement->SetText(text);
+}
+
+void SpriteRendererScript::SetText(string&& text) noexcept {
+	renderingContextElement->SetText(text);
+}
+
+float SpriteRendererScript::GetTextFontSize() const noexcept {
+	return renderingContextElement->GetTextFontSize();
+}
+
+void SpriteRendererScript::SetTextFontSize(float textFontSize) noexcept {
+	renderingContextElement->SetTextFontSize(textFontSize);
+}
+
+float SpriteRendererScript::GetTextSpacing() const noexcept {
+	return renderingContextElement->GetTextSpacing();
+}
+
+void SpriteRendererScript::SetTextSpacing(float textSpacing) noexcept {
+	renderingContextElement->SetTextSpacing(textSpacing);
 }
 
 unsigned int SpriteRendererScript::GetLayerIndex() const noexcept {

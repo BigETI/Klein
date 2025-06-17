@@ -7,6 +7,7 @@
 #include <raylib.h>
 
 #include "../../Exportables/Exportable.hxx"
+#include "../../ResourceManagement/Raylib/RaylibFontResourceManager.hpp"
 #include "../../ResourceManagement/Raylib/RaylibTexture2DResourceManager.hpp"
 #include "../IRenderer.hpp"
 #include "../RenderingContext.hpp"
@@ -38,5 +39,6 @@ namespace Klein::Rendering::Raylib {
 		std::size_t height;
 		Camera2D camera;
 		Klein::ResourceManagement::Raylib::RaylibTexture2DResourceManager raylibTexture2DResourceManager;
+		Klein::ResourceManagement::Raylib::RaylibFontResourceManager raylibFontResourceManager;
 	};
 }

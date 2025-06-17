@@ -6,6 +6,7 @@
 #include <raylib.h>
 
 #include <Klein/ResourceManagement/FileSystem.hpp>
+#include <Klein/ResourceManagement/AResourceManager.hpp>
 #include <Klein/ResourceManagement/Raylib/RaylibSoundResourceManager.hpp>
 #include <Klein/ResourceManagement/ResourceID.hpp>
 
