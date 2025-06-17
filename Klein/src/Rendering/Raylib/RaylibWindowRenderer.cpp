@@ -1,7 +1,5 @@
 #include <chrono>
 #include <cstddef>
-#include <cmath>
-#include <iostream>
 #include <stdexcept>
 #include <string>
 
@@ -55,9 +53,10 @@ void RaylibWindowRenderer::Render(const RenderingContext& renderingContext, cons
 			camera_position.x,
 			-camera_position.y
 		};
+		::Vector2 window_scale_dpi(GetWindowScaleDPI());
 		camera.offset = {
-			GetRenderWidth() * 0.5f,
-			GetRenderHeight() * 0.5f
+			GetRenderWidth() * (0.5f / window_scale_dpi.x),
+			GetRenderHeight() * (0.5f / window_scale_dpi.y)
 		};
 		camera.rotation = renderingContext.GetCameraRotation();
 		camera.zoom = renderingContext.GetCameraZoom();
