@@ -68,16 +68,24 @@ const vector<shared_ptr<Node>>& Engine::GetScenes() const noexcept {
 	return scenes;
 }
 
-vector<shared_ptr<Node>>& Engine::GetScenes(vector<shared_ptr<Node>>& result) const {
-	return result = scenes;
-}
-
 const vector<RenderingContext>& Engine::GetRenderingContexts() const noexcept {
 	return renderingContexts;
 }
 
 vector<RenderingContext>& Engine::GetRenderingContexts() noexcept {
 	return renderingContexts;
+}
+
+const vector<shared_ptr<IRenderer>>& Engine::GetRenderers() const noexcept {
+	return renderers;
+}
+
+const vector<shared_ptr<IAudioDevice>>& Engine::GetAudioDevices() const noexcept {
+	return audioDevices;
+}
+
+const vector<shared_ptr<IInputHandler>>& Engine::GetInputHandlers() const noexcept {
+	return inputHandlers;
 }
 
 int Engine::Start() {

@@ -45,11 +45,11 @@ namespace Klein {
 			std::vector<Klein::InputSystem::InputEvent>& result
 		) const;
 		KLEIN_API const std::vector<std::shared_ptr<Klein::SceneManagement::Node>>& GetScenes() const noexcept;
-		KLEIN_API std::vector<std::shared_ptr<Klein::SceneManagement::Node>>& GetScenes(
-			std::vector<std::shared_ptr<Klein::SceneManagement::Node>>& result
-		) const;
 		KLEIN_API const std::vector<Klein::Rendering::RenderingContext>& GetRenderingContexts() const noexcept;
 		KLEIN_API std::vector<Klein::Rendering::RenderingContext>& GetRenderingContexts() noexcept;
+		KLEIN_API const std::vector<std::shared_ptr<Klein::Rendering::IRenderer>>& GetRenderers() const noexcept;
+		KLEIN_API const std::vector<std::shared_ptr<Klein::Audio::IAudioDevice>>& GetAudioDevices() const noexcept;
+		KLEIN_API const std::vector<std::shared_ptr<Klein::InputSystem::IInputHandler>>& GetInputHandlers() const noexcept;
 		KLEIN_API int GetExitCode();
 		KLEIN_API int Start();
 		KLEIN_API void Stop();
@@ -68,7 +68,7 @@ namespace Klein {
 		KLEIN_API bool AddRenderer(const std::shared_ptr<Klein::Rendering::IRenderer>& renderer);
 		KLEIN_API bool RemoveRenderer(const std::shared_ptr<Klein::Rendering::IRenderer>& renderer);
 		KLEIN_API void ClearRenderers() noexcept;
-		
+
 		KLEIN_API bool AddAudioDevice(const std::shared_ptr<Klein::Audio::IAudioDevice>& audioDevice);
 		KLEIN_API bool RemoveAudioDevice(const std::shared_ptr<Klein::Audio::IAudioDevice>& audioDevice);
 		KLEIN_API void ClearAudioDevices() noexcept;
