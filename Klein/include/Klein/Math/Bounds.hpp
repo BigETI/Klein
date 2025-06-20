@@ -63,6 +63,10 @@ namespace Klein::Math {
 				((top <= bounds.bottom) || (bottom <= bounds.bottom));
 		}
 
+		constexpr inline Vector2<TComponent> GetClampedPosition(const Vector2<TComponent>& position) const noexcept {
+			return Vector2<TComponent>(std::clamp(position.x, left, right), std::clamp(position.y, top, bottom));
+		}
+
 		constexpr inline Bounds<TComponent> GetCorrected() const noexcept {
 			return Bounds<TComponent>(
 				std::min(top, bottom),
