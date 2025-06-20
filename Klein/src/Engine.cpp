@@ -13,6 +13,7 @@
 #include <Klein/Math/Ratio.hpp>
 #include <Klein/Rendering/IRenderer.hpp>
 #include <Klein/Rendering/RenderingContext.hpp>
+#include <Klein/ResourceManagement/FileSystem.hpp>
 #include <Klein/SceneManagement/Node.hpp>
 
 using namespace std;
@@ -25,6 +26,7 @@ using namespace Klein::Audio;
 using namespace Klein::InputSystem;
 using namespace Klein::Math;
 using namespace Klein::Rendering;
+using namespace Klein::ResourceManagement;
 using namespace Klein::SceneManagement;
 
 const Ratio<unsigned int> defaultTargetGameTickRate(1000U);
@@ -37,6 +39,12 @@ Engine::Engine(const span<const string> commandLineArguments) :
 	gameStartTimePoint(high_resolution_clock::time_point::min()),
 	defaultAudioDeviceIndex(static_cast<size_t>(0)),
 	exitCode(-1) {
+	if (commandLineArguments.size() > static_cast<size_t>(0)) {
+		path executable_path(commandLineArguments[static_cast<size_t>(0)]);
+		if (executable_path.is_absolute() && is_regular_file(executable_path) && executable_path.has_parent_path()) {
+			FileSystem::SetExecutableDirectoryPath(executable_path.parent_path());
+		}
+	}
 	renderingContexts.emplace_back();
 }
 
