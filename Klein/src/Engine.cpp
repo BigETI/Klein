@@ -2,6 +2,7 @@
 #include <chrono>
 #include <cstddef>
 #include <filesystem>
+#include <functional>
 #include <span>
 #include <string>
 #include <thread>
@@ -72,8 +73,8 @@ vector<InputEvent>& Engine::GetCurrentInputEvents(vector<InputEvent>& result) co
 	return result = currentInputEvents;
 }
 
-const vector<shared_ptr<Node>>& Engine::GetScenes() const noexcept {
-	return scenes;
+const vector<shared_ptr<Node>>& Engine::GetSceneNodes() const noexcept {
+	return sceneNodes;
 }
 
 const vector<RenderingContext>& Engine::GetRenderingContexts() const noexcept {
@@ -126,7 +127,7 @@ int Engine::Start() {
 						break;
 					}
 				}
-				for (const auto& scene : scenes) {
+				for (const auto& scene : sceneNodes) {
 					scene->GameTickScripts(*this, game_tick_time);
 				}
 			}
@@ -135,10 +136,10 @@ int Engine::Start() {
 			if ((frame_render_time + frame_render_time_debt) >= target_frame_render_time) {
 				last_rendered_frame_tick_time = now;
 				frame_render_time_debt += frame_render_time - target_frame_render_time;
-				for (const auto& scene : scenes) {
+				for (const auto& scene : sceneNodes) {
 					scene->BeforeFrameRenderScripts(*this, frame_render_time);
 				}
-				for (const auto& scene : scenes) {
+				for (const auto& scene : sceneNodes) {
 					scene->FrameRenderScripts(*this, frame_render_time);
 				}
 				for (auto& rendering_context : renderingContexts) {
@@ -172,27 +173,39 @@ void Engine::Stop(int exitCode) {
 	}
 }
 
-shared_ptr<Node> Engine::CreateNewEmptyScene() {
-	return CreateNewScene<Node>();
+shared_ptr<Node> Engine::CreateNewEmptySceneNode() {
+	shared_ptr<Node> ret(make_shared<Node>(Node::NullParent));
+	sceneNodes.push_back(ret);
+	return ret;
+}
+
+shared_ptr<Node> Engine::CreateNewSceneNode(const ResourceID& sceneResourceID) {
+	shared_ptr<Node> ret;
+	const auto& scene_factory_iterator(sceneLoaders.find(sceneResourceID.GetHash()));
+	if (scene_factory_iterator != sceneLoaders.end()) {
+		ret = Engine::CreateNewEmptySceneNode();
+		scene_factory_iterator->second->Load(*ret);
+	}
+	return ret;
 }
 
 bool Engine::RemoveScene(const shared_ptr<Node>& scene) {
-	const auto& it(find(scenes.begin(), scenes.end(), scene));
-	bool ret(it != scenes.end());
+	const auto& it(find(sceneNodes.begin(), sceneNodes.end(), scene));
+	bool ret(it != sceneNodes.end());
 	if (ret) {
 		scene->Destroy();
 		scene->FrameRenderScripts(*this, high_resolution_clock::duration::zero());
-		scenes.erase(it);
+		sceneNodes.erase(it);
 	}
 	return ret;
 }
 
 void Engine::ClearScenes() {
-	for (const auto& scene : scenes) {
+	for (const auto& scene : sceneNodes) {
 		scene->Destroy();
 		scene->FrameRenderScripts(*this, high_resolution_clock::duration::zero());
 	}
-	scenes.clear();
+	sceneNodes.clear();
 }
 
 bool Engine::AddRenderer(const shared_ptr<IRenderer>& renderer) {

@@ -7,6 +7,7 @@
 #include <memory>
 #include <span>
 #include <string>
+#include <type_traits>
 
 #include "Audio/IAudioDevice.hpp"
 #include "EventSystem/Event.hpp"
@@ -15,6 +16,7 @@
 #include "Math/Ratio.hpp"
 #include "Rendering/IRenderer.hpp"
 #include "Rendering/RenderingContext.hpp"
+#include "SceneManagement/ISceneLoader.hpp"
 #include "SceneManagement/Node.hpp"
 
 namespace Klein::SceneManagement {
@@ -44,7 +46,7 @@ namespace Klein {
 		KLEIN_API std::vector<Klein::InputSystem::InputEvent>& GetCurrentInputEvents(
 			std::vector<Klein::InputSystem::InputEvent>& result
 		) const;
-		KLEIN_API const std::vector<std::shared_ptr<Klein::SceneManagement::Node>>& GetScenes() const noexcept;
+		KLEIN_API const std::vector<std::shared_ptr<Klein::SceneManagement::Node>>& GetSceneNodes() const noexcept;
 		KLEIN_API const std::vector<Klein::Rendering::RenderingContext>& GetRenderingContexts() const noexcept;
 		KLEIN_API std::vector<Klein::Rendering::RenderingContext>& GetRenderingContexts() noexcept;
 		KLEIN_API const std::vector<std::shared_ptr<Klein::Rendering::IRenderer>>& GetRenderers() const noexcept;
@@ -55,13 +57,19 @@ namespace Klein {
 		KLEIN_API void Stop();
 		KLEIN_API void Stop(int exitCode);
 
-		KLEIN_API std::shared_ptr<Klein::SceneManagement::Node> CreateNewEmptyScene();
-		template <typename TNode>
-		constexpr inline std::shared_ptr<TNode> CreateNewScene() {
-			std::shared_ptr<TNode> ret(std::make_shared<TNode>(TNode::NullParent));
-			scenes.push_back(ret);
-			return ret;
+		KLEIN_API std::shared_ptr<Klein::SceneManagement::Node> CreateNewEmptySceneNode();
+		KLEIN_API std::shared_ptr<Klein::SceneManagement::Node> CreateNewSceneNode(const Klein::ResourceManagement::ResourceID& sceneResourceID);
+
+		template <typename TSceneLoader, typename... TArguments>
+		constexpr inline bool RegisterSceneLoader(const Klein::ResourceManagement::ResourceID& sceneResourceID, TArguments&&... arguments) {
+			static_assert(std::is_base_of<Klein::SceneManagement::ISceneLoader, TSceneLoader>::value, "Specified type must inherit from ISceneLoader.");
+			if (sceneLoaders.contains(sceneResourceID.GetHash())) {
+				return false;
+			}
+			sceneLoaders.insert_or_assign(sceneResourceID.GetHash(), std::make_shared<TSceneLoader>(std::forward<TArguments>(arguments)...));
+			return true;
 		}
+
 		KLEIN_API bool RemoveScene(const std::shared_ptr<Klein::SceneManagement::Node>& scene);
 		KLEIN_API void ClearScenes();
 
@@ -91,7 +99,8 @@ namespace Klein {
 		std::atomic_bool isGameRunning;
 		std::chrono::high_resolution_clock::time_point gameStartTimePoint;
 		std::vector<Klein::InputSystem::InputEvent> currentInputEvents;
-		std::vector<std::shared_ptr<Klein::SceneManagement::Node>> scenes;
+		std::vector<std::shared_ptr<Klein::SceneManagement::Node>> sceneNodes;
+		std::unordered_map<std::size_t, std::shared_ptr<Klein::SceneManagement::ISceneLoader>> sceneLoaders;
 		std::vector<Klein::Rendering::RenderingContext> renderingContexts;
 		std::vector<std::shared_ptr<Klein::Rendering::IRenderer>> renderers;
 		std::vector<std::shared_ptr<Klein::Audio::IAudioDevice>> audioDevices;
