@@ -64,20 +64,20 @@ namespace Klein::Math {
 		}
 
 		constexpr inline Vector2<TComponent> GetClampedPosition(const Vector2<TComponent>& position) const noexcept {
-			return Vector2<TComponent>(std::clamp(position.x, left, right), std::clamp(position.y, top, bottom));
+			return Vector2<TComponent>(std::clamp(position.x, left, right), std::clamp(position.y, bottom, top));
 		}
 
 		constexpr inline Bounds<TComponent> GetCorrected() const noexcept {
 			return Bounds<TComponent>(
-				std::min(top, bottom),
 				std::max(top, bottom),
+				std::min(top, bottom),
 				std::min(left, right),
 				std::max(left, right)
 			);
 		}
 
 		constexpr inline Bounds<TComponent>& GetCorrected(Bounds<TComponent>& result) const noexcept {
-			return result = Bounds<TComponent>(std::min(top, bottom), std::max(top, bottom), std::min(left, right), std::max(left, right));
+			return result = GetCorrected();
 		}
 
 		template <typename TReturn>
@@ -95,31 +95,31 @@ namespace Klein::Math {
 			case EAlignment::TopLeft:
 				return Rectangle<TComponent>(
 					Vector2<TComponent>(left, top),
-					Vector2<TComponent>(right - left, bottom - top)
+					Vector2<TComponent>(right - left, top - bottom)
 				);
 				break;
 			case EAlignment::TopRight:
 				return Rectangle<TComponent>(
 					Vector2<TComponent>(right, top),
-					Vector2<TComponent>(right - left, bottom - top)
+					Vector2<TComponent>(right - left, top - bottom)
 				);
 				break;
 			case EAlignment::BottomLeft:
 				return Rectangle<TComponent>(
 					Vector2<TComponent>(left, bottom),
-					Vector2<TComponent>(right - left, bottom - top)
+					Vector2<TComponent>(right - left, top - bottom)
 				);
 				break;
 			case EAlignment::BottomRight:
 				return Rectangle<TComponent>(
 					Vector2<TComponent>(right, bottom),
-					Vector2<TComponent>(right - left, bottom - top)
+					Vector2<TComponent>(right - left, top - bottom)
 				);
 				break;
 			case EAlignment::Center:
 				return Rectangle<TComponent>(
-					Vector2<TComponent>((left + right) / staic_cast<TComponent>(2), (top + bottom) / staic_cast<TComponent>(2)),
-					Vector2<TComponent>(right - left, bottom - top)
+					Vector2<TComponent>((left + right) / static_cast<TComponent>(2), (bottom + top) / static_cast<TComponent>(2)),
+					Vector2<TComponent>(right - left, top - bottom)
 				);
 				break;
 			}
