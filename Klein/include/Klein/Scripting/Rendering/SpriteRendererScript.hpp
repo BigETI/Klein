@@ -1,7 +1,6 @@
 #pragma once
 
 #include <chrono>
-#include <cstdint>
 #include <memory>
 #include <string>
 
@@ -12,10 +11,10 @@
 #include "../../Rendering/RenderingContextElement.hpp"
 #include "../../ResourceManagement/ResourceID.hpp"
 #include "../../SceneManagement/Node.hpp"
-#include "../Script.hpp"
+#include "RenderingContextScript.hpp"
 
 namespace Klein::Scripting::Rendering {
-	class SpriteRendererScript : public Script {
+	class SpriteRendererScript : public RenderingContextScript {
 	public:
 
 		KLEIN_API SpriteRendererScript(Klein::SceneManagement::Node* node);
@@ -34,12 +33,12 @@ namespace Klein::Scripting::Rendering {
 		KLEIN_API Klein::ResourceManagement::ResourceID& GetFontResourcePath(Klein::ResourceManagement::ResourceID& result) const;
 		KLEIN_API void SetFontResourceID(const Klein::ResourceManagement::ResourceID& fontResourceID);
 		KLEIN_API void SetFontResourceID(Klein::ResourceManagement::ResourceID&& fontResourceID) noexcept;
-		KLEIN_API const Klein::Math::Rectangle<float>& GetSourceRectangle() const noexcept;
-		KLEIN_API void SetSourceRectangle(const Klein::Math::Rectangle<float>& sourceRectangle) noexcept;
+		KLEIN_API const Klein::Math::Rectangle<float>& GetTexture2DSourceRectangle() const noexcept;
+		KLEIN_API void SetTexture2DSourceRectangle(const Klein::Math::Rectangle<float>& sourceRectangle) noexcept;
 		KLEIN_API const Klein::Math::Vector2<float>& GetPivot() const noexcept;
 		KLEIN_API void SetPivot(const Klein::Math::Vector2<float>& pivot) noexcept;
-		KLEIN_API const Klein::Rendering::Color<std::uint8_t>& GetColor() const noexcept;
-		KLEIN_API void SetColor(const Klein::Rendering::Color<std::uint8_t>& color) noexcept;
+		KLEIN_API const Klein::Rendering::Color<float>& GetColor() const noexcept;
+		KLEIN_API void SetColor(const Klein::Rendering::Color<float>& color) noexcept;
 		KLEIN_API const std::string& GetText() const noexcept;
 		KLEIN_API std::string& GetText(std::string& result) const;
 		KLEIN_API void SetText(const std::string& text);

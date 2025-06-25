@@ -1,5 +1,4 @@
 #include <chrono>
-#include <cstdint>
 #include <memory>
 #include <string>
 
@@ -10,8 +9,8 @@
 #include <Klein/Rendering/RenderingContextElement.hpp>
 #include <Klein/ResourceManagement/ResourceID.hpp>
 #include <Klein/SceneManagement/Node.hpp>
+#include <Klein/Scripting/Rendering/RenderingContextScript.hpp>
 #include <Klein/Scripting/Rendering/SpriteRendererScript.hpp>
-#include <Klein/Scripting/Script.hpp>
 
 using namespace std;
 using namespace std::chrono;
@@ -21,11 +20,10 @@ using namespace Klein::Math;
 using namespace Klein::Rendering;
 using namespace Klein::ResourceManagement;
 using namespace Klein::SceneManagement;
-using namespace Klein::Scripting;
 using namespace Klein::Scripting::Rendering;
 
 SpriteRendererScript::SpriteRendererScript(Node* node) :
-	Script(node),
+	RenderingContextScript(node),
 	renderingContextElement(
 		make_shared<RenderingContextElement>(
 			true,
@@ -33,11 +31,10 @@ SpriteRendererScript::SpriteRendererScript(Node* node) :
 			string(),
 			string(),
 			Rectangle<float>(Vector2<float>(0.0f, 0.0f), Vector2<float>(1.0f, 1.0f)),
-			Vector2<float>(),
+			Rectangle<float>(Vector2<float>(0.0f, 0.0f), Vector2<float>(1.0f, 1.0f)),
 			0.0f,
-			Vector2<float>(1.0f, 1.0f),
 			Vector2<float>(0.5f, 0.5f),
-			Color<uint8_t>(0xFF, 0xFF, 0xFF, 0xFF),
+			Color<float>(1.0f, 1.0f, 1.0f, 1.0f),
 			string(),
 			1.0f,
 			0.2f,
@@ -103,12 +100,12 @@ void SpriteRendererScript::SetFontResourceID(Klein::ResourceManagement::Resource
 	renderingContextElement->SetFontResourceID(fontResourceID);
 }
 
-const Rectangle<float>& SpriteRendererScript::GetSourceRectangle() const noexcept {
-	return renderingContextElement->GetSourceRectangle();
+const Rectangle<float>& SpriteRendererScript::GetTexture2DSourceRectangle() const noexcept {
+	return renderingContextElement->GetTexture2DSourceRectangle();
 }
 
-void SpriteRendererScript::SetSourceRectangle(const Rectangle<float>& sourceRectangle) noexcept {
-	renderingContextElement->SetSourceRectangle(sourceRectangle);
+void SpriteRendererScript::SetTexture2DSourceRectangle(const Rectangle<float>& texture2DSourceRectangle) noexcept {
+	renderingContextElement->SetTexture2DSourceRectangle(texture2DSourceRectangle);
 }
 
 const Vector2<float>& SpriteRendererScript::GetPivot() const noexcept {
@@ -119,11 +116,11 @@ void SpriteRendererScript::SetPivot(const Vector2<float>& pivot) noexcept {
 	renderingContextElement->SetPivot(pivot);
 }
 
-const Color<uint8_t>& SpriteRendererScript::GetColor() const noexcept {
+const Color<float>& SpriteRendererScript::GetColor() const noexcept {
 	return renderingContextElement->GetColor();
 }
 
-void SpriteRendererScript::SetColor(const Color<uint8_t>& color) noexcept {
+void SpriteRendererScript::SetColor(const Color<float>& color) noexcept {
 	renderingContextElement->SetColor(color);
 }
 
@@ -171,11 +168,7 @@ void SpriteRendererScript::OnFrameRender(Engine& engine, const high_resolution_c
 	Node& node(GetNode());
 
 	// TODO: Interpolate between transformations
-	renderingContextElement->SetPosition(node.GetPosition());
+	renderingContextElement->SetRectangle(Rectangle<float>(node.GetPosition(), node.GetScale()));
 	renderingContextElement->SetRotation(node.GetRotation());
-	renderingContextElement->SetSize(node.GetScale());
-
-	for (auto& rendering_context : engine.GetRenderingContexts()) {
-		rendering_context.StageElement(renderingContextElement);
-	}
+	EnsureRenderingContext(engine).StageElement(renderingContextElement);
 }

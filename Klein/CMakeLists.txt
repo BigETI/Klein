@@ -34,9 +34,13 @@ add_library (KleinStatic STATIC
 	"src/Scripting/Physics/AABBColliderScript.cpp"
 	"src/Scripting/Physics/ColliderScript.cpp"
 	"src/Scripting/Rendering/CameraScript.cpp"
+	"src/Scripting/Rendering/RenderingContextScript.cpp"
 	"src/Scripting/Rendering/SpriteRendererScript.cpp"
 	"src/Scripting/Script.cpp"
+	"src/Scripting/UI/ButtonScript.cpp"
 	"src/Scripting/UI/CanvasScript.cpp"
+	"src/Scripting/UI/ImageScript.cpp"
+	"src/Scripting/UI/TextScript.cpp"
 	"src/Scripting/UI/UIElementScript.cpp"
 )
 
@@ -88,9 +92,13 @@ add_library (Klein SHARED
 	"src/Scripting/Physics/AABBColliderScript.cpp"
 	"src/Scripting/Physics/ColliderScript.cpp"
 	"src/Scripting/Rendering/CameraScript.cpp"
+	"src/Scripting/Rendering/RenderingContextScript.cpp"
 	"src/Scripting/Rendering/SpriteRendererScript.cpp"
 	"src/Scripting/Script.cpp"
+	"src/Scripting/UI/ButtonScript.cpp"
 	"src/Scripting/UI/CanvasScript.cpp"
+	"src/Scripting/UI/ImageScript.cpp"
+	"src/Scripting/UI/TextScript.cpp"
 	"src/Scripting/UI/UIElementScript.cpp"
 )
 

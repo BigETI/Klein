@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cstddef>
-#include <cstdint>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -21,12 +20,11 @@ namespace Klein::Rendering {
 			bool isTextVisible,
 			const Klein::ResourceManagement::ResourceID& texture2DResourceID,
 			const Klein::ResourceManagement::ResourceID& fontResourceID,
-			const Klein::Math::Rectangle<float>& sourceRectangle,
-			const Klein::Math::Vector2<float>& position,
+			const Klein::Math::Rectangle<float>& texture2DSourceRectangle,
+			const Klein::Math::Rectangle<float>& rectangle,
 			float rotation,
-			const Klein::Math::Vector2<float>& size,
 			const Klein::Math::Vector2<float>& pivot,
-			const Klein::Rendering::Color<std::uint8_t>& color,
+			const Klein::Rendering::Color<float>& color,
 			const std::string& text,
 			float textFontSize,
 			float textSpacing,
@@ -37,12 +35,11 @@ namespace Klein::Rendering {
 			bool isTextVisible,
 			Klein::ResourceManagement::ResourceID&& texture2DResourceID,
 			Klein::ResourceManagement::ResourceID&& fontResourceID,
-			Klein::Math::Rectangle<float>&& sourceRectangle,
-			Klein::Math::Vector2<float>&& position,
+			Klein::Math::Rectangle<float>&& texture2DSourceRectangle,
+			Klein::Math::Rectangle<float>&& rectangle,
 			float rotation,
-			Klein::Math::Vector2<float>&& size,
 			Klein::Math::Vector2<float>&& pivot,
-			Klein::Rendering::Color<std::uint8_t>&& color,
+			Klein::Rendering::Color<float>&& color,
 			std::string&& text,
 			float textFontSize,
 			float textSpacing,
@@ -63,18 +60,16 @@ namespace Klein::Rendering {
 		KLEIN_API Klein::ResourceManagement::ResourceID& GetFontResourceID(Klein::ResourceManagement::ResourceID& result) const;
 		KLEIN_API void SetFontResourceID(const Klein::ResourceManagement::ResourceID& fontResourceID);
 		KLEIN_API void SetFontResourceID(Klein::ResourceManagement::ResourceID&& fontResourceID) noexcept;
-		KLEIN_API const Klein::Math::Rectangle<float>& GetSourceRectangle() const noexcept;
-		KLEIN_API void SetSourceRectangle(const Klein::Math::Rectangle<float>& sourceRectangle) noexcept;
-		KLEIN_API const Klein::Math::Vector2<float>& GetPosition() const noexcept;
-		KLEIN_API void SetPosition(const Klein::Math::Vector2<float>& position) noexcept;
+		KLEIN_API const Klein::Math::Rectangle<float>& GetTexture2DSourceRectangle() const noexcept;
+		KLEIN_API void SetTexture2DSourceRectangle(const Klein::Math::Rectangle<float>& texture2DSourceRectangle) noexcept;
+		KLEIN_API const Klein::Math::Rectangle<float>& GetRectangle() const noexcept;
+		KLEIN_API void SetRectangle(const Klein::Math::Rectangle<float>& rectangle) noexcept;
 		KLEIN_API float GetRotation() const noexcept;
 		KLEIN_API void SetRotation(float rotation) noexcept;
-		KLEIN_API const Klein::Math::Vector2<float>& GetSize() const noexcept;
-		KLEIN_API void SetSize(const Klein::Math::Vector2<float>& size) noexcept;
 		KLEIN_API const Klein::Math::Vector2<float>& GetPivot() const noexcept;
 		KLEIN_API void SetPivot(const Klein::Math::Vector2<float>& pivot) noexcept;
-		KLEIN_API const Klein::Rendering::Color<std::uint8_t>& GetColor() const noexcept;
-		KLEIN_API void SetColor(const Klein::Rendering::Color<std::uint8_t>& color) noexcept;
+		KLEIN_API const Klein::Rendering::Color<float>& GetColor() const noexcept;
+		KLEIN_API void SetColor(const Klein::Rendering::Color<float>& color) noexcept;
 		KLEIN_API const std::string& GetText() const noexcept;
 		KLEIN_API std::string& GetText(std::string& result) const;
 		KLEIN_API void SetText(const std::string& text);
@@ -100,12 +95,11 @@ namespace Klein::Rendering {
 		bool isTextVisible;
 		Klein::ResourceManagement::ResourceID texture2DResourceID;
 		Klein::ResourceManagement::ResourceID fontResourceID;
-		Klein::Math::Rectangle<float> sourceRectangle;
-		Klein::Math::Vector2<float> position;
+		Klein::Math::Rectangle<float> texture2DSourceRectangle;
+		Klein::Math::Rectangle<float> rectangle;
 		float rotation;
-		Klein::Math::Vector2<float> size;
 		Klein::Math::Vector2<float> pivot;
-		Klein::Rendering::Color<std::uint8_t> color;
+		Klein::Rendering::Color<float> color;
 		std::string text;
 		float textFontSize;
 		float textSpacing;

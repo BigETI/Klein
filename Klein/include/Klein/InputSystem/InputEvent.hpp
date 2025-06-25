@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <filesystem>
 #include <memory>
 #include <optional>
 #include <string>
@@ -31,6 +32,8 @@ namespace Klein::InputSystem {
 		KLEIN_API InputEvent(Klein::Hashing::StringHash&& nameHash, float pressValue) noexcept;
 		KLEIN_API InputEvent(const Klein::Hashing::StringHash& nameHash, const Klein::Math::Vector2<float>& pressValue2D);
 		KLEIN_API InputEvent(Klein::Hashing::StringHash&& nameHash, Klein::Math::Vector2<float>&& pressValue2D) noexcept;
+		KLEIN_API InputEvent(const Klein::Hashing::StringHash& nameHash, const std::filesystem::path& path);
+		KLEIN_API InputEvent(Klein::Hashing::StringHash&& nameHash, std::filesystem::path&& path) noexcept;
 		KLEIN_API InputEvent(const InputEvent& inputEvent);
 		KLEIN_API InputEvent(InputEvent&& inputEvent) noexcept;
 		KLEIN_API InputEvent(const InputEvent& inputEvent, bool isPressing);
@@ -39,6 +42,8 @@ namespace Klein::InputSystem {
 		KLEIN_API InputEvent(InputEvent&& inputEvent, float pressValue) noexcept;
 		KLEIN_API InputEvent(const InputEvent& inputEvent, const Klein::Math::Vector2<float>& pressValue2D);
 		KLEIN_API InputEvent(InputEvent&& inputEvent, Klein::Math::Vector2<float>&& pressValue2D) noexcept;
+		KLEIN_API InputEvent(const InputEvent& inputEvent, const std::filesystem::path& path);
+		KLEIN_API InputEvent(InputEvent&& inputEvent, std::filesystem::path&& path) noexcept;
 
 		KLEIN_API static const InputEvent& GetCloseWindowInputEvent() noexcept;
 
@@ -48,6 +53,7 @@ namespace Klein::InputSystem {
 		KLEIN_API bool IsPressing() const;
 		KLEIN_API float GetPressValue() const;
 		KLEIN_API Klein::Math::Vector2<float> GetPressValue2D() const;
+		KLEIN_API std::filesystem::path GetPath() const;
 
 		KLEIN_API InputEvent& operator =(const InputEvent& inputEvent);
 		KLEIN_API InputEvent& operator =(InputEvent&& inputEvent) noexcept;
@@ -55,6 +61,8 @@ namespace Klein::InputSystem {
 		KLEIN_API InputEvent& operator =(float pressValue);
 		KLEIN_API InputEvent& operator =(const Klein::Math::Vector2<float>& pressValue2D);
 		KLEIN_API InputEvent& operator =(Klein::Math::Vector2<float>&& pressValue2D);
+		KLEIN_API InputEvent& operator =(const std::filesystem::path& path);
+		KLEIN_API InputEvent& operator =(std::filesystem::path&& path);
 
 	private:
 
@@ -65,5 +73,6 @@ namespace Klein::InputSystem {
 		std::optional<bool> isPressing;
 		std::optional<float> pressValue;
 		std::optional<Klein::Math::Vector2<float>> pressValue2D;
+		std::optional<std::filesystem::path> path;
 	};
 }

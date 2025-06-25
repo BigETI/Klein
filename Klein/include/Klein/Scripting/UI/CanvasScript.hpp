@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <cstddef>
 #include <memory>
 #include <vector>
 
@@ -9,30 +10,25 @@
 #include "../../Engine.hpp"
 #include "../../Hashing/StringHash.hpp"
 #include "../../InputSystem/InputEvent.hpp"
+#include "../../Math/Bounds.hpp"
 #include "../../SceneManagement/Node.hpp"
-#include "../Script.hpp"
+#include "../Rendering/RenderingContextScript.hpp"
 #include "UIElementScript.hpp"
 
 namespace Klein::Scripting::UI {
-	class CanvasScript : public Klein::Scripting::Script {
+	class CanvasScript : public Klein::Scripting::Rendering::RenderingContextScript {
 	public:
 
 		KLEIN_API CanvasScript(Klein::SceneManagement::Node* node);
-		KLEIN_API ~CanvasScript();
 
 		KLEIN_API virtual void OnFrameRender(Klein::Engine& engine, const std::chrono::high_resolution_clock::duration& deltaTime) override;
 
 	private:
 
-		static const Klein::Hashing::StringHash mousePositionNameHash;
-		static const Klein::InputSystem::InputEvent uiCursorPositionInputEvent;
-		bool isRebuildingChildNodeCache;
-		Klein::EventSystem::ObserverID childAddedObserverID;
-		Klein::EventSystem::ObserverID childRemovedObserverID;
-		Klein::EventSystem::ObserverID scriptAddedObserverID;
-		Klein::EventSystem::ObserverID scriptRemovedObserverID;
-		std::vector<std::shared_ptr<UIElementScript>> cachedUIElements;
+		Klein::Math::Vector2<float> lastUICursorPosition;
 
-		void UpdateRebuildingChildNodeCacheState(const std::shared_ptr<Klein::Scripting::Script>& script);
+		static Klein::Math::Bounds<float> GetOuterBounds(const UIElementScript& uiElement, const Klein::Math::Bounds<float>& parentBounds) noexcept;
+		bool ForwardInputEventToNode(const Klein::InputSystem::InputEvent& inputEvent, Klein::SceneManagement::Node& node, const Klein::Math::Bounds<float>& parentBounds);
+		void RenderUINode(Klein::Rendering::RenderingContext& renderingContext, Klein::SceneManagement::Node& node, const Klein::Math::Bounds<float>& parentBounds);
 	};
 }

@@ -58,20 +58,21 @@ namespace Klein {
 		KLEIN_API void Stop(int exitCode);
 
 		KLEIN_API std::shared_ptr<Klein::SceneManagement::Node> CreateNewEmptySceneNode();
-		KLEIN_API std::shared_ptr<Klein::SceneManagement::Node> CreateNewSceneNode(const Klein::ResourceManagement::ResourceID& sceneResourceID);
+		KLEIN_API std::shared_ptr<Klein::SceneManagement::Node> CreateNewSceneNode(const Klein::ResourceManagement::ResourceID& sceneLoaderResourceID);
 
 		template <typename TSceneLoader, typename... TArguments>
-		constexpr inline bool RegisterSceneLoader(const Klein::ResourceManagement::ResourceID& sceneResourceID, TArguments&&... arguments) {
+		constexpr inline std::shared_ptr<TSceneLoader> RegisterSceneLoader(const Klein::ResourceManagement::ResourceID& sceneResourceID, TArguments&&... arguments) {
 			static_assert(std::is_base_of<Klein::SceneManagement::ISceneLoader, TSceneLoader>::value, "Specified type must inherit from ISceneLoader.");
-			if (sceneLoaders.contains(sceneResourceID.GetHash())) {
-				return false;
+			std::shared_ptr<TSceneLoader> ret;
+			if (!sceneLoaders.contains(sceneResourceID.GetHash())) {
+				ret = std::make_shared<TSceneLoader>(std::forward<TArguments>(arguments)...);
+				sceneLoaders.insert_or_assign(sceneResourceID.GetHash(), ret);
 			}
-			sceneLoaders.insert_or_assign(sceneResourceID.GetHash(), std::make_shared<TSceneLoader>(std::forward<TArguments>(arguments)...));
-			return true;
+			return ret;
 		}
 
-		KLEIN_API bool RemoveScene(const std::shared_ptr<Klein::SceneManagement::Node>& scene);
-		KLEIN_API void ClearScenes();
+		KLEIN_API bool RemoveSceneNode(const std::shared_ptr<Klein::SceneManagement::Node>& sceneNode);
+		KLEIN_API void ClearSceneNodes();
 
 		KLEIN_API bool AddRenderer(const std::shared_ptr<Klein::Rendering::IRenderer>& renderer);
 		KLEIN_API bool RemoveRenderer(const std::shared_ptr<Klein::Rendering::IRenderer>& renderer);
@@ -100,6 +101,8 @@ namespace Klein {
 		std::chrono::high_resolution_clock::time_point gameStartTimePoint;
 		std::vector<Klein::InputSystem::InputEvent> currentInputEvents;
 		std::vector<std::shared_ptr<Klein::SceneManagement::Node>> sceneNodes;
+		std::vector<std::shared_ptr<Klein::SceneManagement::Node>> toBeRemovedSceneNodes;
+		std::vector<std::shared_ptr<Klein::SceneManagement::Node>> toBeAddedSceneNodes;
 		std::unordered_map<std::size_t, std::shared_ptr<Klein::SceneManagement::ISceneLoader>> sceneLoaders;
 		std::vector<Klein::Rendering::RenderingContext> renderingContexts;
 		std::vector<std::shared_ptr<Klein::Rendering::IRenderer>> renderers;

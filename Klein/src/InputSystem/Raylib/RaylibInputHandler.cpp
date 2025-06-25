@@ -1,4 +1,5 @@
 #include <cstddef>
+#include <filesystem>
 #include <string>
 #include <utility>
 #include <vector>
@@ -11,6 +12,7 @@
 #include <Klein/Math/Vector2.hpp>
 
 using namespace std;
+using namespace std::filesystem;
 
 using namespace Klein::InputSystem;
 using namespace Klein::InputSystem::Raylib;
@@ -18,7 +20,8 @@ using namespace Klein::InputSystem::Raylib;
 RaylibInputHandler::RaylibInputHandler() :
 	mouseDeltaInputEvent("Mouse.Delta"),
 	mousePositionInputEvent("Mouse.Position"),
-	mouseWheelMovementInputEvent("Mouse.WheelMovement")
+	mouseWheelMovementInputEvent("Mouse.WheelMovement"),
+	fileSystemDroppedFilePathInputEvent("FileSystem.DroppedFilePath")
 {
 	for (size_t mouse_button_index(static_cast<size_t>(0)); mouse_button_index != mouseButtonInputEvents.size(); mouse_button_index++) {
 		string name("Mouse.Button.");
@@ -116,6 +119,13 @@ vector<InputEvent>& RaylibInputHandler::FetchInputEvents(vector<InputEvent>& res
 			}
 			result.push_back(gamepad_input_events.SetGamepadConnectedState(false));
 		}
+	}
+	if (IsFileDropped()) {
+		FilePathList dropped_file_path_list = LoadDroppedFiles();
+		for (unsigned int index(0U); index != dropped_file_path_list.count; index++) {
+			result.push_back(InputEvent(fileSystemDroppedFilePathInputEvent, path(dropped_file_path_list.paths[index])));
+		}
+		UnloadDroppedFiles(dropped_file_path_list);
 	}
 	return result;
 }

@@ -10,12 +10,15 @@ using namespace std;
 using namespace Klein::Math;
 using namespace Klein::Rendering;
 
-RenderingContext::RenderingContext() : cameraRotation(0.0f), cameraZoom(1.0f) {
+RenderingContext::RenderingContext() : isClearingBackground(false), cameraAlignment(0.5f, 0.5f), cameraRotation(0.0f), cameraZoom(1.0f) {
 	// ...
 }
 
 RenderingContext::RenderingContext(const RenderingContext& renderingContext) :
+	isClearingBackground(renderingContext.isClearingBackground),
+	clearBackgroundColor(renderingContext.clearBackgroundColor),
 	cameraPosition(renderingContext.cameraPosition),
+	cameraAlignment(renderingContext.cameraAlignment),
 	cameraRotation(renderingContext.cameraRotation),
 	cameraZoom(renderingContext.cameraZoom),
 	stagedElements(renderingContext.stagedElements),
@@ -24,12 +27,31 @@ RenderingContext::RenderingContext(const RenderingContext& renderingContext) :
 }
 
 RenderingContext::RenderingContext(RenderingContext&& renderingContext) noexcept :
+	isClearingBackground(std::move(renderingContext.isClearingBackground)),
+	clearBackgroundColor(std::move(renderingContext.clearBackgroundColor)),
 	cameraPosition(std::move(renderingContext.cameraPosition)),
+	cameraAlignment(std::move(renderingContext.cameraAlignment)),
 	cameraRotation(std::move(renderingContext.cameraRotation)),
 	cameraZoom(std::move(renderingContext.cameraZoom)),
 	stagedElements(std::move(renderingContext.stagedElements)),
 	commitedElements(std::move(renderingContext.commitedElements)) {
 	// ...
+}
+
+bool RenderingContext::IsClearingBackground() const noexcept {
+	return isClearingBackground;
+}
+
+void RenderingContext::SetClearingBackgroundState(bool isClearingBackground) noexcept {
+	this->isClearingBackground = isClearingBackground;
+}
+
+const Color<float>& RenderingContext::GetClearBackgroundColor() const noexcept {
+	return clearBackgroundColor;
+}
+
+void RenderingContext::SetClearBackgroundColor(const Color<float>& clearBackgroundColor) noexcept {
+	this->clearBackgroundColor = clearBackgroundColor;
 }
 
 const Vector2<float>& RenderingContext::GetCameraPosition() const noexcept {
@@ -38,6 +60,14 @@ const Vector2<float>& RenderingContext::GetCameraPosition() const noexcept {
 
 void RenderingContext::SetCameraPosition(const Vector2<float>& cameraPosition) noexcept {
 	this->cameraPosition = cameraPosition;
+}
+
+const Vector2<float>& RenderingContext::GetCameraAlignment() const noexcept {
+	return cameraAlignment;
+}
+
+void RenderingContext::SetCameraAlignment(const Vector2<float>& cameraAlignment) noexcept {
+	this->cameraAlignment = cameraAlignment;
 }
 
 float RenderingContext::GetCameraRotation() const noexcept {
@@ -120,7 +150,10 @@ RenderingContext::iterator RenderingContext::end() {
 }
 
 RenderingContext& RenderingContext::operator =(const RenderingContext& renderingContext) {
+	isClearingBackground = renderingContext.isClearingBackground;
+	clearBackgroundColor = renderingContext.clearBackgroundColor;
 	cameraPosition = renderingContext.cameraPosition;
+	cameraAlignment = renderingContext.cameraAlignment;
 	cameraRotation = renderingContext.cameraRotation;
 	cameraZoom = renderingContext.cameraZoom;
 	stagedElements = renderingContext.stagedElements;
@@ -129,7 +162,10 @@ RenderingContext& RenderingContext::operator =(const RenderingContext& rendering
 }
 
 RenderingContext& RenderingContext::operator =(RenderingContext&& renderingContext) noexcept {
+	isClearingBackground = std::move(renderingContext.isClearingBackground);
+	clearBackgroundColor = std::move(renderingContext.clearBackgroundColor);
 	cameraPosition = std::move(renderingContext.cameraPosition);
+	cameraAlignment = std::move(renderingContext.cameraAlignment);
 	cameraRotation = std::move(renderingContext.cameraRotation);
 	cameraZoom = std::move(renderingContext.cameraZoom);
 	stagedElements = std::move(renderingContext.stagedElements);

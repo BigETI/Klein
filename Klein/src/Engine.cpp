@@ -47,6 +47,7 @@ Engine::Engine(const span<const string> commandLineArguments) :
 		}
 	}
 	renderingContexts.emplace_back();
+	renderingContexts.at(static_cast<size_t>(0)).SetClearingBackgroundState(true);
 }
 
 Engine::Engine(const span<const string> commandLineArguments, const path& configurationFilePath) : Engine(commandLineArguments) {
@@ -54,7 +55,7 @@ Engine::Engine(const span<const string> commandLineArguments, const path& config
 }
 
 Engine::~Engine() {
-	ClearScenes();
+	ClearSceneNodes();
 }
 
 bool Engine::IsGameRunning() const noexcept {
@@ -127,8 +128,21 @@ int Engine::Start() {
 						break;
 					}
 				}
-				for (const auto& scene : sceneNodes) {
-					scene->GameTickScripts(*this, game_tick_time);
+				for (const auto& to_be_removed_scene_node : toBeRemovedSceneNodes) {
+					const auto& scene_node_iterator(find(sceneNodes.begin(), sceneNodes.end(), to_be_removed_scene_node));
+					if (scene_node_iterator != sceneNodes.end()) {
+						to_be_removed_scene_node->Destroy();
+						to_be_removed_scene_node->FrameRenderScripts(*this, high_resolution_clock::duration::zero());
+						sceneNodes.erase(scene_node_iterator);
+					}
+				}
+				toBeRemovedSceneNodes.clear();
+				for (const auto& to_be_added_scene_node : toBeAddedSceneNodes) {
+					sceneNodes.push_back(to_be_added_scene_node);
+				}
+				toBeAddedSceneNodes.clear();
+				for (const auto& scene_node : sceneNodes) {
+					scene_node->GameTickScripts(*this, game_tick_time);
 				}
 			}
 			now = high_resolution_clock::now();
@@ -144,9 +158,11 @@ int Engine::Start() {
 				}
 				for (auto& rendering_context : renderingContexts) {
 					rendering_context.CommitElements();
-					for (auto& renderer : renderers) {
-						renderer->Render(rendering_context, frame_render_time);
-					}
+				}
+				for (auto& renderer : renderers) {
+					renderer->Render(renderingContexts, frame_render_time);
+				}
+				for (auto& rendering_context : renderingContexts) {
 					rendering_context.Clear();
 				}
 			}
@@ -175,37 +191,32 @@ void Engine::Stop(int exitCode) {
 
 shared_ptr<Node> Engine::CreateNewEmptySceneNode() {
 	shared_ptr<Node> ret(make_shared<Node>(Node::NullParent));
-	sceneNodes.push_back(ret);
+	toBeAddedSceneNodes.push_back(ret);
 	return ret;
 }
 
-shared_ptr<Node> Engine::CreateNewSceneNode(const ResourceID& sceneResourceID) {
+shared_ptr<Node> Engine::CreateNewSceneNode(const ResourceID& sceneLoaderResourceID) {
 	shared_ptr<Node> ret;
-	const auto& scene_factory_iterator(sceneLoaders.find(sceneResourceID.GetHash()));
-	if (scene_factory_iterator != sceneLoaders.end()) {
+	const auto& scene_loader_iterator(sceneLoaders.find(sceneLoaderResourceID.GetHash()));
+	if (scene_loader_iterator != sceneLoaders.end()) {
 		ret = Engine::CreateNewEmptySceneNode();
-		scene_factory_iterator->second->Load(*ret);
+		scene_loader_iterator->second->Load(*ret);
 	}
 	return ret;
 }
 
-bool Engine::RemoveScene(const shared_ptr<Node>& scene) {
-	const auto& it(find(sceneNodes.begin(), sceneNodes.end(), scene));
-	bool ret(it != sceneNodes.end());
+bool Engine::RemoveSceneNode(const shared_ptr<Node>& sceneNode) {
+	const auto& scene_node_iterator(find(sceneNodes.begin(), sceneNodes.end(), sceneNode));
+	const auto& to_be_removed_scene_node_iterator(find(toBeRemovedSceneNodes.begin(), toBeRemovedSceneNodes.end(), sceneNode));
+	bool ret((scene_node_iterator != sceneNodes.end()) && (to_be_removed_scene_node_iterator == toBeRemovedSceneNodes.end()));
 	if (ret) {
-		scene->Destroy();
-		scene->FrameRenderScripts(*this, high_resolution_clock::duration::zero());
-		sceneNodes.erase(it);
+		toBeRemovedSceneNodes.push_back(sceneNode);
 	}
 	return ret;
 }
 
-void Engine::ClearScenes() {
-	for (const auto& scene : sceneNodes) {
-		scene->Destroy();
-		scene->FrameRenderScripts(*this, high_resolution_clock::duration::zero());
-	}
-	sceneNodes.clear();
+void Engine::ClearSceneNodes() {
+	toBeRemovedSceneNodes = sceneNodes;
 }
 
 bool Engine::AddRenderer(const shared_ptr<IRenderer>& renderer) {

@@ -2,9 +2,11 @@
 
 #include <memory>
 #include <queue>
+#include <vector>
 
 #include "../Exportables/Exportable.hxx"
 #include "../Math/Vector2.hpp"
+#include "Color.hpp"
 #include "RenderingContextElement.hpp"
 
 namespace Klein::Rendering {
@@ -20,8 +22,14 @@ namespace Klein::Rendering {
 		KLEIN_API RenderingContext(const RenderingContext& renderingContext);
 		KLEIN_API RenderingContext(RenderingContext&& renderingContext) noexcept;
 
+		KLEIN_API bool IsClearingBackground() const noexcept;
+		KLEIN_API void SetClearingBackgroundState(bool isClearingBackground) noexcept;
+		KLEIN_API const Color<float>& GetClearBackgroundColor() const noexcept;
+		KLEIN_API void SetClearBackgroundColor(const Color<float>& clearBackgroundColor) noexcept;
 		KLEIN_API const Klein::Math::Vector2<float>& GetCameraPosition() const noexcept;
 		KLEIN_API void SetCameraPosition(const Klein::Math::Vector2<float>& cameraPosition) noexcept;
+		KLEIN_API const Klein::Math::Vector2<float>& GetCameraAlignment() const noexcept;
+		KLEIN_API void SetCameraAlignment(const Klein::Math::Vector2<float>& cameraAlignment) noexcept;
 		KLEIN_API float GetCameraRotation() const noexcept;
 		KLEIN_API void SetCameraRotation(float cameraRotation) noexcept;
 		KLEIN_API float GetCameraZoom() const noexcept;
@@ -50,7 +58,10 @@ namespace Klein::Rendering {
 
 	private:
 
+		bool isClearingBackground;
+		Color<float> clearBackgroundColor;
 		Klein::Math::Vector2<float> cameraPosition;
+		Klein::Math::Vector2<float> cameraAlignment;
 		float cameraRotation;
 		float cameraZoom;
 		std::priority_queue<std::shared_ptr<RenderingContextElement>> stagedElements;

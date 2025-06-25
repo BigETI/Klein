@@ -1,13 +1,19 @@
+#include <cmath>
+
 #include <Klein/InputSystem/InputEvent.hpp>
+#include <Klein/Math/Border.hpp>
 #include <Klein/Math/Bounds.hpp>
-#include <Klein/Math/Rectangle.hpp>
 #include <Klein/Math/Vector2.hpp>
+#include <Klein/Rendering/RenderingContext.hpp>
 #include <Klein/SceneManagement/Node.hpp>
 #include <Klein/Scripting/Script.hpp>
 #include <Klein/Scripting/UI/UIElementScript.hpp>
 
+using namespace std;
+
 using namespace Klein::InputSystem;
 using namespace Klein::Math;
+using namespace Klein::Rendering;
 using namespace Klein::SceneManagement;
 using namespace Klein::Scripting::UI;
 
@@ -17,6 +23,18 @@ UIElementScript::UIElementScript(Node* node) : Script(node) {
 
 UIElementScript::~UIElementScript() noexcept {
 	// ...
+}
+
+const Vector2<float>& UIElementScript::GetPosition() const noexcept {
+	return position;
+}
+
+void UIElementScript::SetPosition(const Vector2<float>& position) noexcept {
+	this->position = position;
+}
+
+void UIElementScript::SetPosition(Vector2<float>&& position) noexcept {
+	this->position = position;
 }
 
 const Bounds<float>& UIElementScript::GetAnchor() const noexcept {
@@ -31,36 +49,46 @@ void UIElementScript::SetAnchor(Bounds<float>&& anchor) noexcept {
 	this->anchor = anchor;
 }
 
-const Bounds<float>& UIElementScript::GetBounds() const noexcept {
-	return bounds;
+const Border<float>& UIElementScript::GetBorder() const noexcept {
+	return border;
 }
 
-void UIElementScript::SetBounds(const Bounds<float>& bounds) noexcept {
-	this->bounds = bounds;
+void UIElementScript::SetBorder(const Border<float>& border) noexcept {
+	this->border = border;
 }
 
-void UIElementScript::SetBounds(Bounds<float>&& bounds) noexcept {
-	this->bounds = bounds;
+void UIElementScript::SetBorder(Border<float>&& border) noexcept {
+	this->border = border;
 }
 
-const Bounds<float>& UIElementScript::GetMargin() const noexcept {
+const Border<float>& UIElementScript::GetMargin() const noexcept {
 	return margin;
 }
 
-void UIElementScript::SetMargin(const Bounds<float>& margin) noexcept {
+void UIElementScript::SetMargin(const Border<float>& margin) noexcept {
 	this->margin = margin;
 }
 
-void UIElementScript::SetMargin(Bounds<float>&& margin) noexcept {
+void UIElementScript::SetMargin(Border<float>&& margin) noexcept {
 	this->margin = margin;
 }
 
-Rectangle<float> UIElementScript::GetAbsoluteRectangle(const Rectangle<float>& relativeToRectangle) const noexcept {
-	// TODO: Calculate rectangle, using anchor, bounds, and margin!
-	return Rectangle<float>();
+const Border<float>& UIElementScript::GetPadding() const noexcept {
+	return padding;
 }
 
-bool UIElementScript::ApplyInputEvent(const InputEvent& inputEvent) {
-	// TODO: Use input element attributes, to apply input events upon them.
+void UIElementScript::SetPadding(const Border<float>& padding) noexcept {
+	this->padding = padding;
+}
+
+void UIElementScript::SetPadding(Border<float>&& padding) noexcept {
+	this->padding = padding;
+}
+
+bool UIElementScript::ConsumeInputEvent(const InputEvent& inputEvent) {
 	return false;
+}
+
+void UIElementScript::OnUIRender(RenderingContext& renderingContext, const Bounds<float>& bounds) {
+	// ...
 }

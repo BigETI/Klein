@@ -5,6 +5,7 @@ namespace Klein::InputSystem {
 		None,
 		DigitalPress,
 		AnalogPress,
-		AnalogPress2D
+		AnalogPress2D,
+		Path
 	};
 }

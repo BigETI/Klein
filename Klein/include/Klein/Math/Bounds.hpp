@@ -5,10 +5,14 @@
 #include <utility>
 
 #include "EAlignment.hpp"
+#include "Border.hpp"
 #include "Rectangle.hpp"
 #include "Vector2.hpp"
 
 namespace Klein::Math {
+
+	template <typename TComponent>
+	struct Border;
 
 	template <typename TComponent>
 	struct Rectangle;
@@ -167,6 +171,19 @@ namespace Klein::Math {
 			return ret += offset;
 		}
 
+		constexpr inline Bounds<TComponent>& operator +=(const Border<TComponent>& border) noexcept {
+			top += border.top;
+			bottom -= border.bottom;
+			left -= border.left;
+			right += border.right;
+			return *this;
+		}
+
+		constexpr inline Bounds<TComponent> operator +(const Border<TComponent>& border) const noexcept {
+			Bounds<TComponent> ret(*this);
+			return ret += border;
+		}
+
 		constexpr inline Bounds<TComponent>& operator -=(const Vector2<TComponent>& offset) noexcept {
 			top -= offset.y;
 			bottom -= offset.y;
@@ -178,6 +195,19 @@ namespace Klein::Math {
 		constexpr inline Bounds<TComponent> operator -(const Vector2<TComponent>& offset) const noexcept {
 			Bounds<TComponent> ret(*this);
 			return ret -= offset;
+		}
+
+		constexpr inline Bounds<TComponent>& operator -=(const Border<TComponent>& border) noexcept {
+			top -= border.top;
+			bottom += border.bottom;
+			left += border.left;
+			right -= border.right;
+			return *this;
+		}
+
+		constexpr inline Bounds<TComponent> operator -(const Border<TComponent>& border) const noexcept {
+			Bounds<TComponent> ret(*this);
+			return ret -= border;
 		}
 	};
 }

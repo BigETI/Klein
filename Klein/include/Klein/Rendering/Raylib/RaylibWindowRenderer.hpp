@@ -3,6 +3,7 @@
 #include <chrono>
 #include <cstddef>
 #include <string>
+#include <vector>
 
 #include <raylib.h>
 
@@ -27,7 +28,7 @@ namespace Klein::Rendering::Raylib {
 		KLEIN_API std::string& GetTitle(std::string& result) const;
 		KLEIN_API const std::size_t GetWidth() const noexcept override;
 		KLEIN_API const std::size_t GetHeight() const noexcept override;
-		KLEIN_API void Render(const RenderingContext& renderingContext, const std::chrono::high_resolution_clock::duration& deltaTime) override;
+		KLEIN_API void Render(const std::vector<RenderingContext>& renderingContexts, const std::chrono::high_resolution_clock::duration& deltaTime) override;
 
 		RaylibWindowRenderer& operator =(const RaylibWindowRenderer&) = delete;
 		RaylibWindowRenderer& operator =(RaylibWindowRenderer&&) = delete;

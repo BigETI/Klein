@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <cstddef>
-#include <cstdint>
 #include <string>
 #include <utility>
 
@@ -24,12 +23,11 @@ RenderingContextElement::RenderingContextElement(
 	bool isTextVisible,
 	const ResourceID& texture2DResourceID,
 	const ResourceID& fontResourceID,
-	const Rectangle<float>& sourceRectangle,
-	const Vector2<float>& position,
+	const Rectangle<float>& texture2DSourceRectangle,
+	const Rectangle<float>& rectangle,
 	float rotation,
-	const Vector2<float>& size,
 	const Vector2<float>& pivot,
-	const Color<uint8_t>& color,
+	const Color<float>& color,
 	const string& text,
 	float textFontSize,
 	float textSpacing,
@@ -39,10 +37,9 @@ RenderingContextElement::RenderingContextElement(
 	isTextVisible(isTextVisible),
 	texture2DResourceID(texture2DResourceID),
 	fontResourceID(fontResourceID),
-	sourceRectangle(sourceRectangle),
-	position(position),
+	texture2DSourceRectangle(texture2DSourceRectangle),
+	rectangle(rectangle),
 	rotation(rotation),
-	size(size),
 	pivot(pivot),
 	color(color),
 	text(text),
@@ -57,12 +54,11 @@ RenderingContextElement::RenderingContextElement(
 	bool isTextVisible,
 	ResourceID&& texture2DResourceID,
 	ResourceID&& fontResourceID,
-	Rectangle<float>&& sourceRectangle,
-	Vector2<float>&& position,
+	Rectangle<float>&& texture2DSourceRectangle,
+	Rectangle<float>&& rectangle,
 	float rotation,
-	Vector2<float>&& size,
 	Vector2<float>&& pivot,
-	Color<uint8_t>&& color,
+	Color<float>&& color,
 	string&& text,
 	float textFontSize,
 	float textSpacing,
@@ -72,10 +68,9 @@ RenderingContextElement::RenderingContextElement(
 	isTextVisible(isTextVisible),
 	texture2DResourceID(texture2DResourceID),
 	fontResourceID(fontResourceID),
-	sourceRectangle(sourceRectangle),
-	position(position),
+	texture2DSourceRectangle(texture2DSourceRectangle),
+	rectangle(rectangle),
 	rotation(rotation),
-	size(size),
 	pivot(pivot),
 	color(color),
 	text(text),
@@ -90,10 +85,9 @@ RenderingContextElement::RenderingContextElement(const RenderingContextElement& 
 	isTextVisible(renderingContextElement.isTextVisible),
 	texture2DResourceID(renderingContextElement.texture2DResourceID),
 	fontResourceID(renderingContextElement.fontResourceID),
-	sourceRectangle(renderingContextElement.sourceRectangle),
-	position(renderingContextElement.position),
+	texture2DSourceRectangle(renderingContextElement.texture2DSourceRectangle),
+	rectangle(renderingContextElement.rectangle),
 	rotation(renderingContextElement.rotation),
-	size(renderingContextElement.size),
 	pivot(renderingContextElement.pivot),
 	color(renderingContextElement.color),
 	text(renderingContextElement.text),
@@ -108,10 +102,9 @@ RenderingContextElement::RenderingContextElement(RenderingContextElement&& rende
 	isTextVisible(std::move(renderingContextElement.isTextVisible)),
 	texture2DResourceID(std::move(renderingContextElement.texture2DResourceID)),
 	fontResourceID(std::move(renderingContextElement.fontResourceID)),
-	sourceRectangle(std::move(renderingContextElement.sourceRectangle)),
-	position(std::move(renderingContextElement.position)),
+	texture2DSourceRectangle(std::move(renderingContextElement.texture2DSourceRectangle)),
+	rectangle(std::move(renderingContextElement.rectangle)),
 	rotation(std::move(renderingContextElement.rotation)),
-	size(std::move(renderingContextElement.size)),
 	pivot(std::move(renderingContextElement.pivot)),
 	color(std::move(renderingContextElement.color)),
 	text(std::move(renderingContextElement.text)),
@@ -169,20 +162,20 @@ void RenderingContextElement::SetFontResourceID(ResourceID&& fontResourceID) noe
 	this->fontResourceID = fontResourceID;
 }
 
-const Rectangle<float>& RenderingContextElement::GetSourceRectangle() const noexcept {
-	return sourceRectangle;
+const Rectangle<float>& RenderingContextElement::GetTexture2DSourceRectangle() const noexcept {
+	return texture2DSourceRectangle;
 }
 
-void RenderingContextElement::SetSourceRectangle(const Rectangle<float>& sourceRectangle) noexcept {
-	this->sourceRectangle = sourceRectangle;
+void RenderingContextElement::SetTexture2DSourceRectangle(const Rectangle<float>& texture2DSourceRectangle) noexcept {
+	this->texture2DSourceRectangle = texture2DSourceRectangle;
 }
 
-const Vector2<float>& RenderingContextElement::GetPosition() const noexcept {
-	return position;
+const Rectangle<float>& RenderingContextElement::GetRectangle() const noexcept {
+	return rectangle;
 }
 
-void RenderingContextElement::SetPosition(const Vector2<float>& position) noexcept {
-	this->position = position;
+void RenderingContextElement::SetRectangle(const Rectangle<float>& rectangle) noexcept {
+	this->rectangle = rectangle;
 }
 
 float RenderingContextElement::GetRotation() const noexcept {
@@ -229,14 +222,6 @@ unsigned int RenderingContextElement::GetLayerIndex() const noexcept {
 	return layerIndex;
 }
 
-const Vector2<float>& RenderingContextElement::GetSize() const noexcept {
-	return size;
-}
-
-void RenderingContextElement::SetSize(const Vector2<float>& size) noexcept {
-	this->size = size;
-}
-
 const Vector2<float>& RenderingContextElement::GetPivot() const noexcept {
 	return pivot;
 }
@@ -245,11 +230,11 @@ void RenderingContextElement::SetPivot(const Vector2<float>& pivot) noexcept {
 	this->pivot = pivot;
 }
 
-const Color<uint8_t>& RenderingContextElement::GetColor() const noexcept {
+const Color<float>& RenderingContextElement::GetColor() const noexcept {
 	return color;
 }
 
-void RenderingContextElement::SetColor(const Color<uint8_t>& color) noexcept {
+void RenderingContextElement::SetColor(const Color<float>& color) noexcept {
 	this->color = color;
 }
 
@@ -262,9 +247,9 @@ RenderingContextElement& RenderingContextElement::operator =(const RenderingCont
 	isTextVisible = renderingContextElement.isTextVisible;
 	texture2DResourceID = renderingContextElement.texture2DResourceID;
 	fontResourceID = renderingContextElement.fontResourceID;
-	position = renderingContextElement.position;
+	texture2DSourceRectangle = renderingContextElement.texture2DSourceRectangle;
+	rectangle = renderingContextElement.rectangle;
 	rotation = renderingContextElement.rotation;
-	size = renderingContextElement.size;
 	pivot = renderingContextElement.pivot;
 	color = renderingContextElement.color;
 	text = renderingContextElement.text;
@@ -279,9 +264,9 @@ RenderingContextElement& RenderingContextElement::operator =(RenderingContextEle
 	isTextVisible = std::move(renderingContextElement.isTextVisible);
 	texture2DResourceID = std::move(renderingContextElement.texture2DResourceID);
 	fontResourceID = std::move(renderingContextElement.fontResourceID);
-	position = std::move(renderingContextElement.position);
+	texture2DSourceRectangle = std::move(renderingContextElement.texture2DSourceRectangle);
+	rectangle = std::move(renderingContextElement.rectangle);
 	rotation = std::move(renderingContextElement.rotation);
-	size = std::move(renderingContextElement.size);
 	pivot = std::move(renderingContextElement.pivot);
 	color = std::move(renderingContextElement.color);
 	text = std::move(renderingContextElement.text);

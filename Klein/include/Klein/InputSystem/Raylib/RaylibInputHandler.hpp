@@ -36,6 +36,7 @@ namespace Klein::InputSystem::Raylib {
 		Klein::InputSystem::InputEvent mousePositionInputEvent;
 		Klein::InputSystem::InputEvent mouseWheelMovementInputEvent;
 		std::array<RaylibGamepadInputEvents, MaximalGamepadCount> gamepadInputEvents;
+		Klein::InputSystem::InputEvent fileSystemDroppedFilePathInputEvent;
 
 		Klein::InputSystem::InputEvent& GetCachedKeyboardInputEvent(int keyCode);
 	};

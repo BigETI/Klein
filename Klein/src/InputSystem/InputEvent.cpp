@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <filesystem>
 #include <numeric>
 #include <string>
 #include <utility>
@@ -117,12 +118,27 @@ InputEvent::InputEvent(StringHash&& nameHash, Vector2<float>&& pressValue2D) noe
 	// ...
 }
 
+InputEvent::InputEvent(const StringHash& nameHash, const std::filesystem::path& path) :
+	nameHash(nameHash),
+	inputEventValueType(EInputEventValueType::Path),
+	path(path) {
+	// ...
+}
+
+InputEvent::InputEvent(Klein::Hashing::StringHash&& nameHash, std::filesystem::path&& path) noexcept :
+	nameHash(nameHash),
+	inputEventValueType(EInputEventValueType::Path),
+	path(path) {
+	// ...
+}
+
 InputEvent::InputEvent(const InputEvent& inputEvent) :
 	nameHash(inputEvent.nameHash),
 	inputEventValueType(inputEvent.inputEventValueType),
 	isPressing(inputEvent.isPressing),
 	pressValue(inputEvent.pressValue),
-	pressValue2D(inputEvent.pressValue2D) {
+	pressValue2D(inputEvent.pressValue2D),
+	path(inputEvent.path) {
 	// ...
 }
 
@@ -131,7 +147,8 @@ InputEvent::InputEvent(InputEvent&& inputEvent) noexcept :
 	inputEventValueType(std::move(inputEvent.inputEventValueType)),
 	isPressing(std::move(inputEvent.isPressing)),
 	pressValue(std::move(inputEvent.pressValue)),
-	pressValue2D(std::move(inputEvent.pressValue2D)) {
+	pressValue2D(std::move(inputEvent.pressValue2D)),
+	path(std::move(inputEvent.path)) {
 	// ...
 }
 
@@ -173,7 +190,21 @@ InputEvent::InputEvent(const InputEvent& inputEvent, const Klein::Math::Vector2<
 InputEvent::InputEvent(InputEvent&& inputEvent, Klein::Math::Vector2<float>&& pressValue2D) noexcept :
 	nameHash(std::move(inputEvent.nameHash)),
 	inputEventValueType(EInputEventValueType::AnalogPress2D),
-	pressValue2D(std::move(pressValue2D)) {
+	pressValue2D(pressValue2D) {
+	// ...
+}
+
+InputEvent::InputEvent(const InputEvent& inputEvent, const std::filesystem::path& path) :
+	nameHash(inputEvent.nameHash),
+	inputEventValueType(EInputEventValueType::Path),
+	path(path) {
+	// ...
+}
+
+InputEvent::InputEvent(InputEvent&& inputEvent, std::filesystem::path&& path) noexcept :
+	nameHash(std::move(inputEvent.nameHash)),
+	inputEventValueType(EInputEventValueType::Path),
+	path(path) {
 	// ...
 }
 
@@ -205,12 +236,17 @@ Vector2<float> InputEvent::GetPressValue2D() const {
 	return pressValue2D.value_or(Vector2<float>(pressValue.value_or(isPressing.value_or(false) ? 1.0f : 0.0f), 0.0f));
 }
 
+std::filesystem::path InputEvent::GetPath() const {
+	return path.value_or(std::filesystem::path());
+}
+
 InputEvent& InputEvent::operator =(const InputEvent& inputEvent) {
 	nameHash = inputEvent.nameHash;
 	inputEventValueType = inputEvent.inputEventValueType;
 	isPressing = inputEvent.isPressing;
 	pressValue = inputEvent.pressValue;
 	pressValue2D = inputEvent.pressValue2D;
+	path = inputEvent.path;
 	return *this;
 }
 
@@ -220,6 +256,7 @@ InputEvent& InputEvent::operator =(InputEvent&& inputEvent) noexcept {
 	isPressing = std::move(inputEvent.isPressing);
 	pressValue = std::move(inputEvent.pressValue);
 	pressValue2D = std::move(inputEvent.pressValue2D);
+	path = std::move(inputEvent.path);
 	return *this;
 }
 
@@ -227,6 +264,7 @@ InputEvent& InputEvent::operator =(bool isPressing) {
 	this->isPressing = isPressing;
 	pressValue.reset();
 	pressValue2D.reset();
+	path.reset();
 	inputEventValueType = EInputEventValueType::DigitalPress;
 	return *this;
 }
@@ -235,6 +273,7 @@ InputEvent& InputEvent::operator =(float pressValue) {
 	this->pressValue = pressValue;
 	isPressing.reset();
 	pressValue2D.reset();
+	path.reset();
 	inputEventValueType = EInputEventValueType::AnalogPress;
 	return *this;
 }
@@ -243,6 +282,7 @@ InputEvent& InputEvent::operator =(const Klein::Math::Vector2<float>& pressValue
 	this->pressValue2D = pressValue2D;
 	isPressing.reset();
 	pressValue.reset();
+	path.reset();
 	inputEventValueType = EInputEventValueType::AnalogPress2D;
 	return *this;
 }
@@ -251,7 +291,26 @@ InputEvent& InputEvent::operator =(Klein::Math::Vector2<float>&& pressValue2D) {
 	this->pressValue2D = pressValue2D;
 	isPressing.reset();
 	pressValue.reset();
+	path.reset();
 	inputEventValueType = EInputEventValueType::AnalogPress2D;
+	return *this;
+}
+
+InputEvent& InputEvent::operator =(const std::filesystem::path& path) {
+	this->path = path;
+	isPressing.reset();
+	pressValue.reset();
+	pressValue2D.reset();
+	inputEventValueType = EInputEventValueType::Path;
+	return *this;
+}
+
+InputEvent& InputEvent::operator =(std::filesystem::path&& path) {
+	this->path = path;
+	isPressing.reset();
+	pressValue.reset();
+	pressValue2D.reset();
+	inputEventValueType = EInputEventValueType::Path;
 	return *this;
 }
 
