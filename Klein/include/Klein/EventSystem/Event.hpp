@@ -150,7 +150,7 @@ namespace Klein::EventSystem {
 		/// <param name="e">The event object to copy from</param>
 		/// <returns>Itself</returns>
 		Event& operator=(const Event& e) {
-			const std::scoped_lock<std::mutex> observers_scoped_lock(observersMutex, e.observersMutex);
+			const std::scoped_lock<std::mutex, std::mutex> observers_scoped_lock(observersMutex, e.observersMutex);
 			observers = e.observers;
 			return *this;
 		}
@@ -161,7 +161,7 @@ namespace Klein::EventSystem {
 		/// <param name="e">The event object to move</param>
 		/// <returns>Itself</returns>
 		Event& operator=(Event&& e) noexcept {
-			const std::scoped_lock<std::mutex> observers_scoped_lock(observersMutex, e.observersMutex);
+			const std::scoped_lock<std::mutex, std::mutex> observers_scoped_lock(observersMutex, e.observersMutex);
 			observers = std::move(e.observers);
 			return *this;
 		}
