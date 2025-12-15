@@ -1,7 +1,13 @@
 #include <cstddef>
 #include <filesystem>
-#include <span>
+#ifndef IS_KLEIN_CXX_STD_17
+#	include <span>
+#endif
 #include <string>
+
+#ifdef IS_KLEIN_CXX_STD_17
+#	include <tcb/span.hpp>
+#endif
 
 #include <Klein/Audio/Raylib/RaylibAudioDevice.hpp>
 #include <Klein/Engine.hpp>
@@ -11,7 +17,9 @@
 
 using namespace std;
 using namespace std::filesystem;
-
+#ifdef IS_KLEIN_CXX_STD_17
+using namespace tcb;
+#endif
 using namespace Klein;
 using namespace Klein::Audio::Raylib;
 using namespace Klein::InputSystem::Raylib;

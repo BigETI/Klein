@@ -102,7 +102,10 @@ namespace Klein::SceneManagement {
 			return ret;
 		}
 		template <typename TScript>
-		constexpr bool IsScriptAvailable() const noexcept {
+#ifndef IS_KLEIN_CXX_STD_17
+		constexpr
+#endif
+		bool IsScriptAvailable() const noexcept {
 			static_assert(
 				std::is_base_of<Klein::Scripting::Script, TScript>::value,
 				"Specified type is not derived from Klein::Scripting::Script.");
@@ -116,7 +119,10 @@ namespace Klein::SceneManagement {
 			return ret;
 		}
 		template <typename TScript>
-		constexpr bool TryGettingScript(const std::shared_ptr<TScript>& result) const noexcept {
+#ifndef IS_KLEIN_CXX_STD_17
+		constexpr
+#endif
+		bool TryGettingScript(const std::shared_ptr<TScript>& result) const noexcept {
 			static_assert(
 				std::is_base_of<Klein::Scripting::Script, TScript>::value,
 				"Specified type is not derived from Klein::Scripting::Script.");
@@ -131,7 +137,10 @@ namespace Klein::SceneManagement {
 			return ret;
 		}
 		template <typename TScript>
-		constexpr bool TryGettingScript(std::shared_ptr<TScript>& result) noexcept {
+#ifndef IS_KLEIN_CXX_STD_17
+		constexpr
+#endif
+		bool TryGettingScript(std::shared_ptr<TScript>& result) noexcept {
 			static_assert(
 				std::is_base_of<Klein::Scripting::Script, TScript>::value,
 				"Specified type is not derived from Klein::Scripting::Script.");
@@ -146,7 +155,10 @@ namespace Klein::SceneManagement {
 			return ret;
 		}
 		template <typename TScript>
-		constexpr std::vector<std::shared_ptr<TScript>>& GetScripts(std::vector<std::shared_ptr<TScript>>& result) const {
+#ifndef IS_KLEIN_CXX_STD_17
+		constexpr
+#endif
+		std::vector<std::shared_ptr<TScript>>& GetScripts(std::vector<std::shared_ptr<TScript>>& result) const {
 			static_assert(
 				std::is_base_of<Klein::Scripting::Script, TScript>::value,
 				"Specified type is not derived from Klein::Scripting::Script.");

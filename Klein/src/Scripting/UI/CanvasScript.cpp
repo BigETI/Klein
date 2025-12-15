@@ -6,6 +6,7 @@
 #include <Klein/Hashing/StringHash.hpp>
 #include <Klein/InputSystem/InputEvent.hpp>
 #include <Klein/Math/Bounds.hpp>
+#include <Klein/Math/Utility.hpp>
 #include <Klein/Math/Vector2.hpp>
 #include <Klein/Rendering/IRenderer.hpp>
 #include <Klein/SceneManagement/Node.hpp>
@@ -66,10 +67,10 @@ void CanvasScript::OnFrameRender(Engine& engine, const high_resolution_clock::du
 Bounds<float> CanvasScript::GetOuterBounds(const UIElementScript& uiElement, const Bounds<float>& parentBounds) noexcept {
 	const Bounds<float>& anchor(uiElement.GetAnchor());
 	return Bounds<float>(
-		lerp(parentBounds.bottom, parentBounds.top, anchor.top),
-		lerp(parentBounds.bottom, parentBounds.top, anchor.bottom),
-		lerp(parentBounds.left, parentBounds.right, anchor.left),
-		lerp(parentBounds.left, parentBounds.right, anchor.right)
+		GetLinearInterpolated(parentBounds.bottom, parentBounds.top, anchor.top),
+		GetLinearInterpolated(parentBounds.bottom, parentBounds.top, anchor.bottom),
+		GetLinearInterpolated(parentBounds.left, parentBounds.right, anchor.left),
+		GetLinearInterpolated(parentBounds.left, parentBounds.right, anchor.right)
 	) + uiElement.GetPosition() + uiElement.GetBorder() - uiElement.GetMargin();
 }
 

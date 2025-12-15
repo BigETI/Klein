@@ -3,9 +3,15 @@
 #include <cstddef>
 #include <filesystem>
 #include <functional>
-#include <span>
+#ifndef IS_KLEIN_CXX_STD_17
+#	include <span>
+#endif
 #include <string>
 #include <thread>
+
+#ifdef IS_KLEIN_CXX_STD_17
+#	include <tcb/span.hpp>
+#endif
 
 #include <Klein/Audio/IAudioDevice.hpp>
 #include <Klein/Engine.hpp>
@@ -21,7 +27,9 @@ using namespace std;
 using namespace std::chrono;
 using namespace std::filesystem;
 using namespace std::this_thread;
-
+#ifdef IS_KLEIN_CXX_STD_17
+using namespace tcb;
+#endif
 using namespace Klein;
 using namespace Klein::Audio;
 using namespace Klein::InputSystem;

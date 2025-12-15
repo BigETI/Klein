@@ -5,9 +5,15 @@
 #include <cstddef>
 #include <filesystem>
 #include <memory>
-#include <span>
+#ifndef IS_KLEIN_CXX_STD_17
+#	include <span>
+#endif
 #include <string>
 #include <type_traits>
+
+#ifdef IS_KLEIN_CXX_STD_17
+#	include <tcb/span.hpp>
+#endif
 
 #include "Audio/IAudioDevice.hpp"
 #include "EventSystem/Event.hpp"
@@ -32,9 +38,13 @@ namespace Klein {
 		Klein::EventSystem::Event<const std::chrono::high_resolution_clock::duration&> OnGameTicked;
 		Klein::EventSystem::Event<int> OnGameStopped;
 
+#ifdef IS_KLEIN_CXX_STD_17
+		KLEIN_API Engine(const tcb::span<const std::string> commandLineArguments);
+		KLEIN_API Engine(const tcb::span<const std::string> commandLineArguments, const std::filesystem::path& configurationFilePath);
+#else
 		KLEIN_API Engine(const std::span<const std::string> commandLineArguments);
 		KLEIN_API Engine(const std::span<const std::string> commandLineArguments, const std::filesystem::path& configurationFilePath);
-
+#endif
 		Engine(const Engine&) = delete;
 		Engine(Engine&&) = delete;
 
@@ -64,7 +74,11 @@ namespace Klein {
 		constexpr inline std::shared_ptr<TSceneLoader> RegisterSceneLoader(const Klein::ResourceManagement::ResourceID& sceneResourceID, TArguments&&... arguments) {
 			static_assert(std::is_base_of<Klein::SceneManagement::ISceneLoader, TSceneLoader>::value, "Specified type must inherit from ISceneLoader.");
 			std::shared_ptr<TSceneLoader> ret;
+#ifdef IS_KLEIN_CXX_STD_17
+			if (sceneLoaders.find(sceneResourceID.GetHash()) == sceneLoaders.end()) {
+#else
 			if (!sceneLoaders.contains(sceneResourceID.GetHash())) {
+#endif
 				ret = std::make_shared<TSceneLoader>(std::forward<TArguments>(arguments)...);
 				sceneLoaders.insert_or_assign(sceneResourceID.GetHash(), ret);
 			}

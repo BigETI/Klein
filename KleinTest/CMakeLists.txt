@@ -16,9 +16,15 @@ set_property (TARGET KleinTest
 	PROPERTY COMPILE_WARNING_AS_ERROR ON
 )
 
-target_compile_features (KleinTest
-	PRIVATE cxx_std_23
-)
+if (USE_KLEIN_CXX_STD_17)
+	target_compile_features (KleinTest
+		PRIVATE cxx_std_17
+	)
+else ()
+	target_compile_features (KleinTest
+		PRIVATE cxx_std_23
+	)
+endif ()
 
 target_include_directories (KleinTest
 	PRIVATE "deps/lest/include"

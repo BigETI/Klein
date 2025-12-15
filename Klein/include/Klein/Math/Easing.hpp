@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cmath>
-#include <numbers>
+#include "Utility.hpp"
 
 namespace Klein::Math {
 	class Easing {
@@ -11,18 +10,18 @@ namespace Klein::Math {
 		Easing(Easing&&) noexcept = delete;
 
 		template <typename TValue>
-		constexpr static TValue EaseIn(TValue x) noexcept {
-			return std::lerp(std::lerp(x * static_cast<TValue>(-1), static_cast<TValue>(1), x), x, x);
+		constexpr inline static TValue EaseIn(TValue x) noexcept {
+			return GetLinearInterpolated(GetLinearInterpolated(x * static_cast<TValue>(-1), static_cast<TValue>(1), x), x, x);
 		}
 		
 		template <typename TValue>
-		constexpr static TValue EaseOut(TValue x) noexcept {
-			return std::lerp(x, std::lerp(x, static_cast<TValue>(1), x), x);
+		constexpr inline static TValue EaseOut(TValue x) noexcept {
+			return GetLinearInterpolated(x, GetLinearInterpolated(x, static_cast<TValue>(1), x), x);
 		}
 		
 		template <typename TValue>
-		constexpr static TValue EaseInOut(TValue x) noexcept {
-			return std::lerp(EaseIn(x), EaseOut(x), x);
+		constexpr inline static TValue EaseInOut(TValue x) noexcept {
+			return GetLinearInterpolated(EaseIn(x), EaseOut(x), x);
 		}
 
 		Easing& operator =(const Easing&) = delete;

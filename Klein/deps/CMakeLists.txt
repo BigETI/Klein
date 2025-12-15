@@ -21,3 +21,20 @@ FetchContent_Declare (raylib
 )
 
 FetchContent_MakeAvailable (raylib)
+
+if (KLEIN_USE_CXX_STD_17)
+
+	##########
+	#        #
+	#  span  #
+	#        #
+	##########
+
+	FetchContent_Declare (span
+		GIT_REPOSITORY https://github.com/tcbrindle/span.git
+		GIT_TAG "master"
+		GIT_SHALLOW TRUE
+	)
+
+	FetchContent_MakeAvailable (span)
+endif ()

@@ -1,4 +1,11 @@
+#ifdef IS_KLEIN_CXX_STD_17
+#	define _USE_MATH_DEFINES
+#endif
+
 #include <chrono>
+#ifdef IS_KLEIN_CXX_STD_17
+#	include <cmath>
+#endif
 #include <cstddef>
 #include <memory>
 #include <numbers>
@@ -14,8 +21,9 @@
 
 using namespace std;
 using namespace std::chrono;
+#ifndef IS_KLEIN_CXX_STD_17
 using namespace std::numbers;
-
+#endif
 using namespace Klein;
 using namespace Klein::Math;
 using namespace Klein::SceneManagement;
@@ -104,7 +112,11 @@ Vector2<float> Node::GetPosition() const noexcept {
 	Vector2<float> ret;
 	const Node* parent(GetParent());
 	if (parent) {
+#ifdef IS_KLEIN_CXX_STD_17
+		float phi(parent->GetRotation() * M_PI / 180.0f);
+#else
 		float phi(parent->GetRotation() * pi_v<float> / 180.0f);
+#endif
 		Vector2<float> scaled_position(localPosition * parent->GetScale());
 		ret = parent->GetPosition() + Vector2<float>((cosf(phi) * scaled_position.x) - (sinf(phi) * scaled_position.y), (sinf(phi) * scaled_position.x) + (cosf(phi) * scaled_position.y));
 	}

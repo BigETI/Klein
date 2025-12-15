@@ -48,21 +48,39 @@ set_property (TARGET KleinStatic
 	PROPERTY COMPILE_WARNING_AS_ERROR ON
 )
 
-target_compile_features (KleinStatic
-	PRIVATE cxx_std_23
-)
-
-target_compile_definitions (KleinStatic
-	PUBLIC IS_KLEIN_STATIC
-)
+if (KLEIN_USE_CXX_STD_17)
+	target_compile_features (KleinStatic
+		PRIVATE cxx_std_17
+	)
+	
+	target_compile_definitions (KleinStatic
+		PUBLIC IS_KLEIN_STATIC
+		PUBLIC IS_KLEIN_CXX_STD_17
+	)
+else ()
+	target_compile_features (KleinStatic
+		PRIVATE cxx_std_23
+	)
+	
+	target_compile_definitions (KleinStatic
+		PUBLIC IS_KLEIN_STATIC
+	)
+endif ()
 
 target_include_directories (KleinStatic
 	PUBLIC "include"
 )
 
-target_link_libraries (KleinStatic
-	PUBLIC raylib
-)
+if (KLEIN_USE_CXX_STD_17)
+	target_link_libraries (KleinStatic
+		PUBLIC raylib
+		PUBLIC span
+	)
+else ()
+	target_link_libraries (KleinStatic
+		PUBLIC raylib
+	)
+endif ()
 
 ##################################
 #                                #
@@ -106,21 +124,39 @@ set_property (TARGET Klein
 	PROPERTY COMPILE_WARNING_AS_ERROR ON
 )
 
-target_compile_features (Klein
-	PRIVATE cxx_std_23
-)
-
-target_compile_definitions (Klein
-	PUBLIC IS_KLEIN_EXPORTING
-)
+if (KLEIN_USE_CXX_STD_17)
+	target_compile_features (Klein
+		PRIVATE cxx_std_17
+	)
+	
+	target_compile_definitions (Klein
+		PUBLIC IS_KLEIN_EXPORTING
+		PUBLIC IS_KLEIN_CXX_STD_17
+	)
+else ()
+	target_compile_features (Klein
+		PRIVATE cxx_std_23
+	)
+	
+	target_compile_definitions (Klein
+		PUBLIC IS_KLEIN_EXPORTING
+	)
+endif ()
 
 target_include_directories (Klein
 	PUBLIC "include"
 )
 
-target_link_libraries (Klein
-	PUBLIC raylib
-)
+if (KLEIN_USE_CXX_STD_17)
+	target_link_libraries (Klein
+		PUBLIC raylib
+		PUBLIC span
+	)
+else ()
+	target_link_libraries (Klein
+		PUBLIC raylib
+	)
+endif ()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 	target_compile_options (Klein
