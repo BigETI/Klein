@@ -54,7 +54,7 @@ namespace Klein::Hashing {
 		}
 		
 		constexpr BaseStringHash<TString, THash>& operator =(const TString& string) {
-			this->string = make_shared<TString>(string);
+			this->string = std::make_shared<TString>(string);
 			hash = THash()(string);
 			return *this;
 		}
