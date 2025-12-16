@@ -8,7 +8,9 @@
 #endif
 #include <cstddef>
 #include <memory>
-#include <numbers>
+#ifndef IS_KLEIN_CXX_STD_17
+#	include <numbers>
+#endif
 #include <stdexcept>
 #include <string>
 #include <utility>
