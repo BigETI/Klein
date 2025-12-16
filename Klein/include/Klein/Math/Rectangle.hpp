@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <cassert>
 #include <type_traits>
 #include <utility>
 
@@ -78,20 +79,17 @@ namespace Klein::Math {
 			switch (alignment) {
 			case EAlignment::TopLeft:
 				return Bounds<TComponent>(position.y, position.y - size.y, position.x, position.x + size.x);
-				break;
 			case EAlignment::TopRight:
 				return Bounds<TComponent>(position.y, position.y - size.y, position.x - size.x, position.x);
-				break;
 			case EAlignment::BottomLeft:
 				return Bounds<TComponent>(position.y + size.y, position.y, position.x, position.x + size.x);
-				break;
 			case EAlignment::BottomRight:
 				return Bounds<TComponent>(position.y + size.y, position.y, position.x - size.x, position.x);
-				break;
 			case EAlignment::Center:
 				return Bounds<TComponent>(position.y - (size.y / static_cast<TComponent>(2)), position.y + (size.y / static_cast<TComponent>(2)), position.x - (size.x / static_cast<TComponent>(2)), position.x + (size.x / static_cast<TComponent>(2)));
-				break;
 			}
+			assert(false);
+			return Bounds<TComponent>();
 		}
 
 		constexpr inline Bounds<TComponent>& GetBounds(EAlignment alignment, Bounds<TComponent>& result) const noexcept {
