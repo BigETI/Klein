@@ -2,8 +2,14 @@
 
 #include <cstddef>
 #include <filesystem>
-#include <span>
+#ifndef IS_KLEIN_CXX_STD_17
+#	include <span>
+#endif
 #include <string>
+
+#ifdef IS_KLEIN_CXX_STD_17
+#	include <tcb/span.hpp>
+#endif
 
 #include "../Engine.hpp"
 
