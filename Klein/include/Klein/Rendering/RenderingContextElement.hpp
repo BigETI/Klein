@@ -109,7 +109,10 @@ namespace Klein::Rendering {
 
 template <>
 struct std::less<std::shared_ptr<Klein::Rendering::RenderingContextElement>> {
-	constexpr bool operator ()(
+#ifndef IS_KLEIN_CXX_STD_17
+	constexpr
+#endif
+	bool operator ()(
 		const std::shared_ptr<Klein::Rendering::RenderingContextElement>& lhs,
 		const std::shared_ptr<Klein::Rendering::RenderingContextElement>& rhs) const noexcept {
 		return rhs && (!lhs || (*lhs < *rhs));
