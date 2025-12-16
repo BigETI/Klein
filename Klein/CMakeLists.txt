@@ -71,15 +71,32 @@ target_include_directories (KleinStatic
 	PUBLIC "include"
 )
 
-if (KLEIN_USE_CXX_STD_17)
-	target_link_libraries (KleinStatic
-		PUBLIC raylib
-		PUBLIC span
-	)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	if (KLEIN_USE_CXX_STD_17)
+		target_link_libraries (KleinStatic
+			PUBLIC atomic
+			PUBLIC raylib
+			PUBLIC span
+			PUBLIC stdc++fs
+		)
+	else ()
+		target_link_libraries (KleinStatic
+			PUBLIC atomic
+			PUBLIC raylib
+			PUBLIC stdc++fs
+		)
+	endif ()
 else ()
-	target_link_libraries (KleinStatic
-		PUBLIC raylib
-	)
+	if (KLEIN_USE_CXX_STD_17)
+		target_link_libraries (KleinStatic
+			PUBLIC raylib
+			PUBLIC span
+		)
+	else ()
+		target_link_libraries (KleinStatic
+			PUBLIC raylib
+		)
+	endif ()
 endif ()
 
 ##################################
@@ -147,22 +164,37 @@ target_include_directories (Klein
 	PUBLIC "include"
 )
 
-if (KLEIN_USE_CXX_STD_17)
-	target_link_libraries (Klein
-		PUBLIC raylib
-		PUBLIC span
-	)
-else ()
-	target_link_libraries (Klein
-		PUBLIC raylib
-	)
-endif ()
-
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	if (KLEIN_USE_CXX_STD_17)
+		target_link_libraries (Klein
+			PUBLIC atomic
+			PUBLIC raylib
+			PUBLIC span
+			PUBLIC stdc++fs
+		)
+	else ()
+		target_link_libraries (Klein
+			PUBLIC atomic
+			PUBLIC raylib
+			PUBLIC stdc++fs
+		)
+	endif ()
+
 	target_compile_options (Klein
 		PRIVATE -fPIC
 	)
 	add_compile_options (-fPIC)
 	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fpic")
 	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic")
+else ()
+	if (KLEIN_USE_CXX_STD_17)
+		target_link_libraries (Klein
+			PUBLIC raylib
+			PUBLIC span
+		)
+	else ()
+		target_link_libraries (Klein
+			PUBLIC raylib
+		)
+	endif ()
 endif ()
