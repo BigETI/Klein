@@ -48,10 +48,6 @@ const shared_ptr<RenderingContextElement>& SpriteRendererScript::GetRenderingCon
 	return renderingContextElement;
 }
 
-shared_ptr<RenderingContextElement>& SpriteRendererScript::GetRenderingContextElement() noexcept {
-	return renderingContextElement;
-}
-
 bool SpriteRendererScript::IsTexture2DVisible() const noexcept {
 	return renderingContextElement->IsTexture2DVisible();
 }

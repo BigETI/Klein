@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <cmath>
 #include <type_traits>
 #include <utility>
 
@@ -138,4 +139,12 @@ namespace Klein::Math {
 			return ret -= offset;
 		}
 	};
+}
+
+namespace std {
+
+	template <typename TComponent>
+	constexpr inline Klein::Math::Rectangle<TComponent> lerp(const Klein::Math::Rectangle<TComponent>& a, const Klein::Math::Rectangle<TComponent>& b, const TComponent& t) {
+		return Klein::Math::Rectangle<TComponent>(lerp(a.position, b.position, t), lerp(a.size, b.size, t));
+	}
 }

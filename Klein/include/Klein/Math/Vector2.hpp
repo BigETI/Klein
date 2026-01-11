@@ -282,3 +282,11 @@ namespace Klein::Math {
 		}
 	};
 }
+
+namespace std {
+
+	template <typename TComponent>
+	constexpr inline Klein::Math::Vector2<TComponent> lerp(const Klein::Math::Vector2<TComponent>& a, const Klein::Math::Vector2<TComponent>& b, const TComponent& t) {
+		return Klein::Math::Vector2<TComponent>(lerp(a.x, b.x, t), lerp(a.y, b.y, t));
+	}
+}

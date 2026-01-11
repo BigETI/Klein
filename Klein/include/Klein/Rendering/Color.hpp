@@ -64,3 +64,11 @@ namespace Klein::Rendering {
 		}
 	};
 }
+
+namespace std {
+
+	template <typename TComponent>
+	constexpr inline Klein::Rendering::Color<TComponent> lerp(const Klein::Rendering::Color<TComponent>& a, const Klein::Rendering::Color<TComponent>& b, const TComponent& t) {
+		return Klein::Rendering::Color<TComponent>(lerp(a.red, b.red, t), lerp(a.green, b.green, t), lerp(a.blue, b.blue, t), lerp(a.alpha, b.alpha, t));
+	}
+}

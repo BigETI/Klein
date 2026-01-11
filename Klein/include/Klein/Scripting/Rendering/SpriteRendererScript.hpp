@@ -20,7 +20,6 @@ namespace Klein::Scripting::Rendering {
 		KLEIN_API SpriteRendererScript(Klein::SceneManagement::Node* node);
 
 		KLEIN_API const std::shared_ptr<Klein::Rendering::RenderingContextElement>& GetRenderingContextElement() const noexcept;
-		KLEIN_API std::shared_ptr<Klein::Rendering::RenderingContextElement>& GetRenderingContextElement() noexcept;
 		KLEIN_API bool IsTexture2DVisible() const noexcept;
 		KLEIN_API void SetTexture2DVisibility(bool isTexture2DVisible) noexcept;
 		KLEIN_API bool IsTextVisible() const noexcept;
@@ -34,7 +33,7 @@ namespace Klein::Scripting::Rendering {
 		KLEIN_API void SetFontResourceID(const Klein::ResourceManagement::ResourceID& fontResourceID);
 		KLEIN_API void SetFontResourceID(Klein::ResourceManagement::ResourceID&& fontResourceID) noexcept;
 		KLEIN_API const Klein::Math::Rectangle<float>& GetTexture2DSourceRectangle() const noexcept;
-		KLEIN_API void SetTexture2DSourceRectangle(const Klein::Math::Rectangle<float>& sourceRectangle) noexcept;
+		KLEIN_API void SetTexture2DSourceRectangle(const Klein::Math::Rectangle<float>& texture2DSourceRectangle) noexcept;
 		KLEIN_API const Klein::Math::Vector2<float>& GetPivot() const noexcept;
 		KLEIN_API void SetPivot(const Klein::Math::Vector2<float>& pivot) noexcept;
 		KLEIN_API const Klein::Rendering::Color<float>& GetColor() const noexcept;
